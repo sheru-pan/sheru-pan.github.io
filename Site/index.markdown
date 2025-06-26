@@ -5,7 +5,7 @@ title: "🛡️ Researcher Himangshu! | Home"
 
 # 👋 Hello, I’m Himangshu Pan
 
-## **Offensive Security Researcher** 🛡️ \| **Python Developer** 🐍 \| **Backend Engineer**
+## 🛡️ **Offensive Security Researcher** 🐍 \| **Python Developer**
 
 ---
 
