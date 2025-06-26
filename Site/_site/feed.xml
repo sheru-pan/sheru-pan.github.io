@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-26T20:30:47+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Himangshu Pan</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Himangshu Pan</name></author><entry><title type="html">🛠️ Setup Vim as a Developer-Friendly Code Editor</title><link href="http://localhost:4000/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/" rel="alternate" type="text/html" title="🛠️ Setup Vim as a Developer-Friendly Code Editor" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>http://localhost:4000/blog/Setup_vim_as_a_developer_friendly_code_editor</id><content type="html" xml:base="http://localhost:4000/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/"><![CDATA[<h1 id="setup-vim-as-a-developer-friendly-code-editor">Setup Vim as a Developer-Friendly Code Editor</h1>
+
+<p>If you’re a developer aspiring to become a security researcher, using prebuilt OSINT tools is a great start. But to truly innovate—modifying existing tools or building your own—you need a powerful and efficient coding environment.</p>
+
+<p>In the field of infosec, the terminal becomes your second home. While terminal-based editors aren’t the most beginner-friendly, they are essential tools for any serious security researcher. Mastering them not only sharpens your workflow but also prepares you for real-world scenarios where GUI-based tools might not be available.</p>
+
+<p>I started my journey with <code class="language-plaintext highlighter-rouge">nano</code>—simple and beginner-friendly. But as my needs grew, so did the limitations of nano. That’s when I decided to switch to <code class="language-plaintext highlighter-rouge">vi</code>/<code class="language-plaintext highlighter-rouge">vim</code>—a more advanced terminal-based editor that offers incredible flexibility and power.</p>
+
+<p>Today, I’m configuring Vim to mimic features from modern IDEs like Visual Studio Code. My goal is to save time and boost efficiency through hard, consistent practice—because I believe in <em>practice hard to make life easy</em>.</p>
+
+<p>Let’s walk through setting up Vim as a full-fledged coding environment.</p>
+
+<hr />
+
+<h2 id="️-step-by-step-vim-setup">🛠️ Step-by-Step Vim Setup</h2>
+
+<h3 id="1-install-vim">🔧1. Install Vim</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>vim
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-2-install-plugin-manager-vim-plug">🧱 2. Install Plugin Manager (<code class="language-plaintext highlighter-rouge">vim-plug</code>)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-fLo</span> ~/.vim/autoload/plug.vim <span class="nt">--create-dirs</span> <span class="se">\</span>
+   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="️-3-configure-vimrc">🗂️ 3. Configure <code class="language-plaintext highlighter-rouge">~/.vimrc</code></h3>
+
+<p>Open or create your Vim configuration file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim ~/.vimrc
+</code></pre></div></div>
+
+<p>Paste the following configuration:</p>
+
+<div class="language-vim highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">" ----------------------------</span>
+<span class="c">" VS Code-like Vim Configuration</span>
+<span class="c">" ----------------------------</span>
+
+<span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">'~/.vim/plugged'</span><span class="p">)</span>
+
+<span class="c">" File explorer with icons</span>
+Plug <span class="s1">'preservim/nerdtree'</span>
+Plug <span class="s1">'ryanoasis/vim-devicons'</span>
+
+<span class="c">" Enhanced status line</span>
+Plug <span class="s1">'vim-airline/vim-airline'</span>
+Plug <span class="s1">'vim-airline/vim-airline-themes'</span>
+
+<span class="c">" Syntax highlighting for many languages</span>
+Plug <span class="s1">'sheerun/vim-polyglot'</span>
+
+<span class="c">" Git integration</span>
+Plug <span class="s1">'tpope/vim-fugitive'</span>
+
+<span class="c">" Linting and diagnostics</span>
+Plug <span class="s1">'dense-analysis/ale'</span>
+
+<span class="c">" Auto code formatting</span>
+Plug <span class="s1">'Chiel92/vim-autoformat'</span>
+
+<span class="c">" Color scheme</span>
+Plug <span class="s1">'morhetz/gruvbox'</span>
+
+<span class="k">call</span> plug#end<span class="p">()</span>
+
+<span class="c">" === General Settings ===</span>
+<span class="nb">syntax</span> <span class="k">on</span>
+<span class="k">set</span> <span class="k">number</span>
+<span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>
+<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>
+<span class="k">set</span> <span class="nb">expandtab</span>
+<span class="k">set</span> <span class="nb">smartindent</span>
+<span class="k">set</span> <span class="nb">autoindent</span>
+<span class="k">set</span> <span class="nb">background</span><span class="p">=</span><span class="nb">dark</span>
+<span class="k">colorscheme</span> gruvbox
+
+<span class="c">" === Status Line ===</span>
+<span class="k">let</span> <span class="nv">g:airline_theme</span><span class="p">=</span><span class="s1">'gruvbox'</span>
+<span class="k">let</span> <span class="nv">g:airline_powerline_fonts</span><span class="p">=</span><span class="m">1</span>
+
+<span class="c">" === NERDTree Shortcut ===</span>
+nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">n</span><span class="p">&gt;</span> <span class="p">:</span>NERDTreeToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">" === Format on Save ===</span>
+autocmd <span class="nb">BufWritePre</span> * <span class="p">:</span>Autoformat
+
+<span class="c">" === Git Shortcut ===</span>
+nnoremap <span class="p">&lt;</span>leader<span class="p">&gt;</span>gs <span class="p">:</span>G<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">" === Mouse Support ===</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>
+
+<span class="c">" === Enable Icons ===</span>
+<span class="k">set</span> <span class="nb">encoding</span><span class="p">=</span>utf<span class="m">-8</span>
+<span class="k">let</span> <span class="nv">g:WebDevIconsUnicodeDecorateFileNodes</span> <span class="p">=</span> <span class="m">1</span>
+<span class="k">let</span> <span class="nv">g:NERDTreeShowHidden</span><span class="p">=</span><span class="m">1</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-4-install-vim-plugins">🔌 4. Install Vim Plugins</h3>
+
+<p>Open Vim and run the following command:</p>
+
+<div class="language-vim highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">:</span>PlugInstall
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-5-set-up-autoformatters">🧼 5. Set Up Autoformatters</h3>
+
+<p>Install external formatters based on the languages you use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>clang-format       <span class="c"># For C/C++</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>black              <span class="c"># For Python</span>
+<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> prettier        <span class="c"># For JS/HTML/CSS/JSON</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-6-enable-icons-with-nerd-fonts-optional-but-recommended">🎨 6. Enable Icons with Nerd Fonts (Optional but Recommended)</h3>
+
+<p>Install Nerd Fonts for proper icon rendering. Here’s an example using JetBrainsMono:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/.local/share/fonts
+<span class="nb">cd</span> ~/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+unzip JetBrainsMono.zip
+fc-cache <span class="nt">-fv</span>
+</code></pre></div></div>
+
+<p>Then, in your terminal settings, set the font to <strong>JetBrainsMono Nerd Font</strong>.</p>
+
+<hr />
+
+<p><strong>Happy Hacking!</strong> 🐧💻🛡️</p>]]></content><author><name>Himangshu Pan</name></author><category term="Hacking," /><category term="Code" /><category term="Editor" /><summary type="html"><![CDATA[Setup Vim as a Developer-Friendly Code Editor]]></summary></entry><entry><title type="html">🎮 Wargames → OverTheWire Bandit Series</title><link href="http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series/" rel="alternate" type="text/html" title="🎮 Wargames → OverTheWire Bandit Series" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series</id><content type="html" xml:base="http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series/"><![CDATA[<h1 id="-wargames--overthewire-bandit-series">🎮 Wargames → OverTheWire Bandit Series</h1>
+
+<p>In the field of information security, theory alone isn’t enough — without hands-on practice, your knowledge has little real value.</p>
+
+<p>This raises an important question: how should I go about practicing effectively? I understand the need for a dedicated lab environment, which is why I previously set up VMware on my system.</p>
+
+<p>VMware allows me to simulate Capture The Flag (CTF) challenges locally and experiment with various hacking tools on isolated guest machines.</p>
+
+<p>However, today I discovered an even more accessible option: <strong>online wargames</strong>. These platforms offer hands-on practice in a more guided and interactive manner, making the learning process faster and more effective compared to reading books.</p>
+
+<p>One such platform is <a href="https://overthewire.org"><strong>OverTheWire</strong></a>, which offers a variety of wargame series such as <strong>Bandit</strong>, <strong>Natas</strong>, <strong>Leviathan</strong>, <strong>Krypton</strong>, and more. Each wargame is structured in levels — to advance, you must retrieve the password for the next level by applying different hacking tools and techniques.</p>
+
+<p>Today, I’m starting with the <a href="https://overthewire.org/wargames/bandit/"><strong>Bandit Series</strong></a>, which is recommended for beginners.</p>
+
+<hr />
+
+<h3 id="about-bandit">About Bandit</h3>
+
+<p>The Bandit series contains a total of <strong>33 levels</strong>. To play, I need to connect to the server using SSH:</p>
+
+<ul>
+  <li><strong>Host:</strong> <code class="language-plaintext highlighter-rouge">bandit.labs.overthewire.org</code></li>
+  <li><strong>Port:</strong> <code class="language-plaintext highlighter-rouge">2220</code></li>
+  <li><strong>Level 0 Login:</strong>
+    <ul>
+      <li><strong>Username:</strong> <code class="language-plaintext highlighter-rouge">bandit0</code></li>
+      <li><strong>Password:</strong> <code class="language-plaintext highlighter-rouge">bandit0</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>At each level, the goal is to find the password for the next user (e.g., <code class="language-plaintext highlighter-rouge">bandit1</code>, <code class="language-plaintext highlighter-rouge">bandit2</code>, and so on) by exploring the system, reading files, and using Linux command-line tools. This process continues until the final level is reached.</p>
+
+<hr />
+
+<h3 id="before-you-begin-a-quick-overview-of-ssh">Before You Begin: A Quick Overview of SSH</h3>
+
+<p>Before we dive into the Bandit series, it’s crucial to understand SSH (Secure Shell) — the primary method used to connect to each level.</p>
+
+<p>SSH is a cryptographic network protocol that enables secure communication between two remote devices. With SSH, you can remotely log in to servers, securely transfer files, execute commands on remote machines, and even set up encrypted tunnels through port forwarding.</p>
+
+<p>To connect to the Bandit server as bandit0, you can use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org
+</code></pre></div></div>
+
+<p>If the account is password-protected, you’ll be prompted to enter it.</p>
+
+<p>SSH also supports key-based authentication. You can use the -i option to specify a private key file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org <span class="nt">-i</span> bandit0-key-file
+</code></pre></div></div>
+
+<p>For more details and options, refer to the SSH manual page:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man ssh
+</code></pre></div></div>
+
+<hr />
+
+<p>Let’s begin the game. First, I attempt to log in to Level 0 using the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org <span class="nt">-p</span> 2220
+</code></pre></div></div>
+
+<p><img src="/assets/images/bandit/bandit1/bandit0.png" alt="Image not found" /></p>
+
+<p>This command prompts for a password, which is already known. I’ll enter <code class="language-plaintext highlighter-rouge">bandit0</code> and hit Enter.</p>
+
+<p>Login successful!</p>
+
+<p>Since all levels in the Bandit series use the same host and port, I’ll configure this in my SSH config file to save time. Additionally, I’ll define a variable named BANDIT for bandit.labs.overthewire.org. This way, I won’t have to type the full details every time — making the process faster and more convenient.</p>
+
+<p>Let’s create/edit ssh config file first. the ssh config file path is <code class="language-plaintext highlighter-rouge">~/.ssh/config</code> .
+Here is my updated config file for the same.
+<img src="/assets/images/bandit/bandit1/bandit1.png" alt="Image not found" /></p>
+
+<p>Also adding the f0ollowing line to the ~/.bashrc file.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit2.png" alt="Image not found" /></p>
+
+<p>Now I have to load the latest .bashrc file changes into current shell using <code class="language-plaintext highlighter-rouge">source ~/.bashrc</code></p>
+
+<p>I can use <code class="language-plaintext highlighter-rouge">ssh bandit@$BANDIT</code> in place of <code class="language-plaintext highlighter-rouge">ssh bandit0@bandit.labs.overthewire.org -p 2220</code> and this should work perfectly.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit3.png" alt="Image not found" /></p>
+
+<p>Working fine. typing password <code class="language-plaintext highlighter-rouge">bandit0</code> and successfully loged in with a welcome and guided message.</p>
+
+<p>My next challenge is to find the password for Level 1. According to the Bandit <a href="https://overthewire.org/wargames/bandit/bandit1.html">Level 0 → Level 1 instructions</a>, there is a file named <strong>****</strong>readme<strong>****</strong> located in the home directory. This file contains the password needed to access the next level.</p>
+
+<p>Let’s list the files in the home directory using the <code class="language-plaintext highlighter-rouge">ls</code> command. This will display the contents of the current directory, where we should find the readme file containing the password for the next level.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit4.png" alt="Image not found" /></p>
+
+<p>We can see that the readme file exists. Let’s try to read its contents using the <code class="language-plaintext highlighter-rouge">cat</code> command. This will display the password for Level 1 on the terminal.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit5.png" alt="Image not found" /></p>
+
+<p>We have successfully retrieved the password for the <strong>bandit1</strong> user.</p>
+
+<h3 id="-what-we-learned-in-this-level">🧠 What We Learned in This Level</h3>
+
+<ul>
+  <li>How to configure and use <code class="language-plaintext highlighter-rouge">ssh</code> for remote login</li>
+  <li>How to list files in a directory using the <code class="language-plaintext highlighter-rouge">ls</code> command</li>
+  <li>How to read the contents of a file using the <code class="language-plaintext highlighter-rouge">cat</code> command</li>
+</ul>
+
+<p>Next, I’ll dive deeper into <code class="language-plaintext highlighter-rouge">ls</code>, <code class="language-plaintext highlighter-rouge">cat</code>, and proceed to <strong>Level 1</strong> of the Bandit series.</p>
+
+<p><strong>Happy hacking!</strong></p>]]></content><author><name>Himangshu Pan</name></author><category term="infosec" /><category term="wargames" /><category term="linux" /><category term="ssh" /><summary type="html"><![CDATA[🎮 Wargames → OverTheWire Bandit Series]]></summary></entry><entry><title type="html">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</title><link href="http://localhost:4000/blog/Setting_Up_VMware_Workstation/" rel="alternate" type="text/html" title="🛠️ Setting Up VMware Workstation on Ubuntu 22.04" /><published>2025-06-25T00:00:00+05:30</published><updated>2025-06-25T00:00:00+05:30</updated><id>http://localhost:4000/blog/Setting_Up_VMware_Workstation</id><content type="html" xml:base="http://localhost:4000/blog/Setting_Up_VMware_Workstation/"><![CDATA[<h1 id="️-setting-up-vmware-workstation-on-ubuntu-2204">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</h1>
+
+<blockquote>
+  <p><em>“If I had 30 minutes to cut down a tree, I’d spend the first 20 sharpening my axe.”</em> — Abraham Lincoln</p>
+</blockquote>
+
+<p>This quote perfectly captures the mindset needed in the field of information security. The more you practice, the less time it takes to solve a challenge or crack a machine. Preparation is everything.</p>
+
+<p>To ethically practice hacking and security skills, it’s crucial to set up your own local lab environment. Virtualization software enables us to run multiple isolated systems safely on a single host machine. Among the most popular options are <strong>VirtualBox</strong> and <strong>VMware</strong>.</p>
+
+<p>As a developer using a Debian-based <strong>Ubuntu</strong> machine, I’ll walk you through how I set up <strong>VMware Workstation</strong> to create a secure and legal hacking lab on <strong>Ubuntu 22.04</strong>. (This method should also work for other Ubuntu versions with minor adjustments.)</p>
+
+<hr />
+
+<h2 id="-step-1-update-your-system">🔧 Step 1: Update Your System</h2>
+
+<p>Before starting, ensure your system is up-to-date:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-step-2-download-the-vmware-workstation-installer">📥 Step 2: Download the VMware Workstation Installer</h2>
+
+<p>We’ll be using <strong>VMware Workstation 17.5.0</strong> in this guide:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Downloads
+wget https://ia801608.us.archive.org/12/items/vmware-workstation-full-17.5.0-22583795.x-86-64-by-vmware.bundle/VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">chmod</span> +x VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+<span class="nb">sudo</span> ./VMware-Workstation-Full-17.5.0-22583795.x86_64.bundle
+</code></pre></div></div>
+
+<ul>
+  <li>The installer is downloaded into the <code class="language-plaintext highlighter-rouge">Downloads</code> directory.</li>
+  <li>We make the <code class="language-plaintext highlighter-rouge">.bundle</code> file executable.</li>
+  <li>Then run it with <code class="language-plaintext highlighter-rouge">sudo</code> to begin installation.</li>
+</ul>
+
+<p>After installation, <strong>VMware Player</strong> and other components should be available.</p>
+
+<hr />
+
+<h2 id="️-step-3-fixing-kernel-module-errors">⚠️ Step 3: Fixing Kernel Module Errors</h2>
+
+<p>When running <code class="language-plaintext highlighter-rouge">vmplayer</code> for the first time, you may encounter errors related to missing kernel modules like <code class="language-plaintext highlighter-rouge">vmmon</code> or <code class="language-plaintext highlighter-rouge">vmnet</code>. These are required for VMware to work properly with the Linux kernel.</p>
+
+<hr />
+
+<h2 id="️-step-4-install-required-tools--patch-modules">🛠️ Step 4: Install Required Tools &amp; Patch Modules</h2>
+
+<p>Install the necessary packages and build the missing modules using the community-maintained <code class="language-plaintext highlighter-rouge">vmware-host-modules</code> repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>build-essential linux-headers-<span class="si">$(</span><span class="nb">uname</span> <span class="nt">-r</span><span class="si">)</span>
+<span class="nb">sudo </span>vmware-modconfig <span class="nt">--console</span> <span class="nt">--install-all</span>
+
+git clone https://github.com/mkubecek/vmware-host-modules.git
+<span class="nb">cd </span>vmware-host-modules
+git checkout workstation-17.5.0
+make
+<span class="nb">sudo </span>make <span class="nb">install
+sudo </span>systemctl restart vmware
+</code></pre></div></div>
+
+<ul>
+  <li>This installs build tools and kernel headers.</li>
+  <li>Rebuilds the required modules for VMware Workstation 17.5.0.</li>
+  <li>Finally, restarts the VMware service.</li>
+</ul>
+
+<hr />
+
+<h2 id="-youre-ready">✅ You’re Ready!</h2>
+
+<p>With this setup, you’re now ready to start building and experimenting with your own ethical hacking lab—right from your Ubuntu machine!</p>
+
+<p>Feel free to fork or update this guide for newer versions or other distributions.</p>
+
+<hr />
+
+<p><strong>Happy hacking!</strong> 🐧💻🕵️‍♂️</p>]]></content><author><name>Himangshu Pan</name></author><category term="Hacking" /><summary type="html"><![CDATA[🛠️ Setting Up VMware Workstation on Ubuntu 22.04]]></summary></entry></feed>

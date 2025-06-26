@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️Researcher Sheru! | Study & Research</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🛡️Researcher Sheru! </h1>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="social-icons"> 
+            <a href="mailto:researchersheru@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/sheru-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p><h1 id="-research--learning">🔍 Research &amp; Learning</h1>
+
+<p>Please Check out my <strong>hardwork</strong>.</p>
+</p>
+<ul class="blog-list">
+  
+  <li>
+    📅 June 26, 2025 -
+    <a href="/blog/Wargames→OverTheWire_Bandit_Series/">🎮 Wargames → OverTheWire Bandit Series</a>
+  </li>
+  
+  <li>
+    📅 June 26, 2025 -
+    <a href="/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/">🛠️ Setup Vim as a Developer-Friendly Code Editor</a>
+  </li>
+  
+  <li>
+    📅 June 25, 2025 -
+    <a href="/blog/Setting_Up_VMware_Workstation/">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</a>
+  </li>
+  
+</ul>
+
+<p>
+  <a href="/">Back to Home →</a><br />
+  <a href="/about">About Me →</a><br />
+  <a href="https://github.com/sheru-pan">GitHub →</a>
+</p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>

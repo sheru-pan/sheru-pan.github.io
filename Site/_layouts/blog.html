@@ -1,0 +1,20 @@
+---
+layout: default
+title: Blog
+---
+
+<p>{{ content }}</p>
+<ul class="blog-list">
+  {% for post in site.posts %}
+  <li>
+    📅 {{ post.date | date: "%B %d, %Y" }} -
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<p>
+  <a href="/">Back to Home →</a><br />
+  <a href="/about">About Me →</a><br />
+  <a href="https://github.com/sheru-pan">GitHub →</a>
+</p>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Wargames → OverTheWire Bandit Series</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🛡️Researcher Sheru! </h1>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="social-icons"> 
+            <a href="mailto:researchersheru@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/sheru-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p class="post-meta">
+  <span class="date"
+    >📅 <strong>Published on:</strong> June 26, 2025</span
+  >
+  <span class="author">✍️ <strong>Author:</strong> Himangshu Pan</span>
+</p>
+
+<p><h1 id="-wargames--overthewire-bandit-series">🎮 Wargames → OverTheWire Bandit Series</h1>
+
+<p>In the field of information security, theory alone isn’t enough — without hands-on practice, your knowledge has little real value.</p>
+
+<p>This raises an important question: how should I go about practicing effectively? I understand the need for a dedicated lab environment, which is why I previously set up VMware on my system.</p>
+
+<p>VMware allows me to simulate Capture The Flag (CTF) challenges locally and experiment with various hacking tools on isolated guest machines.</p>
+
+<p>However, today I discovered an even more accessible option: <strong>online wargames</strong>. These platforms offer hands-on practice in a more guided and interactive manner, making the learning process faster and more effective compared to reading books.</p>
+
+<p>One such platform is <a href="https://overthewire.org"><strong>OverTheWire</strong></a>, which offers a variety of wargame series such as <strong>Bandit</strong>, <strong>Natas</strong>, <strong>Leviathan</strong>, <strong>Krypton</strong>, and more. Each wargame is structured in levels — to advance, you must retrieve the password for the next level by applying different hacking tools and techniques.</p>
+
+<p>Today, I’m starting with the <a href="https://overthewire.org/wargames/bandit/"><strong>Bandit Series</strong></a>, which is recommended for beginners.</p>
+
+<hr />
+
+<h3 id="about-bandit">About Bandit</h3>
+
+<p>The Bandit series contains a total of <strong>33 levels</strong>. To play, I need to connect to the server using SSH:</p>
+
+<ul>
+  <li><strong>Host:</strong> <code class="language-plaintext highlighter-rouge">bandit.labs.overthewire.org</code></li>
+  <li><strong>Port:</strong> <code class="language-plaintext highlighter-rouge">2220</code></li>
+  <li><strong>Level 0 Login:</strong>
+    <ul>
+      <li><strong>Username:</strong> <code class="language-plaintext highlighter-rouge">bandit0</code></li>
+      <li><strong>Password:</strong> <code class="language-plaintext highlighter-rouge">bandit0</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>At each level, the goal is to find the password for the next user (e.g., <code class="language-plaintext highlighter-rouge">bandit1</code>, <code class="language-plaintext highlighter-rouge">bandit2</code>, and so on) by exploring the system, reading files, and using Linux command-line tools. This process continues until the final level is reached.</p>
+
+<hr />
+
+<h3 id="before-you-begin-a-quick-overview-of-ssh">Before You Begin: A Quick Overview of SSH</h3>
+
+<p>Before we dive into the Bandit series, it’s crucial to understand SSH (Secure Shell) — the primary method used to connect to each level.</p>
+
+<p>SSH is a cryptographic network protocol that enables secure communication between two remote devices. With SSH, you can remotely log in to servers, securely transfer files, execute commands on remote machines, and even set up encrypted tunnels through port forwarding.</p>
+
+<p>To connect to the Bandit server as bandit0, you can use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org
+</code></pre></div></div>
+
+<p>If the account is password-protected, you’ll be prompted to enter it.</p>
+
+<p>SSH also supports key-based authentication. You can use the -i option to specify a private key file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org <span class="nt">-i</span> bandit0-key-file
+</code></pre></div></div>
+
+<p>For more details and options, refer to the SSH manual page:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man ssh
+</code></pre></div></div>
+
+<hr />
+
+<p>Let’s begin the game. First, I attempt to log in to Level 0 using the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh bandit0@bandit.labs.overthewire.org <span class="nt">-p</span> 2220
+</code></pre></div></div>
+
+<p><img src="/assets/images/bandit/bandit1/bandit0.png" alt="Image not found" /></p>
+
+<p>This command prompts for a password, which is already known. I’ll enter <code class="language-plaintext highlighter-rouge">bandit0</code> and hit Enter.</p>
+
+<p>Login successful!</p>
+
+<p>Since all levels in the Bandit series use the same host and port, I’ll configure this in my SSH config file to save time. Additionally, I’ll define a variable named BANDIT for bandit.labs.overthewire.org. This way, I won’t have to type the full details every time — making the process faster and more convenient.</p>
+
+<p>Let’s create/edit ssh config file first. the ssh config file path is <code class="language-plaintext highlighter-rouge">~/.ssh/config</code> .
+Here is my updated config file for the same.
+<img src="/assets/images/bandit/bandit1/bandit1.png" alt="Image not found" /></p>
+
+<p>Also adding the f0ollowing line to the ~/.bashrc file.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit2.png" alt="Image not found" /></p>
+
+<p>Now I have to load the latest .bashrc file changes into current shell using <code class="language-plaintext highlighter-rouge">source ~/.bashrc</code></p>
+
+<p>I can use <code class="language-plaintext highlighter-rouge">ssh bandit@$BANDIT</code> in place of <code class="language-plaintext highlighter-rouge">ssh bandit0@bandit.labs.overthewire.org -p 2220</code> and this should work perfectly.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit3.png" alt="Image not found" /></p>
+
+<p>Working fine. typing password <code class="language-plaintext highlighter-rouge">bandit0</code> and successfully loged in with a welcome and guided message.</p>
+
+<p>My next challenge is to find the password for Level 1. According to the Bandit <a href="https://overthewire.org/wargames/bandit/bandit1.html">Level 0 → Level 1 instructions</a>, there is a file named <strong>****</strong>readme<strong>****</strong> located in the home directory. This file contains the password needed to access the next level.</p>
+
+<p>Let’s list the files in the home directory using the <code class="language-plaintext highlighter-rouge">ls</code> command. This will display the contents of the current directory, where we should find the readme file containing the password for the next level.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit4.png" alt="Image not found" /></p>
+
+<p>We can see that the readme file exists. Let’s try to read its contents using the <code class="language-plaintext highlighter-rouge">cat</code> command. This will display the password for Level 1 on the terminal.</p>
+
+<p><img src="/assets/images/bandit/bandit1/bandit5.png" alt="Image not found" /></p>
+
+<p>We have successfully retrieved the password for the <strong>bandit1</strong> user.</p>
+
+<h3 id="-what-we-learned-in-this-level">🧠 What We Learned in This Level</h3>
+
+<ul>
+  <li>How to configure and use <code class="language-plaintext highlighter-rouge">ssh</code> for remote login</li>
+  <li>How to list files in a directory using the <code class="language-plaintext highlighter-rouge">ls</code> command</li>
+  <li>How to read the contents of a file using the <code class="language-plaintext highlighter-rouge">cat</code> command</li>
+</ul>
+
+<p>Next, I’ll dive deeper into <code class="language-plaintext highlighter-rouge">ls</code>, <code class="language-plaintext highlighter-rouge">cat</code>, and proceed to <strong>Level 1</strong> of the Bandit series.</p>
+
+<p><strong>Happy hacking!</strong></p>
+</p>
+</br>
+</br>
+<p ><a href="/blogs">Blogs →</a><br /></p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>

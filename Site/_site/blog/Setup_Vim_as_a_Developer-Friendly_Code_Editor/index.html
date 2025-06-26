@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ Setup Vim as a Developer-Friendly Code Editor</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🛡️Researcher Sheru! </h1>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="social-icons"> 
+            <a href="mailto:researchersheru@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/sheru-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p class="post-meta">
+  <span class="date"
+    >📅 <strong>Published on:</strong> June 26, 2025</span
+  >
+  <span class="author">✍️ <strong>Author:</strong> Himangshu Pan</span>
+</p>
+
+<p><h1 id="setup-vim-as-a-developer-friendly-code-editor">Setup Vim as a Developer-Friendly Code Editor</h1>
+
+<p>If you’re a developer aspiring to become a security researcher, using prebuilt OSINT tools is a great start. But to truly innovate—modifying existing tools or building your own—you need a powerful and efficient coding environment.</p>
+
+<p>In the field of infosec, the terminal becomes your second home. While terminal-based editors aren’t the most beginner-friendly, they are essential tools for any serious security researcher. Mastering them not only sharpens your workflow but also prepares you for real-world scenarios where GUI-based tools might not be available.</p>
+
+<p>I started my journey with <code class="language-plaintext highlighter-rouge">nano</code>—simple and beginner-friendly. But as my needs grew, so did the limitations of nano. That’s when I decided to switch to <code class="language-plaintext highlighter-rouge">vi</code>/<code class="language-plaintext highlighter-rouge">vim</code>—a more advanced terminal-based editor that offers incredible flexibility and power.</p>
+
+<p>Today, I’m configuring Vim to mimic features from modern IDEs like Visual Studio Code. My goal is to save time and boost efficiency through hard, consistent practice—because I believe in <em>practice hard to make life easy</em>.</p>
+
+<p>Let’s walk through setting up Vim as a full-fledged coding environment.</p>
+
+<hr />
+
+<h2 id="️-step-by-step-vim-setup">🛠️ Step-by-Step Vim Setup</h2>
+
+<h3 id="1-install-vim">🔧1. Install Vim</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>vim
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-2-install-plugin-manager-vim-plug">🧱 2. Install Plugin Manager (<code class="language-plaintext highlighter-rouge">vim-plug</code>)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-fLo</span> ~/.vim/autoload/plug.vim <span class="nt">--create-dirs</span> <span class="se">\</span>
+   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="️-3-configure-vimrc">🗂️ 3. Configure <code class="language-plaintext highlighter-rouge">~/.vimrc</code></h3>
+
+<p>Open or create your Vim configuration file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim ~/.vimrc
+</code></pre></div></div>
+
+<p>Paste the following configuration:</p>
+
+<div class="language-vim highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">" ----------------------------</span>
+<span class="c">" VS Code-like Vim Configuration</span>
+<span class="c">" ----------------------------</span>
+
+<span class="k">call</span> plug#begin<span class="p">(</span><span class="s1">'~/.vim/plugged'</span><span class="p">)</span>
+
+<span class="c">" File explorer with icons</span>
+Plug <span class="s1">'preservim/nerdtree'</span>
+Plug <span class="s1">'ryanoasis/vim-devicons'</span>
+
+<span class="c">" Enhanced status line</span>
+Plug <span class="s1">'vim-airline/vim-airline'</span>
+Plug <span class="s1">'vim-airline/vim-airline-themes'</span>
+
+<span class="c">" Syntax highlighting for many languages</span>
+Plug <span class="s1">'sheerun/vim-polyglot'</span>
+
+<span class="c">" Git integration</span>
+Plug <span class="s1">'tpope/vim-fugitive'</span>
+
+<span class="c">" Linting and diagnostics</span>
+Plug <span class="s1">'dense-analysis/ale'</span>
+
+<span class="c">" Auto code formatting</span>
+Plug <span class="s1">'Chiel92/vim-autoformat'</span>
+
+<span class="c">" Color scheme</span>
+Plug <span class="s1">'morhetz/gruvbox'</span>
+
+<span class="k">call</span> plug#end<span class="p">()</span>
+
+<span class="c">" === General Settings ===</span>
+<span class="nb">syntax</span> <span class="k">on</span>
+<span class="k">set</span> <span class="k">number</span>
+<span class="k">set</span> <span class="nb">relativenumber</span>
+<span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">4</span>
+<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">4</span>
+<span class="k">set</span> <span class="nb">expandtab</span>
+<span class="k">set</span> <span class="nb">smartindent</span>
+<span class="k">set</span> <span class="nb">autoindent</span>
+<span class="k">set</span> <span class="nb">background</span><span class="p">=</span><span class="nb">dark</span>
+<span class="k">colorscheme</span> gruvbox
+
+<span class="c">" === Status Line ===</span>
+<span class="k">let</span> <span class="nv">g:airline_theme</span><span class="p">=</span><span class="s1">'gruvbox'</span>
+<span class="k">let</span> <span class="nv">g:airline_powerline_fonts</span><span class="p">=</span><span class="m">1</span>
+
+<span class="c">" === NERDTree Shortcut ===</span>
+nnoremap <span class="p">&lt;</span>C<span class="p">-</span><span class="k">n</span><span class="p">&gt;</span> <span class="p">:</span>NERDTreeToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">" === Format on Save ===</span>
+autocmd <span class="nb">BufWritePre</span> * <span class="p">:</span>Autoformat
+
+<span class="c">" === Git Shortcut ===</span>
+nnoremap <span class="p">&lt;</span>leader<span class="p">&gt;</span>gs <span class="p">:</span>G<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">" === Mouse Support ===</span>
+<span class="k">set</span> <span class="nb">mouse</span><span class="p">=</span><span class="k">a</span>
+
+<span class="c">" === Enable Icons ===</span>
+<span class="k">set</span> <span class="nb">encoding</span><span class="p">=</span>utf<span class="m">-8</span>
+<span class="k">let</span> <span class="nv">g:WebDevIconsUnicodeDecorateFileNodes</span> <span class="p">=</span> <span class="m">1</span>
+<span class="k">let</span> <span class="nv">g:NERDTreeShowHidden</span><span class="p">=</span><span class="m">1</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-4-install-vim-plugins">🔌 4. Install Vim Plugins</h3>
+
+<p>Open Vim and run the following command:</p>
+
+<div class="language-vim highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">:</span>PlugInstall
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-5-set-up-autoformatters">🧼 5. Set Up Autoformatters</h3>
+
+<p>Install external formatters based on the languages you use:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>clang-format       <span class="c"># For C/C++</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>black              <span class="c"># For Python</span>
+<span class="nb">sudo </span>npm <span class="nb">install</span> <span class="nt">-g</span> prettier        <span class="c"># For JS/HTML/CSS/JSON</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-6-enable-icons-with-nerd-fonts-optional-but-recommended">🎨 6. Enable Icons with Nerd Fonts (Optional but Recommended)</h3>
+
+<p>Install Nerd Fonts for proper icon rendering. Here’s an example using JetBrainsMono:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/.local/share/fonts
+<span class="nb">cd</span> ~/.local/share/fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+unzip JetBrainsMono.zip
+fc-cache <span class="nt">-fv</span>
+</code></pre></div></div>
+
+<p>Then, in your terminal settings, set the font to <strong>JetBrainsMono Nerd Font</strong>.</p>
+
+<hr />
+
+<p><strong>Happy Hacking!</strong> 🐧💻🛡️</p>
+</p>
+</br>
+</br>
+<p ><a href="/blogs">Blogs →</a><br /></p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>
