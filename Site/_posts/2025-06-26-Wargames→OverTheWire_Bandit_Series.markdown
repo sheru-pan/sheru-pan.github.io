@@ -78,7 +78,7 @@ Login successful!
 
 Since all levels in the Bandit series use the same host and port, I’ll configure this in my SSH config file to save time. Additionally, I’ll define a variable named BANDIT for bandit.labs.overthewire.org. This way, I won’t have to type the full details every time — making the process faster and more convenient.
 
-Let's start by creating or editing the SSH config file located at ~/.ssh/config. Below is my updated configuration for this setup
+Let's start by creating or editing the SSH config file located at `~/.ssh/config`. Below is my updated configuration for this setup
 ![Image not found](/assets/images/bandit/bandit1/bandit1.png)
 
 Also adding the following line to the `~/.bashrc` file.
