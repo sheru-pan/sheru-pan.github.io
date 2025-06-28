@@ -1,12 +1,10 @@
 ---
 layout: post
 title: "🎮 Wargames → OverTheWire Bandit Series"
-date: 2025-06-26
-categories: infosec wargames linux ssh
-permalink: /blog/Wargames→OverTheWire_Bandit_Series/
+permalink: /blog/Wargames→OverTheWire_Bandit_Series_level_01/
 ---
 
-# 🎮 Wargames → OverTheWire Bandit Series
+# 🎮 Wargames → OverTheWire Bandit Series (Level0-1)
 
 In the field of information security, theory alone isn't enough — without hands-on practice, your knowledge has little real value.
 
@@ -111,6 +109,6 @@ We have successfully retrieved the password for the **bandit1** user.
 - How to list files in a directory using the `ls` command
 - How to read the contents of a file using the `cat` command
 
-Next, I’ll dive deeper into `ls`, `cat`, and proceed to **Level 1** of the Bandit series.
+Next Blog, I’ll continue to the Bandit series wargame.
 
 **Happy hacking!**

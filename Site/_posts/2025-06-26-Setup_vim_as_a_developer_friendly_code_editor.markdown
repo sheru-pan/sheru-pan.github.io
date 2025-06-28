@@ -1,8 +1,6 @@
 ---
 layout: post
 title: "🛠️ Setup Vim as a Developer-Friendly Code Editor"
-date: 2025-06-26
-categories: Hacking, Code Editor
 permalink: /blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/
 ---
 

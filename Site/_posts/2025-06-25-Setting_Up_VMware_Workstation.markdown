@@ -1,8 +1,6 @@
 ---
 layout: post
 title: "🛠️ Setting Up VMware Workstation on Ubuntu 22.04"
-date: 2025-06-25
-categories: Hacking
 permalink: /blog/Setting_Up_VMware_Workstation/
 ---
 

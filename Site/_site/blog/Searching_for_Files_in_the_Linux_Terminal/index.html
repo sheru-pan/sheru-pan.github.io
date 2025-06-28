@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📁 Searching for Files in the Linux Terminal</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🛡️Researcher Sheru! </h1>
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+            </ul>
+        </nav>
+        <div class="social-icons"> 
+            <a href="mailto:researchersheru@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/sheru-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p class="post-meta">
+  <span class="date"
+    >📅 <strong>Published on:</strong> June 28, 2025</span
+  >
+  <span class="author">✍️ <strong>Author:</strong> Himangshu Pan</span>
+</p>
+
+<p><h1 id="-searching-for-files-in-the-linux-terminal">📁 Searching for Files in the Linux Terminal</h1>
+
+<p>Just like we rely on Google to search the web, we often need similar tools to locate files within our own system — especially when we forget where they’re stored. On Linux, where everything is treated as a file (even devices and processes), having effective file search tools is crucial.</p>
+
+<p>In this guide, we’ll explore three essential commands that make file searching efficient on any Linux-based system: <code class="language-plaintext highlighter-rouge">which</code>, <code class="language-plaintext highlighter-rouge">locate</code>, and <code class="language-plaintext highlighter-rouge">find</code>.</p>
+
+<hr />
+
+<h2 id="-which--locate-executable-paths">🔍 <code class="language-plaintext highlighter-rouge">which</code> – Locate Executable Paths</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">which</code> command identifies the full path of the executable file that will run when a command is entered. It looks through the directories listed in your <code class="language-plaintext highlighter-rouge">$PATH</code> environment variable and returns the first matching executable.</p>
+
+<h3 id="-example">🧪 Example</h3>
+
+<p>To find the full path of the <code class="language-plaintext highlighter-rouge">ls</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which <span class="nb">ls</span>
+</code></pre></div></div>
+
+<p>This will output something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/ls
+</code></pre></div></div>
+
+<p>This means when you type <code class="language-plaintext highlighter-rouge">ls</code>, the system actually runs <code class="language-plaintext highlighter-rouge">/bin/ls</code>.</p>
+
+<hr />
+
+<h3 id="-finding-all-executables">🔁 Finding All Executables</h3>
+
+<p>To list all instances of a command in your system’s <code class="language-plaintext highlighter-rouge">$PATH</code>, use the <code class="language-plaintext highlighter-rouge">-a</code> flag:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which <span class="nt">-a</span> <span class="nb">ls</span>
+</code></pre></div></div>
+
+<p>This might return:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/ls
+/usr/bin/ls
+</code></pre></div></div>
+
+<p>The system chooses the <strong>first</strong> path listed in <code class="language-plaintext highlighter-rouge">$PATH</code>. To view the current search order:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="nv">$PATH</span>
+</code></pre></div></div>
+
+<p>Directories listed earlier in <code class="language-plaintext highlighter-rouge">$PATH</code> take priority, so <code class="language-plaintext highlighter-rouge">/bin/ls</code> is used before <code class="language-plaintext highlighter-rouge">/usr/bin/ls</code> if <code class="language-plaintext highlighter-rouge">/bin</code> appears first.</p>
+
+<hr />
+
+<h2 id="-locate--fast-file-search-using-a-database">📚 <code class="language-plaintext highlighter-rouge">locate</code> – Fast File Search Using a Database</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">locate</code> command quickly finds files by searching a prebuilt index (database) of all file paths on the system. Since it doesn’t scan in real time, it’s much faster than <code class="language-plaintext highlighter-rouge">find</code> for basic lookups.</p>
+
+<hr />
+
+<h3 id="️-how-it-works">⚙️ How It Works</h3>
+
+<p>Instead of scanning the entire filesystem, <code class="language-plaintext highlighter-rouge">locate</code> queries a cached database (updated via the <code class="language-plaintext highlighter-rouge">updatedb</code> command, often run automatically by <code class="language-plaintext highlighter-rouge">cron</code>).</p>
+
+<p>To search for a file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate passwd
+</code></pre></div></div>
+
+<p>This might return results like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/passwd
+/var/backups/passwd.bak
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-update-the-database">🔁 Update the Database</h3>
+
+<p>If you’ve recently added or removed files, refresh the database manually:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>updatedb
+</code></pre></div></div>
+
+<blockquote>
+  <p>🔧 <strong>Note:</strong> On some systems, you may need to install <code class="language-plaintext highlighter-rouge">mlocate</code>:</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>mlocate
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-case-insensitive-search">🔎 Case-Insensitive Search</h3>
+
+<p>Combine <code class="language-plaintext highlighter-rouge">locate</code> with <code class="language-plaintext highlighter-rouge">grep</code> for case-insensitive filtering:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate passwd | <span class="nb">grep</span> <span class="nt">-i</span> root
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-practical-example">📄 Practical Example</h3>
+
+<p>Let’s say you downloaded a PDF and forgot its location. Just run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locate <span class="k">*</span>.pdf
+</code></pre></div></div>
+
+<p>And get a list of all <code class="language-plaintext highlighter-rouge">.pdf</code> files instantly.</p>
+
+<hr />
+
+<h2 id="-find--advanced-real-time-search">🧠 <code class="language-plaintext highlighter-rouge">find</code> – Advanced Real-Time Search</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">find</code> command performs a <strong>live scan</strong> of the filesystem and supports a wide variety of filters and actions, making it one of the most powerful search utilities available.</p>
+
+<hr />
+
+<h3 id="-basic-syntax">📌 Basic Syntax</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find &lt;path&gt; &lt;options&gt; &lt;expression&gt;
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;path&gt;</code>: Directory to start the search (<code class="language-plaintext highlighter-rouge">/</code>, <code class="language-plaintext highlighter-rouge">.</code> for current dir).</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;options&gt;</code>: Search conditions (e.g. <code class="language-plaintext highlighter-rouge">-name</code>, <code class="language-plaintext highlighter-rouge">-size</code>, <code class="language-plaintext highlighter-rouge">-type</code>).</li>
+</ul>
+
+<hr />
+
+<h3 id="-common-examples">🔍 Common Examples</h3>
+
+<h4 id="-search-by-name">🔠 Search by Name</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-name</span> passwd
+</code></pre></div></div>
+
+<p>Case-insensitive:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-iname</span> passwd
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="-search-by-file-type">📁 Search by File Type</h4>
+
+<p>Only directories:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> d <span class="nt">-name</span> config
+</code></pre></div></div>
+
+<p>Only regular files:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> f <span class="nt">-name</span> filename.txt
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="-search-by-size">🧱 Search by Size</h4>
+
+<p>Files larger than 100MB:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> f <span class="nt">-size</span> +100M
+</code></pre></div></div>
+
+<p>Files smaller than 10KB:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> f <span class="nt">-size</span> <span class="nt">-10k</span>
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="️-run-commands-on-results">⚙️ Run Commands on Results</h4>
+
+<p>Delete all <code class="language-plaintext highlighter-rouge">.tmp</code> files in <code class="language-plaintext highlighter-rouge">/tmp</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find /tmp <span class="nt">-type</span> f <span class="nt">-name</span> <span class="s2">"*.tmp"</span> <span class="nt">-exec</span> <span class="nb">rm</span> <span class="o">{}</span> <span class="se">\;</span>
+</code></pre></div></div>
+
+<p>List details for all files in the current directory:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find <span class="nb">.</span> <span class="nt">-type</span> f <span class="nt">-exec</span> <span class="nb">ls</span> <span class="nt">-l</span> <span class="o">{}</span> <span class="se">\;</span>
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="-exclude-directories">🚫 Exclude Directories</h4>
+
+<p>Search from root but skip <code class="language-plaintext highlighter-rouge">/proc</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-path</span> /proc <span class="nt">-prune</span> <span class="nt">-o</span> <span class="nt">-name</span> passwd <span class="nt">-print</span>
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="-search-by-time">🕒 Search by Time</h4>
+
+<p>Modified within last 7 days:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> f <span class="nt">-mtime</span> <span class="nt">-7</span>
+</code></pre></div></div>
+
+<p>Accessed within last 24 hours:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / <span class="nt">-type</span> f <span class="nt">-atime</span> <span class="nt">-1</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-final-thoughts">✅ Final Thoughts</h2>
+
+<p>Each tool has its strengths:</p>
+
+<ul>
+  <li>Use <strong><code class="language-plaintext highlighter-rouge">which</code></strong> to identify which version of a command is being run.</li>
+  <li>Use <strong><code class="language-plaintext highlighter-rouge">locate</code></strong> for lightning-fast searches from an indexed database.</li>
+  <li>Use <strong><code class="language-plaintext highlighter-rouge">find</code></strong> when you need powerful, flexible, and real-time results.</li>
+</ul>
+
+<p>Mastering these commands will significantly improve your efficiency when navigating or troubleshooting a Linux system.</p>
+
+<p>Happy searching! 🐧</p>
+</p>
+</br>
+</br>
+<p ><a href="/blogs">Blogs →</a><br /></p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>
