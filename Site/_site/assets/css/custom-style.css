@@ -60,6 +60,10 @@ a {
   color: aqua;
 }
 
+header h1 a {
+  text-decoration-line: overline;
+}
+
 nav ul {
   list-style: none;
   padding: 0;
