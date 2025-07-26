@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🎮 Walk-through  → THM Pytrat"
+title: "🎮 Walk-through  → THM Pyrat"
 permalink: /blog/walk-through_thm_pyrat/
 ---
 
