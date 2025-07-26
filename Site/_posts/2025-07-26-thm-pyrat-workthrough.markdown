@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "THM Pytrat Workthrough"
-permalink: /blog/thm_pyrat_workthrough/
+title: "🎮 Workthrough  → THM Pytrat"
+permalink: /blog/workthrough_thm_pyrat/
 ---
 
-# TryHackMe Workthrough => Pyrat
+# 🎮 Workthrough → TryHackMe Pyrat
 
 ### Description
 
