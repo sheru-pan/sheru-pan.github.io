@@ -1,10 +1,38 @@
+# Two services:
+#   builder — one-shot Node + Chromium container that compiles the static site
+#             and renders the résumé PDF into ./dist/. Exits when done.
+#   web     — long-running nginx that serves ./dist/ on http://localhost.
+#
+# Usage:
+#   docker compose up -d         # builds (if dist/ is empty), then serves
+#   docker compose run --rm builder   # rebuild content; nginx picks up new files
+#   docker compose down          # stop web (and remove any exited builder)
+
 services:
-  nginx:
-    image: nginx:latest
-    container_name: static_site
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile.builder
+    image: sheru-portfolio-builder:latest
+    container_name: sheru-portfolio-builder
+    working_dir: /app
+    volumes:
+      - .:/app
+      - builder_node_modules:/app/node_modules
+    restart: "no"
+
+  web:
+    image: nginx:alpine
+    container_name: sheru-portfolio-web
+    depends_on:
+      builder:
+        condition: service_completed_successfully
     ports:
       - "80:80"
     volumes:
-      - ./Site/_site:/usr/share/nginx/html:ro
-      # - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: always
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+volumes:
+  builder_node_modules:

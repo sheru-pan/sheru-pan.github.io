@@ -1,0 +1,19 @@
+---
+interface Props { name: string; issuer: string; year: number; url?: string }
+const { name, issuer, year, url } = Astro.props;
+const Tag = url ? "a" : "div";
+---
+<Tag
+  href={url || undefined}
+  target={url ? "_blank" : undefined}
+  rel={url ? "noopener" : undefined}
+  class="group block rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4 transition-all hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:shadow-lg"
+>
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <h3 class="font-mono text-sm font-semibold text-[var(--color-text-strong)] group-hover:text-[var(--color-accent)]">{name}</h3>
+      <p class="mt-1 text-xs text-[var(--color-muted)]">{issuer}</p>
+    </div>
+    <span class="rounded bg-[var(--color-bg-elev)] px-2 py-0.5 font-mono text-xs text-[var(--color-teal)]">{year}</span>
+  </div>
+</Tag>

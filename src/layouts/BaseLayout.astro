@@ -1,0 +1,51 @@
+---
+import "../styles/globals.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { profile } from "../data/profile";
+
+interface Props {
+  title?: string;
+  description?: string;
+  hideChrome?: boolean;
+}
+const {
+  title = profile.name,
+  description = `${profile.name} — ${profile.tagline}`,
+  hideChrome = false,
+} = Astro.props;
+
+const fullTitle = title === profile.name ? title : `${title} · ${profile.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <link rel="canonical" href={canonical} />
+    <!-- @media print rules only — zero effect on screen rendering -->
+    <link rel="stylesheet" href="/resume-print.css" media="print" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="min-h-screen text-[var(--color-text)]">
+    {!hideChrome && <Nav />}
+    <main>
+      <slot />
+    </main>
+    {!hideChrome && <Footer />}
+  </body>
+</html>

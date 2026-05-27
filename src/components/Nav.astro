@@ -1,0 +1,77 @@
+---
+import { profile } from "../data/profile";
+const { pathname } = Astro.url;
+function isActive(href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+}
+---
+
+<header class="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[var(--color-bg)]/85 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+    <a href="/" class="group flex items-center gap-2 font-mono text-sm text-[var(--color-text-strong)]">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="text-[var(--color-muted)]">sheru@soc:</span><span class="text-[var(--color-accent)]">~</span><span class="text-[var(--color-muted)]">$</span>
+      <span class="ml-1 hidden font-semibold group-hover:text-[var(--color-accent)] sm:inline">himangshu.pan</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {profile.navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              "rounded px-3 py-1.5 font-mono text-sm transition-colors",
+              isActive(link.href)
+                ? "bg-[var(--color-bg-card)] text-[var(--color-accent)]"
+                : "text-[var(--color-text)] hover:bg-[var(--color-bg-card)] hover:text-[var(--color-accent)]",
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      class="rounded border border-[var(--color-border)] p-2 text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] md:hidden"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-nav" class="hidden border-t border-[var(--color-border)] bg-[var(--color-bg-elev)] md:hidden">
+    <ul class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 sm:px-6">
+      {profile.navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              "block rounded px-3 py-2.5 font-mono text-sm",
+              isActive(link.href)
+                ? "bg-[var(--color-bg-card)] text-[var(--color-accent)]"
+                : "text-[var(--color-text)] hover:bg-[var(--color-bg-card)] hover:text-[var(--color-accent)]",
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("mobile-nav-toggle");
+  const menu = document.getElementById("mobile-nav");
+  btn?.addEventListener("click", () => {
+    const open = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+  });
+</script>

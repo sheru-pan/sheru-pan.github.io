@@ -1,0 +1,140 @@
+/* Paged-media rules — drive both the on-screen preview (via paged.js
+   Previewer) and the printed PDF (Puppeteer captures the paged DOM).
+   Linked from BaseLayout so paged.js's previewer can fetch it. */
+
+/* Reserve A4 size + an empty 22mm bottom margin for paged.js to lay
+   out content inside. We intentionally do NOT define @bottom-left /
+   @bottom-right here — that would cause both paged.js and Chromium
+   native print to each render a footer (doubled output). The footer
+   is injected as a plain DOM element after pagination instead. */
+@page {
+  size: A4;
+  margin: 18mm 16mm 22mm 16mm;
+}
+
+/* Paged.js injects its own runtime stylesheet that sets a white body
+   background (assuming the document is a "page"). Force the site's
+   dark palette back, except in @media print where we want white. */
+html,
+body {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+}
+.pagedjs_pages,
+.pagedjs_pagebox-area {
+  background: transparent !important;
+}
+
+/* Paged.js wraps everything in .pagedjs_pages → .pagedjs_page boxes.
+   On screen: stack them vertically with a gap and a shadow per page. */
+.pagedjs_pages {
+  padding: 8mm 0;
+}
+
+.pagedjs_page {
+  background: #ffffff !important;
+  box-shadow:
+    0 18px 48px -12px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+  margin: 0 auto 14mm !important;
+  border-radius: 4px !important;
+  position: relative !important;
+}
+.pagedjs_page:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Per-page footer injected by the resume script after pagination.
+   Sits in the empty 22mm bottom margin paged.js reserves on each page. */
+.resume-page-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 16mm;
+  right: 16mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9pt;
+  color: #475569;
+  pointer-events: none;
+}
+.resume-page-footer .left {
+  font-family: "Inter", system-ui, sans-serif;
+}
+.resume-page-footer .right {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.02em;
+}
+
+/* The .resume-paper class is added to each .pagedjs_page by the page
+   script so the existing `.resume-paper h1 / h2 / p` typography rules
+   in globals.css keep matching descendants. But the .resume-paper
+   container styling (padding, max-width, margin) would double up on
+   top of paged.js's @page margins — so override them at this level. */
+.pagedjs_page.resume-paper {
+  padding: 0 !important;
+  margin: 0 auto 14mm !important;
+  max-width: none !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+}
+.pagedjs_page.resume-paper:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Any wrapping article.resume-paper inside a page is layout-irrelevant
+   once paged.js has paginated; flatten it. */
+.pagedjs_page .resume-paper {
+  background: transparent !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* While paged.js is rendering, hide the original .resume-paper so we
+   don't show "single-page fallback then suddenly paginated" flash. */
+.resume-paged-active > .resume-paper {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Loading indicator while pagination runs */
+.resume-paged-active::before {
+  content: "$ rendering pages…";
+  display: block;
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+  color: #6b7785;
+  padding: 4rem 0;
+}
+.resume-paged-active.paged-done::before {
+  display: none;
+}
+
+/* When printing: white background, no gap/shadow, edge-to-edge.
+   Overrides the dark-screen body styles above. */
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .resume-paged-active::before {
+    display: none !important;
+  }
+  .pagedjs_pages {
+    padding: 0 !important;
+  }
+  .pagedjs_page {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+}
