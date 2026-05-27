@@ -1,0 +1,27 @@
+/* Global print stylesheet. Loaded via BaseLayout with media="print",
+   so it has zero effect on screen. Strips the site's dark chrome
+   from any page when it's printed. Per-page rules (paged.js @page
+   layout for the resume) live in resume-paged.css. */
+
+@media print {
+  html, body {
+    background: #ffffff !important;
+    background-image: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide top-level site chrome only — never the resume's nested
+     <header class="resume-header"> inside the paper. */
+  body > header,
+  body > footer,
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Strip wrapper padding so paginated content goes edge-to-edge */
+  .resume-page-wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

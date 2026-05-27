@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AllPostsSidebar from "../../components/AllPostsSidebar.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("writeups", (e) => !e.data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const formatted = entry.data.date.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+  <article class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <p class="mb-6 font-mono text-xs">
+      <a href="/writeups" class="text-[var(--color-muted)] hover:text-[var(--color-accent)]">← all writeups</a>
+    </p>
+
+    <header class="mb-10 border-b border-[var(--color-border)] pb-6">
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <time class="font-mono text-[var(--color-muted)]">{formatted}</time>
+        {entry.data.platform && (
+          <span class="rounded bg-[var(--color-bg-card)] px-2 py-0.5 font-mono text-[var(--color-teal)]">{entry.data.platform}</span>
+        )}
+        {entry.data.difficulty && (
+          <span class="rounded bg-[var(--color-bg-card)] px-2 py-0.5 font-mono text-[var(--color-warn)]">{entry.data.difficulty}</span>
+        )}
+      </div>
+      <h1 class="mt-3 font-mono text-3xl font-bold leading-tight text-[var(--color-text-strong)] sm:text-4xl">{entry.data.title}</h1>
+      <p class="mt-3 max-w-3xl text-[var(--color-text)]">{entry.data.description}</p>
+      {entry.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-1.5">
+          {entry.data.tags.map((t: string) => (
+            <span class="rounded border border-[var(--color-border)] px-1.5 py-0.5 font-mono text-[10px] text-[var(--color-muted)]">#{t}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="grid gap-10 lg:grid-cols-[1fr_18rem]">
+      <div class="prose-blue min-w-0">
+        <Content />
+      </div>
+      <div class="lg:sticky lg:top-20 lg:self-start">
+        <details class="lg:hidden">
+          <summary class="cursor-pointer rounded border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 font-mono text-sm text-[var(--color-accent)]">
+            other writeups ↓
+          </summary>
+          <div class="mt-3">
+            <AllPostsSidebar collection="writeups" currentId={entry.id} />
+          </div>
+        </details>
+        <div class="hidden lg:block">
+          <AllPostsSidebar collection="writeups" currentId={entry.id} />
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

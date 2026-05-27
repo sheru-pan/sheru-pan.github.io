@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WriteupCard from "../../components/WriteupCard.astro";
+import { getCollection } from "astro:content";
+
+const writeups = (await getCollection("writeups", (e) => !e.data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date);
+---
+
+<BaseLayout title="Writeups" description="Blue-team writeups: detections, IR, CTF, log analysis.">
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <header class="mb-8">
+      <p class="font-mono text-xs uppercase tracking-widest text-[var(--color-teal)]">
+        <span class="status-dot mr-2"></span> {writeups.length} entr{writeups.length === 1 ? "y" : "ies"}
+      </p>
+      <h1 class="mt-3 font-mono text-3xl font-bold text-[var(--color-text-strong)]">
+        <span class="text-[var(--color-teal)]">#</span> writeups
+      </h1>
+      <p class="mt-3 max-w-2xl text-[var(--color-text)]">
+        Investigations, detections, lab notes, and CTF walkthroughs — written from the defender&apos;s seat.
+      </p>
+    </header>
+
+    {writeups.length === 0 ? (
+      <p class="font-mono text-sm text-[var(--color-muted)]">no writeups yet — check back soon.</p>
+    ) : (
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {writeups.map((w) => (
+          <WriteupCard
+            href={`/writeups/${w.id}/`}
+            title={w.data.title}
+            description={w.data.description}
+            date={w.data.date}
+            platform={w.data.platform}
+            difficulty={w.data.difficulty}
+            tags={w.data.tags}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
