@@ -39,4 +39,10 @@ RUN mkdir -p /app/node_modules /app/.astro /app/dist \
 USER node
 
 # Default command: install, build the static site, then render the resume PDF.
-CMD ["sh", "-c", "npm ci --no-audit --no-fund && npm run build && npm run pdf"]
+# Note: `npm ci` can flakily skip platform-specific OPTIONAL deps (npm bug
+# npm/cli#4828), which drops Tailwind v4's native binary and breaks the build
+# ("Cannot find module '@tailwindcss/oxide-linux-x64-gnu'"). After install we
+# force-install the matching native binary for this image (linux x64), pinned
+# to the resolved @tailwindcss/oxide version, without touching package.json or
+# the lockfile (--no-save --no-package-lock).
+CMD ["sh", "-c", "npm ci --no-audit --no-fund && OXVER=$(node -p \"require('@tailwindcss/oxide/package.json').version\") && npm install --no-save --no-package-lock --no-audit --no-fund @tailwindcss/oxide-linux-x64-gnu@$OXVER && npm run build && npm run pdf"]
