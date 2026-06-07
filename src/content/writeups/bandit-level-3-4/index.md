@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 3 → 4: Hidden Dotfiles & Security Through Obscurity"
 description: "The password hides in a dot-prefixed file that a plain ls omits. The dotfile convention is visibility, not protection — and it is one of the oldest places attackers stash secrets."
-date: 2026-06-07
+date: 2026-05-08
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, hidden-files, enumeration, obscurity]
+series: "OverTheWire Bandit"
+order: 3
+seriesLabel: "Level 3 → 4"
 ---
 
 ## Introduction

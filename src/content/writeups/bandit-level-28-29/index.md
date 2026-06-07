@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 28 → 29: Recovering Secrets from Git History"
 description: "The README is redacted this time, but Git never forgets. Read the commit log, travel to the commit that still holds the password, and learn why deleting a secret in a later commit doesn't un-leak it — you must rotate it."
-date: 2026-06-07
+date: 2026-06-02
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, git, git-history, secrets, source-control, red-team]
+series: "OverTheWire Bandit"
+order: 28
+seriesLabel: "Level 28 → 29"
 ---
 
 ## Introduction

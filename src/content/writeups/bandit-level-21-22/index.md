@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 21 → 22: Cron Jobs & Insecure Temp Files"
 description: "A scheduled cron job copies a privileged password into a predictable, world-readable /tmp file. Read the cron config, follow it to the script, and harvest the leak."
-date: 2026-06-07
+date: 2026-05-26
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, cron, scheduled-tasks, information-disclosure, privilege-escalation]
+series: "OverTheWire Bandit"
+order: 21
+seriesLabel: "Level 21 → 22"
 ---
 
 ## Introduction

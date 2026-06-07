@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 14 → 15: Talking to TCP Services with Netcat"
 description: "Your first step onto the network: submit a password to a raw TCP service on localhost with netcat, and learn why the -N flag matters for getting a reply."
-date: 2026-06-07
+date: 2026-05-19
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, netcat, networking, tcp]
+series: "OverTheWire Bandit"
+order: 14
+seriesLabel: "Level 14 → 15"
 ---
 
 ## Introduction

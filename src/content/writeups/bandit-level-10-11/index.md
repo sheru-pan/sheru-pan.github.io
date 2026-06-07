@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 10 → 11: Base64 Is Encoding, Not Encryption"
 description: "The password looks scrambled but it's just Base64 — keyless, reversible, and zero confidentiality. Learn to recognize and decode it, and why encoding is never a security control."
-date: 2026-06-07
+date: 2026-05-15
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, base64, encoding, cryptography, web-security]
+series: "OverTheWire Bandit"
+order: 10
+seriesLabel: "Level 10 → 11"
 ---
 
 ## Introduction

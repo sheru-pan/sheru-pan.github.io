@@ -50,10 +50,10 @@ const formatted = entry.data.date.toISOString().slice(0, 10);
       <div class="lg:sticky lg:top-20 lg:self-start">
         <details class="lg:hidden">
           <summary class="cursor-pointer rounded border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2 font-mono text-sm text-[var(--color-accent)]">
-            other writeups ↓
+            {entry.data.series ? `${entry.data.series} — all parts ↓` : "other writeups ↓"}
           </summary>
           <div class="mt-3">
-            <AllPostsSidebar collection="writeups" currentId={entry.id} />
+            <AllPostsSidebar collection="writeups" currentId={entry.id} series={entry.data.series} />
           </div>
         </details>
         <div class="hidden lg:block">

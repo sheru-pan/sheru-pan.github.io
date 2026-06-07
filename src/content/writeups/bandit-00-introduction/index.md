@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit — Introduction & Getting Started"
 description: "The opening post of a complete, level-by-level Bandit series: what the wargame is, why it is the best on-ramp to Linux and security, how to connect over SSH, and the enumeration-first methodology that solves every level."
-date: 2026-06-07
+date: 2026-05-04
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, ssh, bandit, methodology, enumeration]
+series: "OverTheWire Bandit"
+order: -1
+seriesLabel: "Intro & Setup"
 ---
 
 > The first post in a complete, level-by-level Bandit series. This one sets the stage: what Bandit is, why it is the single best starting point for anyone serious about Linux and security, how to connect, and the *methodology* that will carry you through all 33 levels.

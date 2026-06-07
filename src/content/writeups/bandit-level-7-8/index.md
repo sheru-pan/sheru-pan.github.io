@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 7 → 8: Content Search with grep"
 description: "The file is handed to you by name but holds thousands of lines. grep turns 'search a huge text file' into a one-liner — the same motion behind credential harvesting and secret hunting."
-date: 2026-06-07
+date: 2026-05-12
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, grep, credential-harvesting, text-processing]
+series: "OverTheWire Bandit"
+order: 7
+seriesLabel: "Level 7 → 8"
 ---
 
 ## Introduction

@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 15 → 16: TLS Services with openssl s_client"
 description: "The submit-a-password service now speaks SSL/TLS. Learn why plain netcat fails on an encrypted port and how openssl s_client performs the handshake to talk to it."
-date: 2026-06-07
+date: 2026-05-20
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, tls, ssl, openssl, networking]
+series: "OverTheWire Bandit"
+order: 15
+seriesLabel: "Level 15 → 16"
 ---
 
 ## Introduction

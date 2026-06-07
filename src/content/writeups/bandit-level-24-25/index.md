@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 24 → 25: Brute Forcing a 4-Digit PIN"
 description: "A daemon wants your password plus a secret 4-digit PIN. With a 10,000-value keyspace and no rate limiting, brute force is the intended path — over a single nc connection."
-date: 2026-06-07
+date: 2026-05-29
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, brute-force, netcat, networking, rate-limiting, keyspace]
+series: "OverTheWire Bandit"
+order: 24
+seriesLabel: "Level 24 → 25"
 ---
 
 ## Introduction

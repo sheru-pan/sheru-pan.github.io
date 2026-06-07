@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 8 → 9: Frequency Analysis with sort and uniq"
 description: "The password is the one line that occurs only once. Isolating it teaches sort | uniq — the command-line idiom for finding the outlier when triaging recon output."
-date: 2026-06-07
+date: 2026-05-13
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, sort, uniq, recon, frequency-analysis]
+series: "OverTheWire Bandit"
+order: 8
+seriesLabel: "Level 8 → 9"
 ---
 
 ## Introduction

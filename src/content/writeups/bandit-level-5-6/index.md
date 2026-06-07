@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 5 → 6: Multi-Attribute File Search with find"
 description: "The password hides in a directory full of decoys. Picking it out means treating find as a query language — stacking type, exact byte size, and a permission filter until only one file survives."
-date: 2026-06-07
+date: 2026-05-10
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, find, enumeration, file-discovery]
+series: "OverTheWire Bandit"
+order: 5
+seriesLabel: "Level 5 → 6"
 ---
 
 ## Introduction

@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 25 → 26: Escaping a Restricted Shell via more and vi"
 description: "bandit26's login shell isn't bash — it's a script that runs more and exits. Shrink the terminal to force pagination, press v to jump into vi, then escape vi to a real shell. A textbook GTFOBins pager/editor breakout."
-date: 2026-06-07
+date: 2026-05-30
 platform: OverTheWire
 difficulty: hard
 tags: [ctf, linux, bandit, restricted-shell, shell-escape, gtfobins, privilege-escalation, vi]
+series: "OverTheWire Bandit"
+order: 25
+seriesLabel: "Level 25 → 26"
 ---
 
 ## Introduction

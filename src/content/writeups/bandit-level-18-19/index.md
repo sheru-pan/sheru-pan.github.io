@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 18 → 19: Beating a Hostile .bashrc with Non-Interactive SSH"
 description: "A sabotaged .bashrc logs you out the instant you connect. Learn to run a single command over SSH non-interactively, and understand Bash's login/non-login, interactive/non-interactive startup matrix."
-date: 2026-06-07
+date: 2026-05-23
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, ssh, bashrc, persistence, shell-startup]
+series: "OverTheWire Bandit"
+order: 18
+seriesLabel: "Level 18 → 19"
 ---
 
 ## Introduction

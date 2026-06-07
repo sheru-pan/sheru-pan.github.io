@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 1 → 2: Dash Filenames & Argument Parsing"
 description: "A file literally named '-' breaks the obvious cat command and introduces the gap between what you type and what the shell and program actually parse — the seam where argument injection lives."
-date: 2026-06-07
+date: 2026-05-06
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, shell, argument-injection, enumeration]
+series: "OverTheWire Bandit"
+order: 1
+seriesLabel: "Level 1 → 2"
 ---
 
 ## Introduction

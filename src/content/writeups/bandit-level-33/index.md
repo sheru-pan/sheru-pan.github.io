@@ -5,6 +5,9 @@ date: 2026-06-07
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, capstone, methodology, career, next-steps]
+series: "OverTheWire Bandit"
+order: 33
+seriesLabel: "Level 33 (final)"
 ---
 
 ## Introduction

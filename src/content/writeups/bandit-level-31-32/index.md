@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 31 → 32: .gitignore Bypass & Server-Side Git Hooks"
 description: "This time you push instead of pull. .gitignore silently swallows your file, git add -f forces past it, and a server-side pre-receive hook hands you the password — then rejects the push on purpose."
-date: 2026-06-07
+date: 2026-06-05
 platform: OverTheWire
 difficulty: hard
 tags: [ctf, linux, bandit, git, gitignore, git-hooks, devsecops]
+series: "OverTheWire Bandit"
+order: 31
+seriesLabel: "Level 31 → 32"
 ---
 
 ## Introduction

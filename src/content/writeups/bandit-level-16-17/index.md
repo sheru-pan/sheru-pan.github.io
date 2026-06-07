@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 16 → 17: Port Scanning, Service Detection & a Private Key"
 description: "A miniature engagement: scan a port range with nmap, fingerprint services to tell SSL from echo decoys, connect to the right TLS port, and claim an RSA private key."
-date: 2026-06-07
+date: 2026-05-21
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, nmap, port-scanning, tls, openssl, reconnaissance]
+series: "OverTheWire Bandit"
+order: 16
+seriesLabel: "Level 16 → 17"
 ---
 
 ## Introduction

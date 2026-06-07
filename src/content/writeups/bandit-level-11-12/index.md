@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 11 → 12: ROT13, Caesar Ciphers & Obfuscation"
 description: "The password is ROT13'd — a keyless Caesar cipher that only looks encrypted. Decode it with tr and learn why 'security by obscurity' protects nothing."
-date: 2026-06-07
+date: 2026-05-16
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, rot13, caesar-cipher, obfuscation, cryptography, tr]
+series: "OverTheWire Bandit"
+order: 11
+seriesLabel: "Level 11 → 12"
 ---
 
 ## Introduction

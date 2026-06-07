@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 22 → 23: Reading Scripts & Security Through Obscurity"
 description: "A cron job hides its temp file behind an md5sum of a known string. Read the script, recompute the hash yourself, and learn why a derivable secret is no secret at all."
-date: 2026-06-07
+date: 2026-05-27
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, cron, shell-scripting, security-through-obscurity, md5, information-disclosure]
+series: "OverTheWire Bandit"
+order: 22
+seriesLabel: "Level 22 → 23"
 ---
 
 ## Introduction

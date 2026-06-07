@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 32 → 33: Escaping the UPPERCASE Restricted Shell"
 description: "Every command you type is shouted back as uppercase and fails. The escape is the shell special parameter $0, which spawns a fresh normal shell and walks you straight out of the cage."
-date: 2026-06-07
+date: 2026-06-06
 platform: OverTheWire
 difficulty: hard
 tags: [ctf, linux, bandit, restricted-shell, shell-escape, privilege-escalation, bash]
+series: "OverTheWire Bandit"
+order: 32
+seriesLabel: "Level 32 → 33"
 ---
 
 ## Introduction

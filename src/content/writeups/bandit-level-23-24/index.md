@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 23 → 24: Writable Cron Path Privilege Escalation"
 description: "Write your first payload and drop it into a directory a cron job runs as bandit24. A real privesc primitive: when the writer is less trusted than the executor, the writer wins."
-date: 2026-06-07
+date: 2026-05-28
 platform: OverTheWire
 difficulty: hard
 tags: [ctf, linux, bandit, cron, privilege-escalation, shell-scripting, scheduled-tasks, file-permissions]
+series: "OverTheWire Bandit"
+order: 23
+seriesLabel: "Level 23 → 24"
 ---
 
 ## Introduction

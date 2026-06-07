@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 29 → 30: Git Branch Enumeration"
 description: "The master branch swears there are 'no passwords in production' — and it's telling the truth. The credential is hiding on a dev branch you have to enumerate to even see."
-date: 2026-06-07
+date: 2026-06-03
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, git, branches, enumeration, secrets]
+series: "OverTheWire Bandit"
+order: 29
+seriesLabel: "Level 29 → 30"
 ---
 
 ## Introduction

@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 26 → 27: Reusing the SUID Helper Pattern"
 description: "With a shell finally in hand, a familiar bandit27-do SUID binary runs a single command as the next user — reinforcing the setuid privilege primitive from Level 19 → 20."
-date: 2026-06-07
+date: 2026-05-31
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, suid, privilege-escalation, permissions]
+series: "OverTheWire Bandit"
+order: 26
+seriesLabel: "Level 26 → 27"
 ---
 
 ## Introduction

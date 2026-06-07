@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 17 → 18: Finding the One Changed Line with diff"
 description: "Two near-identical password files differ by a single line. Learn to compare files with diff, read its < / > output, and see why the changed-line mindset powers patch-diffing and secret hunting."
-date: 2026-06-07
+date: 2026-05-22
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, diff, patch-diffing, change-detection]
+series: "OverTheWire Bandit"
+order: 17
+seriesLabel: "Level 17 → 18"
 ---
 
 ## Introduction

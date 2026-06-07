@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 4 → 5: The file Command, Magic Bytes & Type Detection"
 description: "Ten lookalike files, only one readable. The file command judges a file by its bytes, not its name — a foundational skill for malware triage, payload crafting, and beating upload filters."
-date: 2026-06-07
+date: 2026-05-09
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, file-type, magic-bytes, malware-analysis]
+series: "OverTheWire Bandit"
+order: 4
+seriesLabel: "Level 4 → 5"
 ---
 
 ## Introduction

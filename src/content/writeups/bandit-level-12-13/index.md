@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 12 → 13: Hexdumps, Magic Bytes & Nested Compression"
 description: "Revert a hexdump and peel layer after layer of gzip, bzip2, and tar. The real lesson: extensions lie — always ask file what the bytes actually are, the way a malware analyst unpacks a dropper."
-date: 2026-06-07
+date: 2026-05-17
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, hexdump, xxd, file, compression, gzip, bzip2, tar, malware-analysis, forensics]
+series: "OverTheWire Bandit"
+order: 12
+seriesLabel: "Level 12 → 13"
 ---
 
 ## Introduction

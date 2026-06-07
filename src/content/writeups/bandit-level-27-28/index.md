@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 27 → 28: Cloning a Git Repo and Finding Committed Secrets"
 description: "Bandit pivots to Git. Clone a repository over SSH from your local machine and read a password someone committed straight into a tracked file — the gentle on-ramp to secrets-in-source-control."
-date: 2026-06-07
+date: 2026-06-01
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, git, secrets, source-control, enumeration]
+series: "OverTheWire Bandit"
+order: 27
+seriesLabel: "Level 27 → 28"
 ---
 
 ## Introduction

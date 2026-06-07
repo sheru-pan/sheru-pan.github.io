@@ -11,6 +11,11 @@ const writeups = defineCollection({
       platform: z.string().optional(),
       difficulty: z.enum(["easy", "medium", "hard", "insane"]).optional(),
       tags: z.array(z.string()).default([]),
+      // Series grouping: writeups that belong to a multi-part series
+      // (e.g. "OverTheWire Bandit") are grouped and ordered by `order`.
+      series: z.string().optional(),
+      order: z.number().optional(),
+      seriesLabel: z.string().optional(),
       heroImage: image().optional(),
       draft: z.boolean().default(false),
     }),

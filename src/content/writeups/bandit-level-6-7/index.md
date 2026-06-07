@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 6 → 7: System-Wide Search by Ownership"
 description: "The password could be anywhere on the server. Finding it means searching from / and filtering by owning user and group — plus the essential trick of silencing permission-denied noise with 2>/dev/null."
-date: 2026-06-07
+date: 2026-05-11
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, find, file-ownership, enumeration]
+series: "OverTheWire Bandit"
+order: 6
+seriesLabel: "Level 6 → 7"
 ---
 
 ## Introduction

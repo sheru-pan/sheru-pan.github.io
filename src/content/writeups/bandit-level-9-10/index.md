@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 9 → 10: Extracting Strings from Binary Data"
 description: "The password hides inside a binary file full of noise. Learn to pull human-readable text out of binary with strings and grep — the foundational reflex of binary recon and malware analysis."
-date: 2026-06-07
+date: 2026-05-14
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, strings, binary-recon, malware-analysis, grep]
+series: "OverTheWire Bandit"
+order: 9
+seriesLabel: "Level 9 → 10"
 ---
 
 ## Introduction

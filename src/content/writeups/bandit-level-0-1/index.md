@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 0 → 1: Reading Files & Information Disclosure"
 description: "The first real Bandit level looks trivial — log in, read a file — but it seeds the two most-used reflexes in security and a lesson in plaintext credential exposure."
-date: 2026-06-07
+date: 2026-05-05
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, ssh, bandit, information-disclosure, enumeration]
+series: "OverTheWire Bandit"
+order: 0
+seriesLabel: "Level 0 → 1"
 ---
 
 ## Introduction

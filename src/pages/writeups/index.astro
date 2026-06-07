@@ -1,42 +1,135 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import WriteupCard from "../../components/WriteupCard.astro";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-const writeups = (await getCollection("writeups", (e) => !e.data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date);
+type Writeup = CollectionEntry<"writeups">;
+
+const all = await getCollection("writeups", (e) => !e.data.draft);
+
+// --- Group into series + standalone ---------------------------------------
+const seriesMap = new Map<string, Writeup[]>();
+const standalone: Writeup[] = [];
+for (const w of all) {
+  if (w.data.series) {
+    const arr = seriesMap.get(w.data.series) ?? [];
+    arr.push(w);
+    seriesMap.set(w.data.series, arr);
+  } else {
+    standalone.push(w);
+  }
+}
+
+// Order within a series by `order` (0 → N); series themselves by most-recent entry.
+const seriesList = [...seriesMap.entries()]
+  .map(([name, items]) => {
+    items.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+    return {
+      name,
+      items,
+      platform: items.find((i) => i.data.platform)?.data.platform,
+      latest: Math.max(...items.map((i) => +i.data.date)),
+    };
+  })
+  .sort((a, b) => b.latest - a.latest);
+
+standalone.sort((a, b) => +b.data.date - +a.data.date);
+
+// Short concept from a long title ("… Level 0 → 1: Concept" / "… — Concept")
+function concept(title: string): string {
+  const c = title.indexOf(": ");
+  if (c >= 0) return title.slice(c + 2);
+  const d = title.indexOf(" — ");
+  if (d >= 0) return title.slice(d + 3);
+  return title;
+}
+
+const diffColor: Record<string, string> = {
+  easy: "text-[var(--color-teal)]",
+  medium: "text-[var(--color-warn)]",
+  hard: "text-[var(--color-accent)]",
+  insane: "text-[var(--color-ioc)]",
+};
 ---
 
-<BaseLayout title="Writeups" description="Blue-team writeups: detections, IR, CTF, log analysis.">
+<BaseLayout title="Writeups" description="Offensive security writeups & CTF walkthroughs — wargames, exploitation, privilege escalation.">
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-    <header class="mb-8">
-      <p class="font-mono text-xs uppercase tracking-widest text-[var(--color-teal)]">
-        <span class="status-dot mr-2"></span> {writeups.length} entr{writeups.length === 1 ? "y" : "ies"}
+    <header class="mb-10">
+      <p class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">
+        <span class="status-dot mr-2"></span> {all.length} entr{all.length === 1 ? "y" : "ies"} · {seriesList.length} series
       </p>
       <h1 class="mt-3 font-mono text-3xl font-bold text-[var(--color-text-strong)]">
-        <span class="text-[var(--color-teal)]">#</span> writeups
+        <span class="text-[var(--color-accent)]">#</span> writeups
       </h1>
       <p class="mt-3 max-w-2xl text-[var(--color-text)]">
-        Investigations, detections, lab notes, and CTF walkthroughs — written from the defender&apos;s seat.
+        CTF walkthroughs, wargames, and exploitation notes — grouped by series and worked through level by level.
       </p>
     </header>
 
-    {writeups.length === 0 ? (
+    {all.length === 0 && (
       <p class="font-mono text-sm text-[var(--color-muted)]">no writeups yet — check back soon.</p>
-    ) : (
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {writeups.map((w) => (
-          <WriteupCard
-            href={`/writeups/${w.id}/`}
-            title={w.data.title}
-            description={w.data.description}
-            date={w.data.date}
-            platform={w.data.platform}
-            difficulty={w.data.difficulty}
-            tags={w.data.tags}
-          />
-        ))}
-      </div>
+    )}
+
+    {/* ---- Series groups ---- */}
+    {seriesList.map((s) => (
+      <section class="mb-12">
+        <div class="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 border-[var(--color-accent)] pl-3">
+          <h2 class="font-mono text-xl font-bold text-[var(--color-text-strong)]">{s.name}</h2>
+          <span class="font-mono text-xs text-[var(--color-muted)]">
+            {s.platform && <span class="text-[var(--color-teal)]">{s.platform}</span>}
+            <span class="mx-1.5">·</span>{s.items.length} parts
+          </span>
+        </div>
+
+        <ol class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {s.items.map((e) => (
+            <li>
+              <a
+                href={`/writeups/${e.id}/`}
+                class="group flex h-full items-start gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2.5 transition-all hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:shadow-lg"
+              >
+                <span class="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[var(--color-accent)]">
+                  {e.data.seriesLabel ?? `#${e.data.order ?? ""}`}
+                </span>
+                <span class="min-w-0">
+                  <span class="block truncate font-mono text-sm text-[var(--color-text)] group-hover:text-[var(--color-accent)]">
+                    {concept(e.data.title)}
+                  </span>
+                  {e.data.difficulty && (
+                    <span class={`mt-0.5 block font-mono text-[10px] ${diffColor[e.data.difficulty] ?? "text-[var(--color-muted)]"}`}>
+                      {e.data.difficulty}
+                    </span>
+                  )}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    {/* ---- Standalone writeups ---- */}
+    {standalone.length > 0 && (
+      <section class="mb-12">
+        {seriesList.length > 0 && (
+          <div class="mb-4 border-l-2 border-[var(--color-muted)] pl-3">
+            <h2 class="font-mono text-xl font-bold text-[var(--color-text-strong)]">Standalone</h2>
+          </div>
+        )}
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {standalone.map((w) => (
+            <WriteupCard
+              href={`/writeups/${w.id}/`}
+              title={w.data.title}
+              description={w.data.description}
+              date={w.data.date}
+              platform={w.data.platform}
+              difficulty={w.data.difficulty}
+              tags={w.data.tags}
+            />
+          ))}
+        </div>
+      </section>
     )}
   </section>
 </BaseLayout>

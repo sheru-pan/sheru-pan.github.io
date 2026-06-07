@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 30 → 31: Secrets Hidden in Git Tags"
 description: "The commits are empty, the only branch is master, the README mocks you. The password is parked in an annotated Git tag — a ref that git log and git branch never show."
-date: 2026-06-07
+date: 2026-06-04
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, git, tags, enumeration, secrets]
+series: "OverTheWire Bandit"
+order: 30
+seriesLabel: "Level 30 → 31"
 ---
 
 ## Introduction

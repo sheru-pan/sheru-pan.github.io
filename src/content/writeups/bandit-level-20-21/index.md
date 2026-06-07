@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 20 → 21: Client–Server, netcat Listeners, and tmux"
 description: "A setuid client connects to a port you choose and expects the bandit20 password. Become the server: run your own netcat listener, drive both halves at once with tmux, and watch the client–server handshake live."
-date: 2026-06-07
+date: 2026-05-25
 platform: OverTheWire
 difficulty: hard
 tags: [ctf, linux, bandit, netcat, tmux, networking, client-server, job-control]
+series: "OverTheWire Bandit"
+order: 20
+seriesLabel: "Level 20 → 21"
 ---
 
 ## Introduction

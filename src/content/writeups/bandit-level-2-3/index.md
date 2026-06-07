@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 2 → 3: Spaces in Filenames & Shell Quoting"
 description: "A file named 'spaces in this filename' breaks cat because the shell splits your line on whitespace first. The fix — quoting — is the single most important habit for writing correct, secure shell."
-date: 2026-06-07
+date: 2026-05-07
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, bandit, shell, quoting, word-splitting]
+series: "OverTheWire Bandit"
+order: 2
+seriesLabel: "Level 2 → 3"
 ---
 
 ## Introduction

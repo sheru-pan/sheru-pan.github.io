@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 19 → 20: The setuid Bit and Borrowed Privileges"
 description: "A setuid helper lets bandit19 read a file only bandit20 can. Learn to spot the s bit in ls -l, understand real vs effective UID, and why setuid binaries are a classic privilege-escalation path."
-date: 2026-06-07
+date: 2026-05-24
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, setuid, privilege-escalation, permissions]
+series: "OverTheWire Bandit"
+order: 19
+seriesLabel: "Level 19 → 20"
 ---
 
 ## Introduction

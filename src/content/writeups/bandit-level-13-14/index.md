@@ -1,10 +1,13 @@
 ---
 title: "OverTheWire Bandit Level 13 → 14: SSH Key Auth & Host Restrictions"
 description: "No password this level — just a private SSH key. Learn public-key authentication, why SSH demands chmod 600, and how a valid key can still be rejected based on where you connect from."
-date: 2026-06-07
+date: 2026-05-18
 platform: OverTheWire
 difficulty: medium
 tags: [ctf, linux, bandit, ssh, public-key-authentication, scp, lateral-movement]
+series: "OverTheWire Bandit"
+order: 13
+seriesLabel: "Level 13 → 14"
 ---
 
 ## Introduction
