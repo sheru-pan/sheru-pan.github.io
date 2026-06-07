@@ -25,6 +25,20 @@ body {
   background: transparent !important;
 }
 
+/* Keep the site chrome on the dark theme on the resume SCREEN. The nav is
+   normally translucent (bg/85 + backdrop-blur); as the white CV pages scroll
+   under the sticky bar they bleed through and wash it out. Force the header
+   opaque-dark (no blur) and the footer dark so only the paper is white.
+   (In print, resume-print.css hides header/footer entirely.) */
+body > header {
+  background-color: var(--color-bg) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+body > footer {
+  background-color: var(--color-bg-elev) !important;
+}
+
 /* Paged.js wraps everything in .pagedjs_pages → .pagedjs_page boxes.
    On screen: stack them vertically with a gap and a shadow per page. */
 .pagedjs_pages {
