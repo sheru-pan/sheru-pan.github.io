@@ -345,6 +345,14 @@ body {
   .resume-paper h1 { font-size: 20pt; }
 }
 
+/* The area surrounding the CV pages matches the site (dark) theme;
+   only the paper itself is white. Print/PDF flips to white via
+   resume-print.css + resume-paged.css @media print rules. */
+.resume-page-wrap {
+  background: var(--color-bg);
+  min-height: 70vh;
+}
+
 /* Selection */
 ::selection {
   background: rgba(255, 107, 107, 0.25);

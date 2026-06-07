@@ -19,9 +19,12 @@
     display: none !important;
   }
 
-  /* Strip wrapper padding so paginated content goes edge-to-edge */
+  /* Strip wrapper padding so paginated content goes edge-to-edge,
+     and force the surround white for the printed/PDF output. */
   .resume-page-wrap {
     padding: 0 !important;
     margin: 0 !important;
+    background: #ffffff !important;
+    min-height: 0 !important;
   }
 }
