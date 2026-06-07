@@ -62,7 +62,7 @@ When prompted, the password is `bandit0`. (You will not see characters as you ty
 
 Every single level uses the same host and port, so configure it once. Add this to `~/.ssh/config` on your **local** machine:
 
-```sshconfig
+```ini
 Host bandit
   HostName bandit.labs.overthewire.org
   Port 2220

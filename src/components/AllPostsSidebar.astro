@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 
 interface Props {
   collection: "writeups" | "projects";
@@ -15,7 +15,7 @@ const pool = await getCollection(collection, (e) => !e.data.draft);
 // Series mode: show every part of THIS series in order (0 → N), current highlighted.
 // Otherwise: show other recent posts.
 const inSeries = Boolean(series);
-const entries = inSeries
+const ordered = inSeries
   ? pool
       .filter((e) => e.data.series === series)
       .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
@@ -32,46 +32,54 @@ function concept(title: string): string {
   if (d >= 0) return title.slice(d + 3);
   return title;
 }
+
+// Precompute everything so the template only uses simple expressions.
+const items = ordered.map((e) => {
+  const active = e.id === currentId;
+  return {
+    href: `${basePath}/${e.id}/`,
+    active,
+    label: inSeries ? e.data.seriesLabel : undefined,
+    text: inSeries ? concept(e.data.title) : e.data.title,
+    date: inSeries ? undefined : e.data.date.toISOString().slice(0, 10),
+    linkClass: active
+      ? "bg-[var(--color-bg-elev)] ring-1 ring-[var(--color-accent)]"
+      : "hover:bg-[var(--color-bg-elev)]",
+    labelClass: active
+      ? "text-[var(--color-accent)]"
+      : "text-[var(--color-muted)] group-hover:text-[var(--color-accent)]",
+    textClass: active
+      ? "text-[var(--color-text-strong)]"
+      : "text-[var(--color-text)] group-hover:text-[var(--color-accent)]",
+  };
+});
 ---
 
-{entries.length > 0 && (
+{items.length > 0 && (
   <aside class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
     <h2 class="mb-3 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[var(--color-muted)]">
       <span class="text-[var(--color-accent)]">$</span> {heading}
     </h2>
     <ol class="flex max-h-[70vh] flex-col gap-1 overflow-y-auto pr-1">
-      {entries.map((e: CollectionEntry<"writeups" | "projects">) => {
-        const active = e.id === currentId;
-        return (
-          <li>
-            <a
-              href={`${basePath}/${e.id}/`}
-              aria-current={active ? "page" : undefined}
-              class={`group flex items-start gap-2 rounded px-2 py-1.5 transition-colors ${
-                active
-                  ? "bg-[var(--color-bg-elev)] ring-1 ring-[var(--color-accent)]"
-                  : "hover:bg-[var(--color-bg-elev)]"
-              }`}
-            >
-              {inSeries && (e as CollectionEntry<"writeups">).data.seriesLabel && (
-                <span class={`shrink-0 font-mono text-[11px] font-semibold ${active ? "text-[var(--color-accent)]" : "text-[var(--color-muted)] group-hover:text-[var(--color-accent)]"}`}>
-                  {(e as CollectionEntry<"writeups">).data.seriesLabel}
-                </span>
+      {items.map((it) => (
+        <li>
+          <a
+            href={it.href}
+            aria-current={it.active ? "page" : undefined}
+            class={`group flex items-start gap-2 rounded px-2 py-1.5 transition-colors ${it.linkClass}`}
+          >
+            {it.label && (
+              <span class={`shrink-0 font-mono text-[11px] font-semibold ${it.labelClass}`}>{it.label}</span>
+            )}
+            <span class="min-w-0">
+              <span class={`block truncate font-mono text-xs ${it.textClass}`}>{it.text}</span>
+              {it.date && (
+                <span class="mt-0.5 block font-mono text-[10px] text-[var(--color-muted)]">{it.date}</span>
               )}
-              <span class="min-w-0">
-                <span class={`block truncate font-mono text-xs ${active ? "text-[var(--color-text-strong)]" : "text-[var(--color-text)] group-hover:text-[var(--color-accent)]"}`}>
-                  {inSeries ? concept(e.data.title) : e.data.title}
-                </span>
-                {!inSeries && (
-                  <span class="mt-0.5 block font-mono text-[10px] text-[var(--color-muted)]">
-                    {e.data.date.toISOString().slice(0, 10)}
-                  </span>
-                )}
-              </span>
-            </a>
-          </li>
-        );
-      })}
+            </span>
+          </a>
+        </li>
+      ))}
     </ol>
   </aside>
 )}
