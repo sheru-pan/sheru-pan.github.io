@@ -1,12 +1,19 @@
-# Two services:
+# Services:
 #   builder — one-shot Node + Chromium container that compiles the static site
 #             and renders the résumé PDF into ./dist/. Exits when done.
-#   web     — long-running nginx that serves ./dist/ on http://localhost.
+#   web     — long-running nginx that serves ./dist/ on http://localhost (dev:
+#             bind-mounts host ./dist for fast iteration — not self-contained).
+#   prod    — the self-contained PRODUCTION image (multi-stage Dockerfile): builds
+#             dist/ inside the image, ships only nginx:alpine-slim + static files.
 #
-# Usage:
-#   docker compose up -d         # builds (if dist/ is empty), then serves
+# Local dev (fast iteration via bind mount):
+#   docker compose up -d              # builds (if dist/ is empty), then serves :80
 #   docker compose run --rm builder   # rebuild content; nginx picks up new files
-#   docker compose down          # stop web (and remove any exited builder)
+#   docker compose down               # stop web (and remove any exited builder)
+#
+# Production (one portable image, nothing mounted from the host):
+#   docker compose --profile prod up --build   # build + serve on :8080
+#   # or standalone:  docker build -t sheru-portfolio .
 
 services:
   builder:
@@ -22,7 +29,7 @@ services:
     restart: "no"
 
   web:
-    image: nginx:alpine
+    image: nginx:alpine-slim
     container_name: sheru-portfolio-web
     depends_on:
       builder:
@@ -32,6 +39,19 @@ services:
     volumes:
       - ./dist:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+  # Self-contained production image. Opt-in via `--profile prod` so the default
+  # `docker compose up` keeps the fast bind-mount dev flow above.
+  prod:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sheru-portfolio:latest
+    container_name: sheru-portfolio-prod
+    ports:
+      - "8080:80"
     restart: unless-stopped
 
 volumes:

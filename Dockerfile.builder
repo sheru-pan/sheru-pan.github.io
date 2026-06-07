@@ -3,6 +3,10 @@
 # Intentionally not used at runtime: the application has no Docker dependency.
 FROM node:22-bookworm-slim
 
+# The base image pins an older npm (10.9.x); bump to the latest while still root,
+# before dropping to the unprivileged `node` user (a global install needs root).
+RUN npm install -g npm@latest
+
 # Chromium + the headless deps Puppeteer needs.
 RUN apt-get update && apt-get install -y --no-install-recommends \
       chromium \

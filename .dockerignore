@@ -1,0 +1,30 @@
+# Keep the build context small + the image clean.
+# Anything here is never sent to the Docker daemon or copied by `COPY . .`.
+
+# Dependencies + build output — reinstalled / regenerated inside the image.
+node_modules
+dist
+.astro
+
+# VCS + CI
+.git
+.gitignore
+.github
+
+# Docker assets themselves
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Source material / docs not part of the site build (content lives in src/content/)
+bandit-series
+docs
+legacy
+Readme.md
+
+# Editor / OS / tooling cruft
+.vscode
+.claude
+.DS_Store
+*.log
+npm-debug.log*
