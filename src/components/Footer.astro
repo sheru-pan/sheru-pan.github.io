@@ -5,9 +5,12 @@ const year = new Date().getFullYear();
 
 <footer class="mt-24 border-t border-[var(--color-border)] bg-[var(--color-bg-elev)]">
   <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between">
-    <p class="font-mono text-xs text-[var(--color-muted)]">
-      <span class="text-[var(--color-teal)]">$</span> echo &quot;© {year} {profile.name}&quot;
-    </p>
+    <div class="space-y-1.5">
+      <p class="font-mono text-xs text-[var(--color-muted)]">
+        <span class="text-[var(--color-teal)]">$</span> echo &quot;© {year} {profile.name}&quot;
+      </p>
+      <p class="font-mono text-[11px] text-[var(--color-muted)]">{profile.tagline}</p>
+    </div>
     <ul class="flex flex-wrap gap-4 font-mono text-xs">
       <li><a class="text-[var(--color-muted)] hover:text-[var(--color-accent)]" href={profile.contact.github} target="_blank" rel="noopener">github</a></li>
       <li><a class="text-[var(--color-muted)] hover:text-[var(--color-accent)]" href={profile.contact.linkedin} target="_blank" rel="noopener">linkedin</a></li>
