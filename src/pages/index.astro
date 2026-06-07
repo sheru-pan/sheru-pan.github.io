@@ -68,13 +68,11 @@ const projects = (await getCollection("projects", (e) => !e.data.draft))
   </section>
 
   <!-- Terminal "whoami" strip -->
-  <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elev)]">
-    <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <TerminalPrompt
-        command="whoami --verbose"
-        output={`himangshu.pan\nrole: offensive security researcher\nfocus: exploitation · vuln research · CTF\nstatus: open to engagements`}
-      />
-    </div>
+  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <TerminalPrompt
+      command="whoami --verbose"
+      output={`himangshu.pan\nrole: offensive security researcher\nfocus: exploitation · vuln research · CTF\nstatus: open to engagements`}
+    />
   </section>
 
   <!-- ABOUT -->
