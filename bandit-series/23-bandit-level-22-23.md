@@ -168,17 +168,6 @@ Re-deriving "hidden" values is everyday offensive work:
 
 The mental move is identical every time: *find the derivation, then run it yourself.*
 
-## Defensive Perspective
-
-- **Don't rely on obscurity for access control.** Protect secrets with permissions and cryptography, not with hard-to-guess names or encodings.
-- **Use real randomness for anything meant to be unguessable.** `mktemp` (CSPRNG-backed, `600` perms) instead of a derived/hashed path. Reset tokens and session IDs must come from a cryptographically secure RNG, not from hashing known inputs.
-- **Assume your code is readable.** Any logic that derives a "secret" from public inputs is exposed the moment someone sees the source — and on a real system, attackers often can.
-- **Keep secrets out of `/tmp` entirely** (the previous level's lesson still applies — the obscured name didn't change that).
-- **Monitoring opportunity:** alert on processes recomputing or accessing credential-derived paths; file-integrity monitoring on `/etc/bandit_pass/`-equivalent secret stores catches the underlying read:
-  ```bash
-  auditctl -w /etc/bandit_pass/ -p r -k secret_read
-  ```
-
 ## Common Beginner Mistakes
 
 - **Running the script as yourself.** That computes the hash for `bandit22` and dumps *your* password — useless. The username must be `bandit23`.

@@ -276,14 +276,6 @@ This level is a near-perfect model of **unpacking layered malware**:
 - **Archive bombs / nesting** are also used offensively (e.g., zip bombs that explode on naïve extraction) — a reminder to unpack in a sandbox with limits.
 - **CTF staple:** "decompress the thing N times" challenges test whether you can run this identify-and-peel loop methodically without giving up.
 
-## Defensive Perspective
-
-- **Never identify files by extension.** Gateways, mail filters, and EDR should inspect **magic bytes / content type**, not the name, when deciding how to handle or block a file.
-- **Detect deep nesting:** mail and proxy filters should flag or block archives nested beyond a sane depth (a common evasion and a DoS vector).
-- **Sandbox the unpacking.** Detonate and decompress unknown samples in an isolated, resource-limited environment — never on a production host or your analyst workstation directly. The `mktemp -d` + copy habit is the baby version of this.
-- **Preserve originals.** In forensics, hash and copy evidence first; analyze the copy. Tools that delete their input (gzip/bzip2 by default) are a real risk to chain-of-custody.
-- **Logging/hunting:** repeated `xxd`, `tar`, `gzip`, `bzip2` invocations against a single evolving file under `/tmp` shortly after a download is a plausible "manual unpacking" pattern worth a hunt.
-
 ## Common Beginner Mistakes
 
 - **Trusting the `file` output's extension hints** (e.g., "was data2.bin") as the real format instead of the type string itself.

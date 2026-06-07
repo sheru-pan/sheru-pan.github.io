@@ -4,7 +4,7 @@
 
 By now you have met `find` as a way to locate a file by name or by a single attribute. Level 5 → 6 raises the bar: the password is hidden somewhere under a directory tree full of decoys, and the only way to pick it out is to describe it precisely using **several attributes at once** — its type, its exact size in bytes, and the fact that it is *not* executable.
 
-This is a deceptively important skill. Real filesystems are noisy. Whether you are a pentester hunting for a config file on a compromised host or an incident responder looking for a dropped payload, the win usually comes not from one clever filter but from **stacking constraints** until only the thing you want survives. This level teaches you to think of `find` as a query language.
+This is a deceptively important skill. Real filesystems are noisy. When you are a pentester hunting for a config file, SSH key, or credential store on a compromised host, the win usually comes not from one clever filter but from **stacking constraints** until only the thing you want survives. This level teaches you to think of `find` as a query language.
 
 ## Official Challenge Objective
 
@@ -109,12 +109,11 @@ This single command is a template you will reuse forever. The pattern — *start
 
 A file on a Unix system is far more than its name. The inode behind it records its type, exact size, owner, group, permission bits, and timestamps. `find` is essentially a query engine over that metadata, and learning to compose predicates against it is a core investigative skill.
 
-Why does multi-attribute search matter so much in security?
+Why does multi-attribute search matter so much offensively?
 
-- **Defenders** describe malicious artifacts by metadata they can compute at scale: "find all setuid binaries," "find files modified in the last hour," "find world-writable files in `/etc`." A single attribute is rarely specific enough; the signal lives in the *combination*.
-- **Attackers** use the same metadata to locate high-value targets without reading every file: config files of a known size, SSH keys (`-name id_rsa`), or recently changed credential stores.
+From a foothold, you use this metadata to locate high-value targets without reading every file: config files of a known size, SSH keys (`-name id_rsa`), setuid binaries, world-writable files, or recently changed credential stores. A single attribute is rarely specific enough; the signal lives in the *combination*.
 
-The exact-byte-size filter in this level is a small lesson in **precision**. Knowing a target's exact size collapses a search from thousands of candidates to a handful instantly — which is exactly why malware analysts and threat hunters pivot on file size (and hashes) constantly.
+The exact-byte-size filter in this level is a small lesson in **precision**. Knowing a target's exact size collapses a search from thousands of candidates to a handful instantly — which is exactly why operators pivot on file size (and hashes) when sifting a noisy host for the one file that matters.
 
 > [!IMPORTANT]
 > `-size 1033c` (bytes) and `-size 1033` (512-byte blocks) are completely different searches. Always specify the unit suffix (`c` = bytes, `k` = KiB, `M` = MiB) so your filter means what you think it means.
@@ -128,26 +127,11 @@ After landing on a host, an operator rarely reads files one by one. They describ
 find / -type f \( -name "*.conf" -o -name "*.env" -o -name "*.ini" \) 2>/dev/null
 # private keys
 find / -type f -name "id_*" ! -name "*.pub" 2>/dev/null
-# recently modified files (possible attacker artifacts or fresh creds)
+# recently modified files (possible fresh creds or dropped configs)
 find /var/www -type f -mmin -60 2>/dev/null
 ```
 
 The Bandit `inhere` haystack is a sanitized version of a real web root or `/opt` directory bloated with thousands of files, where the file you actually want is distinguished only by a couple of attributes. Tools like `linpeas` are, under the hood, large batteries of exactly these attribute-based `find` queries run automatically.
-
-## Defensive Perspective
-
-The same metadata that helps attackers helps defenders far more, because defenders can run these queries continuously and from a position of authority:
-
-- **File integrity monitoring (FIM):** tools like AIDE, Tripwire, or Wazuh baseline file metadata (size, hashes, permissions) and alert when a file changes size unexpectedly or a new executable appears in a sensitive directory.
-- **Hardening sweep:** periodically hunt for dangerous attribute combinations:
-  ```bash
-  # world-writable files
-  find / -xdev -type f -perm -0002 2>/dev/null
-  # setuid/setgid binaries
-  find / -xdev -type f -perm -4000 -o -perm -2000 2>/dev/null
-  ```
-- **Detection engineering:** auditd can log execution and file access; correlating a newly created file of an anomalous size in a web-accessible directory with a subsequent execution is a strong webshell signal.
-- **Logging:** if `find` itself is run by an unexpected user shortly after a login, that is process-execution telemetry worth capturing (e.g., via auditd `execve` rules or EDR).
 
 ## Common Beginner Mistakes
 
@@ -168,17 +152,17 @@ The same metadata that helps attackers helps defenders far more, because defende
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Threat hunting / DFIR:** investigators routinely sweep filesystems for artifacts by size, timestamp, ownership, and permission — exactly the predicate-stacking you practiced here.
 - **Privilege escalation:** the classic "find setuid binaries" enumeration step is the same `find` skill aimed at a different attribute.
-- **Compliance & hardening:** automated baseline scans (CIS benchmarks) are built from attribute-based `find` queries for world-writable files, orphaned files, and risky permissions.
-- **Scripting fluency:** comfort with `find ... -exec` is the gateway to building your own enumeration and triage tooling.
+- **Red team & post-exploitation:** sweeping a foothold by size, timestamp, ownership, and permission surfaces credentials, keys, and misconfigured files — exactly the predicate-stacking you practiced here.
+- **Cloud pentest:** locating exposed credential files, tokens, and metadata caches on compromised instances reuses the same multi-attribute queries.
+- **Scripting fluency:** comfort with `find ... -exec` is the gateway to building your own enumeration and looting tooling.
 
 ## Additional Reading
 
 - [`man find`](https://man7.org/linux/man-pages/man1/find.1.html) — read the `SIZE`, `-type`, and `-perm`/`-executable` sections
 - [GNU findutils manual — File size tests](https://www.gnu.org/software/findutils/manual/html_node/find_html/Size.html)
 - [MITRE ATT&CK — T1083: File and Directory Discovery](https://attack.mitre.org/techniques/T1083/)
-- [CIS Benchmarks — Linux filesystem checks](https://www.cisecurity.org/cis-benchmarks)
+- [HackTricks — Linux Privilege Escalation (file enumeration)](https://book.hacktricks.xyz/linux-hardening/privilege-escalation)
 
 ---
 

@@ -146,18 +146,6 @@ Enumerating scheduled tasks is a standard early step in Linux post-exploitation,
 
 Automated tools like `linpeas` and `pspy` exist largely to surface this: `pspy` in particular watches the process table without root and reveals short-lived cron-spawned processes (including the exact commands and arguments) that you'd otherwise miss. The pattern in this level — "a privileged job leaves a secret in `/tmp`" — is a real finding, not just a CTF contrivance.
 
-## Defensive Perspective
-
-- **Never write secrets to `/tmp` (or any world-readable path).** If a job must materialize a credential to a file, write it to a directory owned by and readable only by the intended consumer, with `chmod 600` and a restrictive `umask`.
-- **Use `mktemp` for temporary files**, which creates them with `600` permissions and an unpredictable name, instead of a hardcoded path you `chmod 644`.
-- **Prefer not to materialize secrets at all** — pass them via environment, a secrets manager, or an in-memory pipe rather than a file on disk.
-- **Audit your cron jobs.** Review every entry in `/etc/cron.d/` and `/etc/crontab` for the user it runs as and the files it touches. Treat any job that writes to `/tmp` as suspect.
-- **Monitoring opportunity:** watch privileged temp-file creation. An `auditd` rule on `/tmp` writes by service accounts, or file-integrity monitoring on credential paths, will flag this pattern:
-  ```bash
-  auditctl -w /etc/bandit_pass/ -p r -k secret_read
-  ```
-- **Detection idea:** alert when a cron-scheduled process reads a known secret path and then writes a world-readable file — that sequence is rarely legitimate.
-
 ## Common Beginner Mistakes
 
 - **Looking only in `crontab -e` / `/etc/crontab`** and missing `/etc/cron.d/`, where the level explicitly points you.
@@ -177,9 +165,9 @@ Automated tools like `linpeas` and `pspy` exist largely to surface this: `pspy` 
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** "enumerate scheduled tasks" is a core Linux privesc checklist item; this level is your first hands-on encounter with it. The next two levels build directly on it.
-- **DFIR:** investigators frequently find persistence and data-exfil mechanisms hiding in cron; knowing the config locations cold makes triage fast.
-- **Detection engineering:** understanding *how* a leak like this looks on disk and in the process table tells you exactly what to instrument and alert on.
-- **Secure development:** the `mktemp`-vs-hardcoded-`/tmp` lesson is a real secure-coding habit you'll apply far beyond CTFs.
+- **Red team operations:** abusing cron jobs — harvesting secrets they leak, or hijacking writable scripts/paths they execute — is a reliable post-exploitation primitive for escalating and persisting.
+- **Exploit development:** racing and abusing predictable, world-readable temp files is a classic local privilege-escalation technique you'll weaponize beyond this CTF.
+- **Cloud/host pentest:** misconfigured scheduled jobs that touch world-writable paths on Linux instances are a fast route to a higher-privileged user or root.
 
 ## Additional Reading
 

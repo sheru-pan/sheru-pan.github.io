@@ -41,7 +41,7 @@ Create and enter a temporary working directory **on your local machine**. Git wi
 
 ### Why It Matters
 
-Cloning untrusted repositories into a disposable directory is good hygiene — it isolates the files and lets you wipe them in one `rm -rf` without worrying about what you pulled down. The same discipline matters when triaging suspicious code in DFIR work.
+Cloning repositories into a disposable directory keeps your workspace clean — it isolates the files and lets you wipe them in one `rm -rf` without leaving clutter behind. The same discipline keeps your loot from different targets organized during an engagement.
 
 ---
 
@@ -125,14 +125,6 @@ Hunting for secrets in repositories is a high-yield activity:
 
 The instinct this level builds — *if there's a repo, clone it and read it* — is exactly what an operator does after finding any Git access.
 
-## Defensive Perspective
-
-- **Never commit secrets.** Use environment variables, a secrets manager (Vault, AWS Secrets Manager), or encrypted secret files that are git-ignored.
-- **Add a `.gitignore`** for `.env`, key files, and credential paths *before* the first commit, so they never enter the repo.
-- **Scan in CI and pre-commit.** Run `gitleaks`/`trufflehog`/`git-secrets` as a pre-commit hook and a CI gate to block secrets from ever being pushed.
-- **Lock down repo access.** Treat read access to a repo as access to everything in it; apply least privilege to who can clone.
-- **Monitoring:** on self-hosted Git, log and alert on clone/fetch activity from unexpected accounts or IPs — a mass-clone is a recon signal.
-
 ## Common Beginner Mistakes
 
 - **Trying to clone from inside the Bandit server** instead of from your local machine, as the objective explicitly instructs.
@@ -152,8 +144,8 @@ The instinct this level builds — *if there's a repo, clone it and read it* —
 ## How This Helps Build Cyber Security Expertise
 
 - **Recon & bug bounty:** secret-scanning repos is a core, high-impact reconnaissance skill.
-- **DevSecOps:** understanding how secrets leak drives the controls you build (pre-commit hooks, CI scanning, secrets managers).
-- **Incident response:** when a key leaks, the first question is "where did it touch?" — Git knowledge is central to the answer.
+- **Red team & internal pivoting:** cloning internal Git servers and CI configs after gaining a foothold routinely yields database passwords, service tokens, and deploy keys that unlock further systems.
+- **Cloud pentest:** a leaked AWS/GCP key committed to a repo is an instant pivot into a target's cloud environment.
 
 ## Additional Reading
 

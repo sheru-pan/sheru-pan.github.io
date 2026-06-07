@@ -4,7 +4,7 @@
 
 The previous level put a password in plain sight inside a Git repo's `README`. This level patches that mistake — and teaches you why the patch *doesn't actually work*. You clone the repo, open the `README`, and the password has been redacted or replaced. Frustrating, until you remember the single most important fact about Git: **it never forgets.** Every version of every file is preserved in the commit history. A secret "removed" in a later commit is still sitting, fully intact, in an earlier one.
 
-This is one of the most important real-world lessons in the entire series. Countless production breaches trace back to a developer committing a key, realising the mistake, committing a "fix" that deletes it, and assuming the problem is solved. It isn't. The key lives forever in history until the secret is *rotated*.
+This is one of the most important real-world lessons in the entire series. Countless production breaches trace back to a developer committing a key, realising the mistake, committing a "fix" that deletes it, and assuming the problem is solved. It isn't. The key lives forever in history — and unless the developer thinks to *rotate* it, that buried credential is yours for the taking.
 
 ## Official Challenge Objective
 
@@ -76,7 +76,7 @@ The messages tell the whole story: data (the password) was *added* in "add missi
 
 ### Why It Matters
 
-`git log` is the entry point to the time machine. Reading commit messages to locate *when* a secret entered and left the codebase is exactly how secret-scanners and incident responders reconstruct an exposure timeline.
+`git log` is the entry point to the time machine. Reading commit messages to locate *when* a secret entered and left the codebase is exactly how an attacker pinpoints the commit that still holds a live credential.
 
 ---
 
@@ -130,12 +130,12 @@ Run `git checkout main` (or `master`) afterward to return to the latest commit i
 
 **You cannot un-leak a secret by deleting it in a new commit.**
 
-Git is a content-addressed, append-only history. When you "delete" a line and commit, you don't erase the old content — you add a *new* commit that no longer contains it, while the old commit (and the blob holding the secret) remains fully intact and retrievable by anyone who can clone the repo. The secret is recoverable via `git log`, `git show`, `git checkout`, `git reflog`, or `git cat-file` essentially forever.
+Git is a content-addressed, append-only history. When someone "deletes" a line and commits, they don't erase the old content — they add a *new* commit that no longer contains it, while the old commit (and the blob holding the secret) remains fully intact and retrievable by anyone who can clone the repo. As an attacker, the secret is recoverable via `git log`, `git show`, `git checkout`, `git reflog`, or `git cat-file` essentially forever.
 
-The only correct response to a committed secret is:
+This is why a committed secret is so valuable to you:
 
-1. **Rotate it** — change the password/key so the exposed value is worthless.
-2. *Then* optionally scrub history (`git filter-repo`, BFG) — but treat this as cleanup, not remediation, because clones and forks may already hold the old history.
+1. **The deletion doesn't erase it** — unless the credential was *rotated*, the exposed value still works.
+2. **Even a "scrubbed" repo leaks** — `git filter-repo` or BFG only rewrite the upstream copy; clones, forks, mirrors, and CI caches may still carry the original history.
 
 ```mermaid
 flowchart TD
@@ -149,7 +149,7 @@ flowchart TD
 ```
 
 > [!IMPORTANT]
-> Deleting a secret in a follow-up commit does **not** remediate the exposure. The instant a secret is pushed, assume it is compromised and **rotate it**. History scrubbing is secondary.
+> Deleting a secret in a follow-up commit does **not** make it go away. The instant a secret is pushed, it is exposed forever in history — so whenever you find a "removed" credential, assume it still works until proven otherwise.
 
 ## Offensive Security Perspective
 
@@ -160,14 +160,6 @@ History mining is where Git secret-hunting gets serious:
 - **Reflog and dangling commits:** locally, `git reflog` and dangling objects can resurrect "deleted" branches and rebased-away commits, including secrets thought to be gone.
 
 This level's `git show <leak-fix>` trick — reading the secret straight out of the commit that "removed" it — is a real technique used constantly in source-code reviews.
-
-## Defensive Perspective
-
-- **Rotate first, always.** If a secret hit a repo, change the secret. Nothing else makes the exposed value safe.
-- **Scan history, not just HEAD.** CI secret-scanners must inspect full history; a clean working tree means nothing if history is dirty.
-- **Pre-commit hooks** (`gitleaks protect`, `git-secrets`) to stop secrets from ever being committed — far cheaper than cleanup.
-- **Purge with the right tools** when needed: `git filter-repo` or BFG Repo-Cleaner rewrite history, but coordinate with everyone who has clones/forks and force-rotate regardless.
-- **Monitoring & response playbook:** treat "secret committed" as an incident — rotate, audit usage of the leaked credential, and check access logs for the exposure window.
 
 ## Common Beginner Mistakes
 
@@ -183,13 +175,13 @@ This level's `git show <leak-fix>` trick — reading the secret straight out of 
 - `git log` reads the history; commit messages map where secrets entered and left.
 - `git show <commit>` reveals a removed secret directly from its deletion diff.
 - `git checkout <commit>` time-travels the working tree to read old file versions.
-- The only real fix for a leaked secret is to **rotate it**.
+- A leaked secret stays valid until it is rotated — so a "deleted" credential is usually still usable.
 
 ## How This Helps Build Cyber Security Expertise
 
 - **Source-code review & bug bounty:** history mining surfaces credentials that surface-level scans miss.
-- **Incident response:** reconstructing *when* a secret was exposed (and for how long) is a Git-history skill.
-- **DevSecOps:** understanding why deletion isn't remediation drives proper rotate-then-scrub playbooks and pre-commit scanning.
+- **Red team & post-exploitation:** a buried, un-rotated credential in an internal repo is a direct pivot to the next system.
+- **Cloud pentest:** API keys and tokens "deleted" from a repo but still valid open the target's cloud and CI infrastructure.
 
 ## Additional Reading
 

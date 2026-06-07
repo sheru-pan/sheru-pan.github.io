@@ -104,14 +104,6 @@ The renegotiation/EOF quirks come from `s_client`'s interactive control characte
 - **Pivoting through TLS:** internal services often hide behind TLS; being able to hand-drive them is essential when automated tools choke on odd certificates.
 - **Bypassing naive inspection:** because the payload is encrypted, plaintext IDS signatures can't see the password you're submitting — a reminder that encryption cuts both ways.
 
-## Defensive Perspective
-
-- **Use TLS everywhere, configured well.** Disable SSLv2/v3 and TLS 1.0/1.1; prefer TLS 1.2/1.3 with strong cipher suites and forward secrecy.
-- **Manage certificates properly.** Valid, well-scoped certs from a trusted CA; automate renewal (ACME/Let's Encrypt) to avoid expiry outages.
-- **Don't rely on encryption for access control.** TLS protects data in transit; it does *not* authenticate the *client* unless you deploy mutual TLS (mTLS). The service here still needs real auth.
-- **Monitor at the right layer.** Since payloads are encrypted, lean on TLS metadata (JA3/JA4 fingerprints, SNI, cert details) and endpoint telemetry rather than payload signatures.
-- **Test your own posture.** Run `testssl.sh`/`sslscan` against your endpoints regularly to catch weak configs before attackers do.
-
 ## Common Beginner Mistakes
 
 - **Using plain `nc` on a TLS port** and concluding the service is down — it just needs a handshake.

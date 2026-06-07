@@ -1,6 +1,6 @@
 # OverTheWire Bandit — The Complete Learning Series
 
-> A level-by-level walkthrough of OverTheWire's **Bandit** wargame, rewritten as a structured cybersecurity training course. Every article goes beyond "how to get the password" and into *why the challenge exists*, *what real-world security concept it demonstrates*, and *how that concept shows up in offensive and defensive security work*.
+> A level-by-level walkthrough of OverTheWire's **Bandit** wargame, rewritten as a structured cybersecurity training course. Every article goes beyond "how to get the password" and into *why the challenge exists*, *what real-world security concept it demonstrates*, and *how that concept shows up in offensive security work*.
 
 This is not a spoiler dump. **All level passwords are redacted** (`[REDACTED]`). The goal is to teach the methodology, not to hand you the answers — and per OverTheWire's own rules, posting passwords/spoilers is discouraged.
 
@@ -21,7 +21,7 @@ Level 0 credentials: bandit0 / bandit0
 
 - **Zero setup.** No VMs, no Kali, no broken dependencies. Just SSH.
 - **Linux is the foundation of everything.** Servers, containers, cloud, embedded devices, and most security tooling run on Linux. Bandit forces you to live on the command line.
-- **It builds the right reflexes.** Enumerate first. Read error messages. Check permissions. Read the manual. These habits transfer directly to penetration testing, incident response, and CTFs.
+- **It builds the right reflexes.** Enumerate first. Read error messages. Check permissions. Read the manual. These habits transfer directly to penetration testing, red teaming, and CTFs.
 - **It is a confidence on-ramp.** Each level is small and self-contained, so you get a steady drip of "I solved it" moments while genuinely learning.
 
 > [!TIP]
@@ -63,7 +63,7 @@ Once Bandit feels comfortable, continue with:
 
 1. **OverTheWire — [Natas](https://overthewire.org/wargames/natas/)** (web application security) and **[Leviathan](https://overthewire.org/wargames/leviathan/)** / **[Narnia](https://overthewire.org/wargames/narnia/)** (binary exploitation basics).
 2. **[picoCTF](https://picoctf.org/)** — beginner-friendly, broad CTF categories.
-3. **[TryHackMe](https://tryhackme.com/)** — guided learning paths (Pre-Security, Jr Penetration Tester, SOC Level 1).
+3. **[TryHackMe](https://tryhackme.com/)** — guided learning paths (Pre-Security, Jr Penetration Tester, Offensive Pentesting).
 4. **[Hack The Box](https://www.hackthebox.com/)** — less guided, more realistic boxes.
 5. **Linux privilege escalation deep-dives** — [GTFOBins](https://gtfobins.github.io/), [HackTricks](https://book.hacktricks.xyz/), and tools like `linpeas`.
 

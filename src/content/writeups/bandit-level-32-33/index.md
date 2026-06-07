@@ -178,13 +178,6 @@ Restricted-shell escape is bread-and-butter:
 
 The mindset matches this level: enumerate what's allowed, find the feature that turns it into arbitrary execution.
 
-## Defensive Perspective
-
-- **Prefer real isolation over restricted shells** — containers, correct `chroot`, seccomp/AppArmor/SELinux, namespaces, or `ForceCommand` pinned to one non-interactive program.
-- **If you must restrict,** lock `PATH` to a tiny vetted set, remove escape-capable binaries (`vi`, `less`, `awk`, interpreters), block `cd`/redirection. Assume you'll miss something.
-- **Detection:** alert on unexpected children from a restricted/menu shell (kiosk shell forking `/bin/sh`, `python`); process-ancestry monitoring (EDR, `auditd execve`) catches the moment.
-- **Least privilege on secret files** — an escaped shell shouldn't grant everyone else's secrets.
-
 ## Common Beginner Mistakes
 
 - Trying harder to type lowercase — it uppercases regardless.
@@ -205,8 +198,8 @@ The mindset matches this level: enumerate what's allowed, find the feature that 
 
 - **Privilege escalation & post-exploitation:** escapes and dumb-shell upgrades are daily skills.
 - **Network/hardware security:** breaking out of appliance CLIs is core to device assessments.
-- **Defensive architecture:** seeing how easily a restricted shell breaks pushes you toward real isolation.
-- **Detection engineering:** the escape's process signature is an alert you can write.
+- **Red team & initial access:** a jailed SSH or kiosk shell is a common landing spot; escaping it turns a foothold into real execution.
+- **Exploit dev & CTF/OSCP:** the "limited shell → full TTY" pattern (`python -c 'import pty;pty.spawn("/bin/bash")'`) recurs constantly.
 
 ## Additional Reading
 

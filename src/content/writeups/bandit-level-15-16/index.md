@@ -109,14 +109,6 @@ The renegotiation/EOF quirks come from `s_client`'s interactive control characte
 - **Pivoting through TLS** when automated tools choke on odd certificates.
 - **Bypassing naive inspection:** encrypted payloads defeat plaintext IDS signatures — encryption cuts both ways.
 
-## Defensive Perspective
-
-- **TLS everywhere, configured well:** disable SSLv2/v3 and TLS 1.0/1.1; prefer 1.2/1.3 with forward secrecy.
-- **Manage certs:** trusted CA, well-scoped, automated renewal (ACME).
-- **Don't rely on encryption for access control:** TLS protects transit, not client identity unless you deploy mTLS. The service still needs real auth.
-- **Monitor at the right layer:** TLS metadata (JA3/JA4, SNI, cert details) and endpoint telemetry, not payload signatures.
-- **Test posture** with `testssl.sh`/`sslscan` regularly.
-
 ## Common Beginner Mistakes
 
 - Using plain `nc` on a TLS port and concluding the service is down.

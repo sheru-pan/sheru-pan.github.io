@@ -97,15 +97,7 @@ Concrete real-world examples:
 - Software calls `git clone <user_url>`; a URL beginning with `--upload-pack=...` injects a `git` option that runs an arbitrary command.
 - A script does `cp $userfile /backup/`; a filename like `-r` or `--no-preserve-root`-style flags change the command's behavior.
 
-The mental model you just practiced — "this string is being parsed as a flag, not data, and I can use that" — is precisely the attacker's mindset. As a defender or developer you fight it with the *same* `./` and `--` tools, plus strict input validation.
-
-## Defensive Perspective
-
-- **Always insert `--` before user-controlled operands** when shelling out: `git clone -- "$url"`, `grep -- "$pattern" file`, `rm -- "$file"`. This neutralizes leading-dash injection.
-- **Prefix paths with a directory** (`./`, or an absolute path) when handling untrusted filenames so they cannot masquerade as options.
-- **Avoid building command lines by string concatenation.** Prefer language APIs that pass an explicit `argv` array (e.g. Python's `subprocess.run([...], shell=False)`) so the shell never re-parses your data.
-- **Detection / logging:** in `auditd` or EDR telemetry, watch process-exec events where an *operand position* contains a value starting with `--` that was sourced from network input. Command-line arguments are recorded in Sysmon Event ID 1 and Linux `execve` audit records — a `tar --checkpoint-action=` or `git --upload-pack=` in the wild is a strong indicator of compromise.
-- **Hardening:** allow-list permitted filenames/characters rather than blocklisting dangerous ones.
+The mental model you just practiced — "this string is being parsed as a flag, not data, and I can use that" — is precisely the attacker's mindset, and the seam where these injection bugs are found and weaponized.
 
 ## Common Beginner Mistakes
 
@@ -124,10 +116,10 @@ The mental model you just practiced — "this string is being parsed as a flag, 
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Application security & code review:** spotting unsafe `subprocess`/`exec` calls that concatenate user input is a daily AppSec task; this level builds the intuition.
-- **Exploit development:** option injection is a real, exploited primitive in CVEs against `git`, `tar`, `find`, and more — you now understand its root cause.
-- **Secure coding:** the `--` and array-`argv` habits you learn here are exactly what prevents command-injection findings in audits.
-- **Fuzzing & robustness testing:** hostile filenames (dashes, spaces, newlines) are classic fuzz inputs for file-handling code.
+- **Application security testing:** spotting unsafe `subprocess`/`exec` calls that concatenate user input is a daily offensive AppSec task; this level builds the intuition for where command injection hides.
+- **Exploit development:** option injection is a real, exploited primitive in CVEs against `git`, `tar`, `find`, and more — you now understand its root cause and how to weaponize it.
+- **Privilege escalation:** dash-prefixed and option-looking filenames are a classic trick for coercing privileged scripts and cron jobs into running attacker-controlled flags.
+- **Fuzzing for bugs:** hostile filenames (dashes, spaces, newlines) are classic fuzz inputs that surface file-handling vulnerabilities ripe for exploitation.
 
 ## Additional Reading
 

@@ -4,14 +4,14 @@ description: "The README is redacted this time, but Git never forgets. Read the 
 date: 2026-06-07
 platform: OverTheWire
 difficulty: medium
-tags: [ctf, linux, bandit, git, git-history, secrets, source-control, incident-response]
+tags: [ctf, linux, bandit, git, git-history, secrets, source-control, red-team]
 ---
 
 ## Introduction
 
 The previous level put a password in plain sight inside a repo's `README`. This level patches that mistake — and teaches why the patch *doesn't work*. You clone the repo, open the `README`, and the password is redacted. Frustrating, until you remember the most important fact about Git: **it never forgets.** Every version of every file lives in history. A secret "removed" in a later commit still sits intact in an earlier one.
 
-This is one of the series' most important real-world lessons. Countless breaches trace to a developer committing a key, committing a "fix" that deletes it, and assuming the problem is solved. It isn't — the key lives forever in history until the secret is *rotated*.
+This is one of the series' most important real-world lessons. Countless breaches trace to a developer committing a key, committing a "fix" that deletes it, and assuming the problem is solved. It isn't — the key lives forever in history, and unless it was *rotated*, that buried credential is yours for the taking.
 
 ## Official Challenge Objective
 
@@ -83,7 +83,7 @@ The password was *added* in "add missing data" and *removed* in "fix info leak".
 
 ### Why It Matters
 
-`git log` is the entry to the time machine. Reading messages to locate when a secret entered and left is exactly how scanners and IR teams reconstruct an exposure timeline.
+`git log` is the entry to the time machine. Reading messages to locate when a secret entered and left is exactly how an attacker pinpoints the commit that still holds a live credential.
 
 ---
 
@@ -137,10 +137,10 @@ cat README.md
 
 Git is content-addressed and append-only. "Deleting" a line and committing doesn't erase old content — it adds a new commit lacking it, while the old commit and the blob holding the secret remain fully retrievable by anyone who can clone the repo (via `git log`, `git show`, `git checkout`, `git reflog`, `git cat-file`).
 
-The only correct response to a committed secret:
+Why a committed secret is so valuable to you:
 
-1. **Rotate it** — change the value so the exposed one is worthless.
-2. *Then* optionally scrub history (`git filter-repo`, BFG) — cleanup, not remediation; clones/forks may already hold it.
+1. **The deletion doesn't erase it** — unless the credential was *rotated*, the exposed value still works.
+2. **Even a "scrubbed" repo leaks** — `git filter-repo` or BFG only rewrite the upstream copy; clones, forks, mirrors, and CI caches may still carry the original history.
 
 ```mermaid
 flowchart TD
@@ -154,7 +154,7 @@ flowchart TD
 ```
 
 > [!IMPORTANT]
-> Deleting a secret in a follow-up commit does **not** remediate it. The instant a secret is pushed, assume it's compromised and **rotate it**. History scrubbing is secondary.
+> Deleting a secret in a follow-up commit does **not** make it go away. The instant a secret is pushed, it's exposed forever in history — so whenever you find a "removed" credential, assume it still works until proven otherwise.
 
 ## Offensive Security Perspective
 
@@ -163,14 +163,6 @@ flowchart TD
 - **Reflog and dangling commits:** `git reflog` resurrects "deleted" branches and rebased-away commits.
 
 This level's `git show <leak-fix>` trick — reading the secret from the commit that "removed" it — is used constantly in source-code review.
-
-## Defensive Perspective
-
-- **Rotate first, always.** Changing the secret is the only thing that makes the exposed value safe.
-- **Scan history, not just HEAD.** A clean working tree means nothing if history is dirty.
-- **Pre-commit hooks** (`gitleaks protect`, `git-secrets`) to block secrets before they're committed.
-- **Purge with `git filter-repo`/BFG** when needed, but coordinate with everyone holding clones/forks and rotate regardless.
-- **Treat "secret committed" as an incident:** rotate, audit usage, check access logs for the exposure window.
 
 ## Common Beginner Mistakes
 
@@ -186,13 +178,13 @@ This level's `git show <leak-fix>` trick — reading the secret from the commit 
 - `git log` reads history; commit messages map where secrets entered and left.
 - `git show <commit>` reveals a removed secret from its deletion diff.
 - `git checkout <commit>` time-travels to read old file versions.
-- The only real fix for a leaked secret is to **rotate it**.
+- A leaked secret stays valid until it is rotated — so a "deleted" credential is usually still usable.
 
 ## How This Helps Build Cyber Security Expertise
 
 - **Source-code review & bug bounty:** history mining finds credentials surface scans miss.
-- **Incident response:** reconstructing when and how long a secret was exposed is a Git-history skill.
-- **DevSecOps:** knowing deletion isn't remediation drives rotate-then-scrub playbooks and pre-commit scanning.
+- **Red team & post-exploitation:** a buried, un-rotated credential in an internal repo is a direct pivot to the next system.
+- **Cloud pentest:** API keys and tokens "deleted" from a repo but still valid open the target's cloud and CI infrastructure.
 
 ## Additional Reading
 

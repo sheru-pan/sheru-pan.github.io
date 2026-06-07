@@ -156,16 +156,8 @@ The decoys are clever: an **echo service** returns exactly what you send, so a c
 
 - **Nmap is the universal first move** — `-sV`/`-sC` turn open ports into an attack-surface map.
 - **Decoys/honeypots are real:** echo services mimic tarpits; fingerprinting keeps you from chasing ghosts.
-- **Service mis-ID wastes time and triggers alerts:** know TLS vs plaintext before connecting.
+- **Service mis-ID wastes time:** know TLS vs plaintext before connecting so you reach for the right client.
 - **Keys as loot, again:** the RSA reward is T1552.004 lateral-movement currency.
-
-## Defensive Perspective
-
-- **Minimize attack surface:** close unneeded ports, bind internal services to loopback; audit with `ss -tlnp`.
-- **Detect scanning:** port sweeps are a classic IDS signature; `-sV` is especially detectable.
-- **Don't serve secrets from naive services:** require strong auth, rate-limit, rotate.
-- **Mask versions** where sensible (defense in depth, not a real control).
-- **Treat private keys as crown jewels:** encrypt at rest, scope tightly, monitor, rotate.
 
 ## Common Beginner Mistakes
 
@@ -187,8 +179,8 @@ The decoys are clever: an **echo service** returns exactly what you send, so a c
 ## How This Helps Build Cyber Security Expertise
 
 - **Pentesting:** the opening of a real assessment — scan, enumerate, target — in one level.
-- **Blue team:** seeing how loud and effective scanning is teaches what to detect and why surface reduction matters.
-- **Service analysis:** distinguishing protocols by behavior is transferable.
+- **Red teaming:** scanning a range and fingerprinting services maps the attack surface and picks the one host worth exploiting.
+- **Service analysis:** distinguishing protocols by behavior is transferable for spotting the real service among decoys.
 - **Credential handling:** repeated key recovery cements secure key hygiene.
 
 ## Additional Reading

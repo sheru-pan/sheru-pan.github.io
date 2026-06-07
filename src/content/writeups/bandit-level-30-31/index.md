@@ -171,13 +171,6 @@ git log --all -p
 
 A commit "removed" by a force-push frequently lingers as an unreachable object `git fsck` can resurrect. Bug bounty write-ups regularly recover credentials from exactly these corners.
 
-## Defensive Perspective
-
-- **Scan all refs, not just `main`** — cover tags and history, server-side in CI.
-- **Rotate on any exposure** — if a credential touched *any* ref, it's compromised.
-- **Purge thoroughly** — `git filter-repo`/BFG across all refs, delete the tag, `git reflog expire --all --expire=now`, `git gc --prune=now`, force-push, re-clone everywhere.
-- **Limit and log** tag/branch creation on protected repos.
-
 ## Common Beginner Mistakes
 
 - Concluding the level is broken when commits/branches look empty.

@@ -103,13 +103,6 @@ ROT13 and simple substitution/XOR obfuscation appear in:
 
 When text resists Base64 but still looks like shifted English, try ROT13 / Caesar brute force before assuming real crypto.
 
-## Defensive Perspective
-
-- **Never obfuscate when you mean to encrypt.** ROT13/XOR buys nothing and creates false confidence.
-- **Detection engineering:** match the *deobfuscated* IOCs (domains, paths, commands), not the obfuscated form.
-- **Code review red flag:** homegrown "encryption" that's really substitution should fail review. Use AES-GCM / libsodium with real key management.
-- **Defense in depth:** obscurity can be a thin extra layer, never the only control.
-
 ## Common Beginner Mistakes
 
 - Trying to "crack" ROT13 as if it had a key.

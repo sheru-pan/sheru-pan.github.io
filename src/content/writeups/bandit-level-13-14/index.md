@@ -153,15 +153,7 @@ Private keys are top-tier loot:
 - **Lateral movement.** A key on host A often unlocks B, C, D — especially with reused deployment keys. MITRE ATT&CK: **T1552.004**.
 - **Where operators look:** `~/.ssh/id_rsa`, `id_ed25519`, `*.pem`, backups, CI/CD runners, Terraform state. `find / -name id_rsa 2>/dev/null` and grepping for `BEGIN.*PRIVATE KEY` are standard.
 - **Exfiltrate, then connect from your box** — exactly like this level.
-- **Persistence:** dropping an attacker public key into a victim's `authorized_keys` gives durable password-less re-entry.
-
-## Defensive Perspective
-
-- **Passphrase-protect keys** so a stolen file alone is useless.
-- **Enforce permissions** via config management (`~/.ssh` = `700`, keys = `600`).
-- **Restrict by source:** `from="10.0.0.0/8"` in `authorized_keys`, `Match Address`/`AllowUsers` in `sshd_config` — the control that blocked the localhost login here.
-- **Prefer short-lived SSH certificates** (CA, Teleport, Vault SSH) to shrink the value of a stolen key.
-- **Audit:** inventory authorized keys; alert on new `authorized_keys` entries and `Accepted publickey` for sensitive accounts.
+- **Persistence:** dropping an attacker public key into a victim's `authorized_keys` gives durable password-less re-entry that survives password rotation.
 
 ## Common Beginner Mistakes
 
@@ -183,8 +175,8 @@ Private keys are top-tier loot:
 
 - **Pentest / red team:** harvesting and reusing SSH keys is primary lateral movement (T1552.004).
 - **Cloud / DevOps:** every cloud VM uses `ssh -i key.pem`; key sprawl in CI/CD is a top real-world risk.
-- **Blue team:** you can now write meaningful alerts on key auth, new `authorized_keys`, and unexpected-source logins.
-- **Hardening:** you understand *why* `sshd_config`/`authorized_keys` restrictions exist and how to use them.
+- **AD & lateral movement:** the same credential-reuse and source-restriction logic carries over to pivoting across hosts and abusing domain trust.
+- **Exploit dev & persistence:** knowing how key auth and `authorized_keys` work shows exactly where to plant a backdoor key for durable re-entry.
 
 ## Additional Reading
 

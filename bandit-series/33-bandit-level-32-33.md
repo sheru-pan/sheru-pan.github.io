@@ -183,13 +183,6 @@ Restricted-shell escape is a bread-and-butter step in real engagements:
 
 The mindset is identical to this level: enumerate what the environment *lets* you do, then find the feature that turns a permitted action into arbitrary execution.
 
-## Defensive Perspective
-
-- **Prefer real isolation over restricted shells.** A custom or restricted shell is a weak boundary. Use OS-level confinement: containers, `chroot`/`pivot_root` done correctly, seccomp/AppArmor/SELinux profiles, namespaces, or `ForceCommand` in `sshd_config` pinned to a *single* non-interactive program.
-- **If you must restrict a shell,** lock down `PATH` to a tiny directory of vetted binaries, disable shell escapes in every allowed program (e.g. `set noexec` won't save you — remove `vi`, `less`, `awk`, interpreters), block `cd`, and forbid redirection/expansion where possible. Assume you'll miss something.
-- **Detection:** alert on unexpected child processes spawned from a restricted/menu shell (e.g. a kiosk shell suddenly forking `/bin/sh`, `python`, or `bash`). Process-ancestry monitoring (EDR, `auditd execve`) catches the escape moment.
-- **Least privilege on secret files.** `/etc/bandit_pass/`-style files should be readable only by the owning principal; an escaped shell should not also imply access to everyone else's secrets.
-
 ## Common Beginner Mistakes
 
 - **Trying harder to type lowercase commands** — the shell uppercases regardless; brute force won't work.
@@ -210,8 +203,8 @@ The mindset is identical to this level: enumerate what the environment *lets* yo
 
 - **Privilege escalation & post-exploitation:** restricted-shell escape and dumb-shell upgrades are daily skills on the offensive side.
 - **Network & hardware security:** breaking out of appliance CLIs is core to device assessments.
-- **Defensive architecture:** experiencing how easily a restricted shell breaks teaches you to reach for *real* isolation primitives instead.
-- **Detection engineering:** knowing the escape's process signature (a kiosk shell spawning an interpreter) lets you write the alert that catches it.
+- **Red team & initial access:** a jailed SSH or kiosk shell is a common landing spot; escaping it is what turns a foothold into real execution.
+- **Exploit dev & CTF/OSCP:** the "limited shell → full TTY" pattern (`python -c 'import pty;pty.spawn("/bin/bash")'`) recurs constantly in real engagements and exams.
 
 ## Additional Reading
 

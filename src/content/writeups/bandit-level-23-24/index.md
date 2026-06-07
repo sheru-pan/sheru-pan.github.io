@@ -195,14 +195,6 @@ flowchart TD
 
 This generalizes far beyond Bandit. If a `root` cron job runs a script writable by your user, you append a reverse shell or `cp /bin/bash /tmp/rootbash; chmod +s` and wait. If a privileged script calls `tar` without an absolute path and you control an early `PATH` entry, you plant a malicious `tar`. `linpeas` flags world-writable files referenced by cron in red, and `pspy` reveals short-lived cron-spawned commands without needing read access to the config. The methodology is constant: find privileged scheduled execution, find a writable input, supply a minimal payload, ensure output is reachable, wait.
 
-## Defensive Perspective
-
-- **Never execute attacker-writable content as a privileged user.** Privileged scheduled tasks should run scripts owned and writable only by that user/root, from equally restricted directories.
-- **Lock down drop directories** — not world-writable; validate (or, better, don't execute) submitted content.
-- **Pin absolute paths and a sane `PATH`** in privileged scripts.
-- **Least privilege:** run jobs as the least-privileged identity that works.
-- **Monitoring:** `auditctl -w /var/spool/ -p wa -k spool_write` and `auditctl -w /etc/bandit_pass/ -p r -k secret_read`; alert on a service account whose parent is `cron` executing a binary from `/tmp` or `/var/spool`.
-
 ## Common Beginner Mistakes
 
 - **Output dir not writable by `bandit24`** — the #1 mistake; the copy fails silently. `chmod 777` the scratch dir.
@@ -221,9 +213,8 @@ This generalizes far beyond Bandit. If a `root` cron job runs a script writable 
 ## How This Helps Build Cyber Security Expertise
 
 - **Linux privesc:** a canonical OSCP/HTB/real-world pattern — "writable + scheduled/privileged execution."
-- **Secure design:** the writer-vs-executor boundary informs any job runner, CI worker, or upload pipeline.
-- **Detection engineering:** you learn the on-disk and process-tree signature to alert on.
 - **Red-team craft:** authoring tight, identity-aware payloads is a foundational skill.
+- **Exploit development:** reasoning about which principal executes your code, and where its output can land, is core to weaponizing any local privesc primitive.
 
 ## Additional Reading
 

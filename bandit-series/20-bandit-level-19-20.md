@@ -44,7 +44,7 @@ Note the **`s`** in the owner's execute position (`rws`), and that the file is *
 
 ### Why It Matters
 
-Being able to *spot* a setuid binary in `ls -l` output is a core enumeration skill. The owner-execute slot tells you everything: `x` = normal executable; `s` = setuid (runs as the file's owner); `S` = setuid set but not executable (a misconfiguration worth flagging). Whose name is in the owner column tells you *whose* privileges you would borrow.
+Being able to *spot* a setuid binary in `ls -l` output is a core enumeration skill. The owner-execute slot tells you everything: `x` = normal executable; `s` = setuid (runs as the file's owner); `S` = setuid set but not executable. Whose name is in the owner column tells you *whose* privileges you would borrow.
 
 > [!TIP]
 > To hunt for *all* setuid binaries on a system — a standard privilege-escalation enumeration step — run:
@@ -138,14 +138,6 @@ Enumerating setuid binaries is a textbook Linux privilege-escalation step:
 - **Abuse over-powerful binaries.** A setuid-root binary that lets you spawn a shell, read arbitrary files, or write to arbitrary paths is an instant root. `bandit20-do` is benign because it only does what its owner intended — but swap it for a setuid binary that calls a shell, or one vulnerable to command/argument injection, and the same mechanism becomes full compromise. (Later Bandit levels lean directly into this.)
 - **GTFOBins.** This catalog lists exactly how common binaries (`vim`, `find`, `awk`, `less`, `cp`, etc.) can be abused *when setuid* to read files, write files, or pop a shell as the owner. It is the first thing an operator checks after `find -perm -4000`.
 
-## Defensive Perspective
-
-- **Minimize the setuid surface.** Audit `find / -perm -4000` regularly; every setuid binary is attack surface. Remove the bit (`chmod u-s`) from anything that does not strictly need it.
-- **Prefer capabilities over setuid root.** Modern Linux lets you grant a binary only the narrow capability it needs (e.g., `cap_net_raw` for `ping`) instead of full root via setuid — far smaller blast radius.
-- **Watch for new setuid files.** A *newly created* setuid-root binary is a high-fidelity compromise indicator; attackers drop them for persistence/escalation. FIM and `auditd` rules on `chmod`/`setuid` syscalls catch this.
-- **Mount with `nosuid`** where appropriate (e.g., `/tmp`, removable media, user-writable mounts) so setuid bits there are ignored entirely.
-- **Detection idea:** alert on execve of setuid-root binaries by unusual users, and on any process that changes its UID 0 shortly after running a non-standard setuid file.
-
 ## Common Beginner Mistakes
 
 - **Trying to `cat /etc/bandit_pass/bandit20` directly** as `bandit19` and getting "Permission denied" — you must go *through* the setuid helper.
@@ -165,9 +157,9 @@ Enumerating setuid binaries is a textbook Linux privilege-escalation step:
 ## How This Helps Build Cyber Security Expertise
 
 - **Linux privilege escalation:** setuid enumeration and abuse (via GTFOBins) is one of the most common ways pentesters go from user to root.
-- **Secure system administration:** knowing how to audit and minimize setuid binaries hardens real servers.
+- **Red team operations:** abusing setuid binaries is a reliable, low-noise local privilege-escalation primitive during post-exploitation.
 - **Exploit development:** many local privilege-escalation exploits target bugs in setuid programs.
-- **Detection engineering:** new/anomalous setuid binaries are high-value telemetry to alert on.
+- **Cloud/host pentest:** misconfigured setuid binaries on cloud-hosted Linux instances are a fast route to root on a compromised box.
 
 ## Additional Reading
 

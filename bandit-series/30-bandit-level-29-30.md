@@ -115,7 +115,7 @@ There it is: `remotes/origin/dev`.
 
 ### Why It Matters
 
-This single command is the heart of the level. The default checkout hid `dev` from you completely. In real Git forensics, `git branch -a` (alongside `git tag` and `git log --all`) is how you make the *entire* repository visible instead of just the slice someone chose to show.
+This single command is the heart of the level. The default checkout hid `dev` from you completely. When mining a repo for secrets, `git branch -a` (alongside `git tag` and `git log --all`) is how you make the *entire* repository visible instead of just the slice someone chose to show.
 
 ---
 
@@ -159,7 +159,7 @@ ssh bandit30@bandit.labs.overthewire.org -p 2220
 
 ### Why It Matters
 
-Checking the log per branch tells you *who* added a secret and *when*, which in a real investigation is as valuable as the secret itself.
+Checking the log per branch tells you *who* added a secret and *when* — useful context for finding related credentials and understanding the target's workflow.
 
 ## Deep Dive: Cyber Security Concept
 
@@ -183,7 +183,7 @@ gitGraph
 The `master` branch in the diagram looks clean. The `dev` branch carries the secret. To a casual `git clone` user they're indistinguishable — until you run `git branch -a`.
 
 > [!IMPORTANT]
-> "I deleted it from `main`" or "it's only on a feature branch" is **not** remediation. As long as a commit exists on *any* branch (or in the reflog, or behind a tag), the secret is still in the repository and must be considered compromised — rotate it.
+> "I deleted it from `main`" or "it's only on a feature branch" means nothing to an attacker. As long as a commit exists on *any* branch (or in the reflog, or behind a tag), the secret is still in the repository and — unless it was rotated — still valid loot. Always enumerate every ref.
 
 ## Offensive Security Perspective
 
@@ -194,14 +194,6 @@ When an attacker or bug-bounty hunter gets hold of a `.git` directory — leaked
 - Tools like **truffleHog**, **gitleaks**, and **git-dumper** automate downloading an exposed `.git` and scanning *every* commit on *every* branch for high-entropy strings, AWS keys, and private keys.
 
 Real breaches have come from exactly this: a developer pushed a feature branch with hardcoded API keys, deleted the branch from the UI but not the object history, and a scanner found it months later. The `dev` branch in this level is the training-wheels version.
-
-## Defensive Perspective
-
-- **Pre-commit and pre-receive secret scanning.** Hook `gitleaks` or `git-secrets` into commit and push paths so credentials never enter history on *any* branch in the first place.
-- **Treat branch protection as visibility, not safety.** Protecting `main` does nothing for secrets sitting on unprotected feature branches.
-- **Rotate, don't just delete.** If a secret ever touched the repo, assume exposure and rotate the credential. Then purge history with `git filter-repo` or BFG across all refs.
-- **Monitor for `.git` exposure.** Web servers should never serve `.git/`. Add detection for requests to `/.git/HEAD`, `/.git/config`, etc., which are unmistakable repo-dumping attempts.
-- **Audit access to internal Git hosts.** SSH-based clone activity from unexpected accounts is a strong signal worth logging.
 
 ## Common Beginner Mistakes
 
@@ -217,14 +209,14 @@ Real breaches have come from exactly this: a developer pushed a feature branch w
 - `git branch -a` reveals every branch, including remote-tracking ones the default view hides.
 - The same file can hold different content on different branches.
 - Secrets routinely live on `dev`/feature branches that were never meant to ship.
-- Deleting a secret from one branch does not remove it from the repository — rotate it.
+- Deleting a secret from one branch does not remove it from the repository — and unless it was rotated, it still works.
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Source-code review & SAST:** real engagements involve auditing repositories; branch and history enumeration is a core part of finding leaked secrets and removed-but-not-gone code.
+- **Source-code review & bug bounty:** real engagements involve auditing repositories; branch and history enumeration is a core part of finding leaked secrets and removed-but-not-gone code.
 - **OSINT & recon:** exposed `.git` directories are a recurring web finding; knowing how to reconstruct and walk every ref turns a leak into a foothold.
-- **DFIR:** when investigating an insider or a supply-chain incident, the commit graph across all branches is your evidence trail.
-- **Secure SDLC:** understanding *how* secrets leak into branches is the prerequisite to designing the guardrails that stop it.
+- **Red team & lateral movement:** credentials stashed on forgotten branches of an internal repo are a direct pivot to the next host or service.
+- **Cloud pentest:** API keys and deploy tokens hiding on non-default branches open a target's cloud and CI infrastructure.
 
 ## Additional Reading
 

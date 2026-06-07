@@ -104,14 +104,6 @@ Unquoted variables are a goldmine for attackers:
 
 The offensive takeaway: whenever you see a shell script handling user-controlled paths *without quotes*, you have likely found a vulnerability.
 
-## Defensive Perspective
-
-- **Quote every expansion.** `"$var"`, `"$@"` (never bare `$@` or `$*`), `"$(cmd)"`. ShellCheck (`shellcheck script.sh`) flags unquoted expansions automatically — run it in CI.
-- **Set a safe `IFS`** in security-sensitive scripts, or avoid relying on word-splitting altogether by using arrays: `files=(...); cp "${files[@]}" /dest`.
-- **Prefer `find ... -print0 | xargs -0`** when iterating over filenames so that spaces and newlines never break the pipeline.
-- **Detection / logging:** in `execve` audit records or Sysmon command lines, an argument count or content that does not match the expected pattern (e.g. a single "filename" field that exploded into many tokens) can indicate filename-based injection.
-- **Hardening:** validate/normalize uploaded or user-supplied filenames; reject or sanitize whitespace and metacharacters at the boundary.
-
 ## Common Beginner Mistakes
 
 - Typing `cat spaces in this filename` and getting four "No such file or directory" errors — then doubting the file exists.
@@ -130,8 +122,8 @@ The offensive takeaway: whenever you see a shell script handling user-controlled
 ## How This Helps Build Cyber Security Expertise
 
 - **Secure shell scripting:** quoting discipline is what separates a robust automation script from a command-injection liability.
-- **AppSec & code review:** unquoted shell expansions are a recurring finding in audits of CI/CD pipelines, install scripts, and wrapper utilities.
-- **Detection engineering:** understanding how command lines tokenize helps you write accurate parsing rules for EDR/SIEM data.
+- **AppSec & code review:** unquoted shell expansions are a recurring finding when auditing CI/CD pipelines, install scripts, and wrapper utilities for command-injection bugs.
+- **Privilege escalation:** unquoted variables in setuid scripts and cron jobs are a classic local privesc vector worth hunting on every target.
 - **Exploit crafting:** filename- and IFS-based tricks are real techniques for breaking out of constrained execution contexts.
 
 ## Additional Reading

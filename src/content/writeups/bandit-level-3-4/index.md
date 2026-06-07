@@ -92,14 +92,6 @@ Dotfiles are prime post-exploitation hunting ground:
 
 Enumeration scripts (`linpeas`, `LinEnum`) always list hidden files — the first thing a thorough operator does is `ls -la` everywhere.
 
-## Defensive Perspective
-
-- **Do not rely on hidden names to protect data.** Enforce permissions (`chmod 600`), ownership, and proper secret storage.
-- **File integrity monitoring:** AIDE, Tripwire, or `auditd` watches detect newly created hidden files: `auditctl -w /tmp -p wa -k tmp_writes`.
-- **Hunt for hidden artifacts** in `/tmp`, `/dev/shm`, `/var/tmp`, and web roots: `find / -name '.*' -type f -newer <baseline>`.
-- **Detection:** alert on creation of dot-prefixed executables in world-writable dirs, or reads of `~/.ssh/id_rsa` by unexpected processes.
-- **User hardening:** keep `.bash_history` clean of secrets; never type passwords on the command line.
-
 ## Common Beginner Mistakes
 
 - Running plain `ls`, seeing nothing, and assuming the directory is empty.
@@ -118,8 +110,8 @@ Enumeration scripts (`linpeas`, `LinEnum`) always list hidden files — the firs
 ## How This Helps Build Cyber Security Expertise
 
 - **Post-exploitation & privesc:** thorough hidden-file enumeration is step one of every local assessment — the manual version of `linpeas`.
-- **DFIR & threat hunting:** investigators uncover persistence via rogue dotfiles and hidden directories.
-- **Secure design:** internalizing "obscurity is not a control" shapes how you build real defenses.
+- **Red team & persistence:** the same conventions let an operator drop dot-prefixed backdoors and stage payloads in hidden directories, under a casual `ls`.
+- **AD & cloud pentest:** harvested dotfiles (`.aws/credentials`, `.kube/config`) pivot into wider cloud and domain compromise.
 
 ## Additional Reading
 

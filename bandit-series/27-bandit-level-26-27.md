@@ -100,14 +100,6 @@ find / -perm -4000 -type f 2>/dev/null
 
 Each result is a candidate. The attacker then asks: *is this binary on [GTFOBins](https://gtfobins.github.io/)?* and *can I make it run a command of my choosing?* A SUID-root `find`, `vim`, `bash`, `nmap` (old), `cp`, or any custom `*-do`-style wrapper is a fast path to root. Tools like `linpeas` and `linenum` automate exactly this hunt. The `bandit27-do` here is the friendly, scoped version of a vulnerability that, pointed at root, ends engagements early.
 
-## Defensive Perspective
-
-- **Minimise SUID binaries.** Audit `find / -perm -4000 -type f` regularly and remove the bit (`chmod u-s`) from anything that doesn't strictly need it.
-- **Never make a general-purpose wrapper SUID.** A SUID helper must do *one* fixed, validated action — never accept an arbitrary command to execute.
-- **Prefer `sudo` with tight rules** over custom SUID binaries; `sudo` is logged and granular. Even then, avoid `sudo` rules for shell-capable binaries.
-- **Use capabilities instead of full SUID-root** where possible (`setcap`), granting only the specific kernel capability needed.
-- **Monitoring:** `auditd` can watch for execution of SUID binaries; an unexpected SUID `execve` followed by a child shell is a strong privesc signal.
-
 ## Common Beginner Mistakes
 
 - **Logging out after the Level 25 → 26 escape**, then logging back in and landing in `showtext` again — you lose your shell and must redo the breakout.
@@ -126,8 +118,8 @@ Each result is a candidate. The attacker then asks: *is this binary on [GTFOBins
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** SUID abuse is a core Linux privesc technique; recognising the bit and reasoning about its owner is foundational.
-- **Secure administration:** knowing why SUID is dangerous shapes how you grant privileges (capabilities, scoped `sudo`) in production.
-- **Detection engineering:** SUID `execve` events and unexpected child shells are concrete things to alert on.
+- **Red-team craft:** chaining a SUID GTFOBins binary into a shell as its owner (often root) is a fast, reliable escalation you'll reach for on real engagements.
+- **Exploit development:** understanding how effective UID transitions on `execve` underpins crafting and abusing setuid-based privilege handoffs.
 
 ## Additional Reading
 

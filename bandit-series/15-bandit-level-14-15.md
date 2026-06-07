@@ -106,14 +106,6 @@ Netcat is on every operator's mental shortlist:
 
 This level is the gentlest possible introduction: submit a value, read a value. Real targets are messier, but the muscle is identical.
 
-## Defensive Perspective
-
-- **Limit what listens, and to whom.** A service that only ever needs local clients should bind to `127.0.0.1`, not `0.0.0.0`. Audit listeners with `ss -tlnp` / `netstat -tlnp`.
-- **Firewall by default-deny.** Only intentionally exposed ports should be reachable; everything else dropped at the host and network firewall.
-- **Authenticate and rate-limit services.** A service that hands out secrets to anyone who submits the right string is fragile — add real auth and throttle attempts to blunt brute force.
-- **Detect anomalous local connections.** Outbound/loopback netcat usage and connections to unusual ports are classic signals; EDR and `auditd` (execve of `nc`/`ncat`) can flag them.
-- **Egress filtering** stops the most common reverse-shell uses of netcat from ever phoning home.
-
 ## Common Beginner Mistakes
 
 - **Submitting the wrong password** — the service wants the *current* (`bandit14`) password, not a guess at the next one.
@@ -135,7 +127,7 @@ This level is the gentlest possible introduction: submit a value, read a value. 
 - **Network pentesting:** manual interaction with services is the foundation of enumeration and exploitation; scanners only get you so far.
 - **Protocol analysis:** speaking a protocol by hand teaches you how it really works — invaluable when fuzzing or building exploits.
 - **Red team tradecraft:** netcat-style shells and transfers are baseline post-exploitation tooling.
-- **Blue team:** understanding how trivially a port can be talked to motivates least-exposure binding, firewalling, and detection of suspicious local connections.
+- **Exploit development:** hand-talking to a service is how you trigger and refine a vulnerability before automating it.
 
 ## Additional Reading
 

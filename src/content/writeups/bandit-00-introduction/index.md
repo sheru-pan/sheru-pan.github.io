@@ -11,15 +11,15 @@ tags: [ctf, linux, ssh, bandit, methodology, enumeration]
 
 ## Introduction
 
-Almost everyone in offensive or defensive security passes through OverTheWire's **Bandit** at some point. It is the canonical "hello world" of security wargames — a set of 34 progressively harder challenges (Level 0 through Level 33) that quietly teach you the Linux command line while pretending to be a treasure hunt.
+Almost everyone in offensive security passes through OverTheWire's **Bandit** at some point. It is the canonical "hello world" of security wargames — a set of 34 progressively harder challenges (Level 0 through Level 33) that quietly teach you the Linux command line while pretending to be a treasure hunt.
 
 The premise is simple. Each level is a Linux user account. Somewhere in that account's world — a file, a process, a network port, a git repository — sits the password for the *next* account. Find it, log in as the next user, repeat. The difficulty ramps from "read a file" to "escape a restricted shell" and "abuse a cron job," so by the time you finish you have touched a surprising amount of real systems knowledge.
 
-I played the whole series and kept notes the entire way. This blog series is those notes, rebuilt into a proper training course: every level explained from first principles, connected to real offensive and defensive security, with the spoilers stripped out.
+I played the whole series and kept notes the entire way. This blog series is those notes, rebuilt into a proper training course: every level explained from first principles, connected to real offensive security, with the spoilers stripped out.
 
 ## Why this game exists
 
-Bandit exists because **you cannot learn security without learning the system you are securing or attacking.** Web hacking, malware analysis, incident response, cloud security, red teaming — all of it sits on top of an operating system, and most of the time that operating system is Linux. Before you can find a vulnerability you have to be able to *navigate*, *read*, *search*, and *reason* about a machine. Bandit drills exactly those primitives.
+Bandit exists because **you cannot learn security without learning the system you are attacking.** Web hacking, malware analysis, cloud pentesting, red teaming — all of it sits on top of an operating system, and most of the time that operating system is Linux. Before you can find a vulnerability you have to be able to *navigate*, *read*, *search*, and *reason* about a machine. Bandit drills exactly those primitives.
 
 It also teaches the meta-skill that separates people who "know commands" from people who solve problems: **reading the manual and the error messages.** Bandit is deliberately designed so the hints you need are in `man` pages, in the error output, and in the level description itself.
 
@@ -30,7 +30,7 @@ It also teaches the meta-skill that separates people who "know commands" from pe
 - **Remote access** — SSH with passwords and keys, `scp`, key permissions.
 - **Networking** — ports, services, `netcat`, TLS, port scanning.
 - **Privilege escalation primitives** — SUID binaries, cron abuse, restricted-shell escapes.
-- **Source control forensics** — finding secrets in git history, branches, and tags.
+- **Source control enumeration** — finding secrets in git history, branches, and tags.
 
 ## Game structure
 

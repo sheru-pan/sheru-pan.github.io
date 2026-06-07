@@ -237,20 +237,6 @@ This is a textbook real-world privesc, and it generalizes far beyond Bandit:
 
 The methodology is constant: enumerate scheduled/privileged execution, find a writable input to it, supply a minimal payload, ensure the output is reachable, wait.
 
-## Defensive Perspective
-
-- **Never execute content from attacker-writable locations as a privileged user.** A privileged scheduled task should run scripts that are owned by and writable *only* by that privileged user (or root), from directories with the same restriction.
-- **Lock down drop directories.** If a workflow genuinely needs a drop folder, it should not be world-writable, and the consumer should validate far more than ownership before executing (ideally, don't execute submitted content at all — process it as data).
-- **Pin absolute paths and a sane `PATH`** in privileged scripts to avoid `PATH`-hijack variants.
-- **Least privilege + separation:** run scheduled jobs as the least-privileged identity that suffices.
-- **Monitoring opportunity:** alert on a privileged service account executing files from world-writable directories, on new executables appearing in spool/drop paths, and on reads of credential stores:
-  ```bash
-  auditctl -w /var/spool/ -p wa -k spool_write
-  auditctl -w /etc/bandit_pass/ -p r -k secret_read
-  ```
-  `pspy`-style telemetry (or auditd `execve` logging) catches the cron-spawned execution of an unexpected script.
-- **Detection idea:** a service account process whose parent is `cron` executing a binary under `/tmp`, `/var/spool`, or another world-writable path is high-signal for this exact technique.
-
 ## Common Beginner Mistakes
 
 - **Forgetting the output dir must be writable by `bandit24`.** Writing the password into a `bandit23`-only directory makes the copy silently fail. `chmod 777` (or `+t`-aware equivalents) on the scratch dir fixes it. *This is the #1 mistake on this level.*
@@ -271,9 +257,8 @@ The methodology is constant: enumerate scheduled/privileged execution, find a wr
 ## How This Helps Build Cyber Security Expertise
 
 - **Linux privilege escalation:** this is one of the canonical privesc patterns you'll meet in OSCP, HTB, and real engagements; recognizing "writable + scheduled/privileged execution" becomes instinct.
-- **Secure systems design:** you internalize the writer-vs-executor boundary, which informs how you'd safely design any job runner, CI worker, or upload pipeline.
-- **Detection engineering:** knowing the on-disk and process-tree signature of this attack tells you exactly what to log and alert on.
 - **Red-team craft:** authoring tight, purpose-built payloads with correct identity/output reasoning is a foundational operator skill.
+- **Exploit development:** reasoning about which principal executes your code and where its output can land is the same discipline behind weaponizing any local privilege-escalation primitive.
 
 ## Additional Reading
 

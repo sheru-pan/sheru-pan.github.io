@@ -106,14 +106,6 @@ The `-N` flag matters: by default, after netcat sends its input and hits EOF, it
 
 This level is the gentlest intro: submit a value, read a value.
 
-## Defensive Perspective
-
-- **Bind local-only services to `127.0.0.1`**, not `0.0.0.0`; audit with `ss -tlnp`.
-- **Default-deny firewalling** so only intended ports are reachable.
-- **Authenticate and rate-limit** services that gate on a submitted string.
-- **Detect anomalous local connections** and `nc`/`ncat` execve via EDR/`auditd`.
-- **Egress filtering** blunts reverse-shell uses of netcat.
-
 ## Common Beginner Mistakes
 
 - Submitting the wrong password — the service wants the *current* (`bandit14`) one.
@@ -135,7 +127,7 @@ This level is the gentlest intro: submit a value, read a value.
 - **Network pentesting:** manual service interaction is the base of enumeration/exploitation.
 - **Protocol analysis:** speaking a protocol by hand teaches how it really works.
 - **Red team:** netcat shells and transfers are baseline tooling.
-- **Blue team:** seeing how trivially a port is talked to motivates least-exposure binding and detection.
+- **Exploit development:** hand-talking to a service is how you trigger a bug before automating it.
 
 ## Additional Reading
 

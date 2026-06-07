@@ -90,17 +90,6 @@ Dotfiles are prime hunting ground in post-exploitation:
 
 Standard enumeration scripts (`linpeas`, `LinEnum`) always recurse into and list hidden files for precisely this reason — the first thing a thorough operator does is `ls -la` everywhere.
 
-## Defensive Perspective
-
-- **Do not rely on hidden names to protect data.** Enforce permissions (`chmod 600`), ownership, and proper secret storage; the dot is cosmetic.
-- **File integrity monitoring (FIM):** tools like AIDE, Tripwire, or `auditd` watches on home/temp directories detect newly created hidden files — a strong indicator of malware staging.
-  ```bash
-  auditctl -w /tmp -p wa -k tmp_writes
-  ```
-- **Hunt for hidden artifacts:** periodically run `find / -name '.*' -type f -newer <baseline>` or hunt for hidden files in `/tmp`, `/dev/shm`, `/var/tmp`, and web roots — common attacker hiding spots.
-- **Detection engineering:** alert on creation of dot-prefixed executables in world-writable directories, or on reads of sensitive dotfiles (`~/.ssh/id_rsa`) by unexpected processes.
-- **User hardening:** keep `.bash_history` clean of secrets (`HISTCONTROL=ignorespace`, and never type passwords on the command line).
-
 ## Common Beginner Mistakes
 
 - Running plain `ls`, seeing nothing, and concluding the directory is empty or the level is broken.
@@ -120,9 +109,9 @@ Standard enumeration scripts (`linpeas`, `LinEnum`) always recurse into and list
 ## How This Helps Build Cyber Security Expertise
 
 - **Post-exploitation & privesc:** thorough hidden-file enumeration is step one of every local assessment; you just practiced the manual version of what `linpeas` automates.
-- **DFIR & threat hunting:** investigators routinely uncover attacker persistence by finding rogue dotfiles and hidden directories — the same `ls -la`/`find` muscle.
+- **Red team & persistence:** the same conventions let an operator stash tooling, drop dot-prefixed backdoors, and stage payloads in hidden directories while staying under a casual `ls`.
 - **Malware analysis:** understanding common hiding conventions helps you locate dropped payloads quickly.
-- **Secure system design:** internalizing "obscurity is not a control" shapes how you architect real defenses.
+- **AD & cloud pentest:** harvested dotfiles (`.aws/credentials`, `.kube/config`, `.git-credentials`) are the pivot point into wider cloud and domain compromise.
 
 ## Additional Reading
 

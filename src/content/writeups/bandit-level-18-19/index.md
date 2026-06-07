@@ -117,14 +117,6 @@ The attacker's `Byebye!; exit` lives in `.bashrc` and fires for interactive shel
 - **Trojaned aliases/functions:** aliasing `sudo`, `ssh`, or `ls` to a credential-harvesting wrapper from a startup file.
 - **Sabotage / anti-analysis:** startup files can deny access or disrupt an investigator — and non-interactive execution is the offensive counter for working on a host with a hostile interactive shell.
 
-## Defensive Perspective
-
-- **Monitor startup files** with FIM: `~/.bashrc`, `~/.bash_profile`, `~/.profile`, `/etc/profile`, `/etc/profile.d/*`. Edits across multiple users are a strong persistence signal.
-- **Review dotfiles during IR** — a favorite low-effort persistence spot.
-- **Constrain shells:** service accounts get `/usr/sbin/nologin` or `/bin/false`, removing the dotfile attack surface.
-- **Logging:** non-interactive SSH still logs `Accepted password` in `/var/log/auth.log`; pair with `auditd` execve logs to see the command run.
-- **Detection idea:** alert on SSH sessions that run one command and disconnect, especially `cat`/`base64` against sensitive paths.
-
 ## Common Beginner Mistakes
 
 - Assuming the password is wrong because of `Byebye!` (auth succeeded; the shell logged you out).

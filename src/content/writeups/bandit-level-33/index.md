@@ -101,18 +101,6 @@ The Bandit loop is the early kill chain in miniature:
 
 You now have the reflexes that make `nmap`, `linpeas`, `gitleaks`, and Metasploit make sense.
 
-## Defensive Perspective
-
-Everything you exploited maps to a control:
-
-- **Plaintext secrets** → secrets managers, least privilege, `auditd`.
-- **World-readable/SUID files** → permission hardening, SUID minimization.
-- **Cron abuse** → no world-writable privileged scripts, integrity monitoring.
-- **Restricted-shell escapes** → real isolation, process-ancestry alerting.
-- **Git leaks** → pre-receive scanning, rotation, `.git` exposure detection.
-
-Having attacked these, you can now anticipate them as a defender.
-
 ## Common Beginner Mistakes
 
 - **Rushing** past enumeration to a guess.

@@ -51,7 +51,7 @@ Note the **`s`** in the owner's execute position (`rws`) and that the file is **
 
 ### Why It Matters
 
-Spotting setuid in `ls -l` is core enumeration: `x` = normal; `s` = setuid (runs as owner); `S` = setuid set but not executable (a misconfig). The owner column tells you *whose* privileges you'd borrow.
+Spotting setuid in `ls -l` is core enumeration: `x` = normal; `s` = setuid (runs as owner); `S` = setuid set but not executable. The owner column tells you *whose* privileges you'd borrow.
 
 > [!TIP]
 > Hunt for all setuid binaries — a standard privesc step:
@@ -121,14 +121,6 @@ flowchart LR
 - **Abuse over-powerful binaries:** a setuid-root binary that spawns a shell or reads arbitrary files is instant root. `bandit20-do` is benign, but a setuid binary vulnerable to command/argument injection becomes full compromise.
 - **GTFOBins** lists how `vim`, `find`, `awk`, `less`, `cp` and others can be abused *when setuid* to read/write files or pop a shell as the owner.
 
-## Defensive Perspective
-
-- **Minimize the setuid surface:** audit `find / -perm -4000` regularly; remove the bit (`chmod u-s`) where unneeded.
-- **Prefer capabilities over setuid root** (e.g., `cap_net_raw` for `ping`) — smaller blast radius.
-- **Watch for new setuid files:** a newly created setuid-root binary is a high-fidelity compromise indicator; FIM and `auditd` catch it.
-- **Mount `nosuid`** on `/tmp`, removable media, and user-writable mounts.
-- **Detection idea:** alert on execve of setuid-root binaries by unusual users.
-
 ## Common Beginner Mistakes
 
 - `cat`-ing `/etc/bandit_pass/bandit20` directly as `bandit19` (permission denied) instead of going through the helper.
@@ -148,9 +140,9 @@ flowchart LR
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** setuid enumeration and GTFOBins abuse is a top user-to-root path.
-- **Secure sysadmin:** auditing and minimizing setuid hardens real servers.
+- **Red team operations:** setuid abuse is a quiet, dependable local privesc primitive in post-exploitation.
 - **Exploit development:** many local privesc exploits target setuid program bugs.
-- **Detection engineering:** anomalous setuid binaries are high-value telemetry.
+- **Cloud/host pentest:** misconfigured setuid binaries on Linux instances are a fast route to root.
 
 ## Additional Reading
 

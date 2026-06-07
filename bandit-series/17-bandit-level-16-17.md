@@ -153,16 +153,8 @@ The decoys are pedagogically clever: an **echo service** sends back exactly what
 
 - **Nmap is the universal first move.** Nearly every engagement opens with port and service discovery; `-sV` (and `-sC` for default scripts) turn a list of open ports into an actionable map of attack surface.
 - **Decoys and honeypots are real.** Echo services here mimic honeypots/tarpits attackers encounter in the wild — fingerprinting and behavioral checks keep you from chasing ghosts.
-- **Service mis-ID wastes time and triggers alerts.** Knowing whether a port is TLS lets you use the correct client immediately instead of hammering it with the wrong protocol (noisy and slow).
+- **Service mis-ID wastes time.** Knowing whether a port is TLS lets you use the correct client immediately instead of hammering it with the wrong protocol.
 - **Keys as loot, again.** The RSA key reward reinforces T1552.004: recovered private keys are immediate lateral-movement currency.
-
-## Defensive Perspective
-
-- **Minimize attack surface.** Every listening port is a potential entry; close what you don't need and bind internal services to loopback. Audit with `ss -tlnp`.
-- **Detect scanning.** A single host touching many ports in a short window is a classic IDS/IPS signature; nmap `-sV` is especially detectable due to its probe patterns. Alert on port-sweep behavior.
-- **Don't serve secrets from naive services.** A service that returns a private key to anyone submitting a static string is a design flaw — require strong auth, rate-limit, and rotate.
-- **Mask versions where sensible.** Banner/version hiding slows fingerprinting (defense in depth, not a real control).
-- **Treat private keys as crown jewels.** Encrypt at rest, scope tightly, monitor access, and rotate on suspicion.
 
 ## Common Beginner Mistakes
 
@@ -184,8 +176,8 @@ The decoys are pedagogically clever: an **echo service** sends back exactly what
 ## How This Helps Build Cyber Security Expertise
 
 - **Penetration testing:** this *is* the opening of a real assessment — scan, enumerate, target — compressed into one level.
-- **Network defense / blue team:** experiencing how loud and effective scanning is teaches you what to detect and why surface reduction matters.
-- **Service analysis:** distinguishing protocols by behavior (echo vs TLS app) is a transferable diagnostic skill.
+- **Red teaming:** scanning a port range and fingerprinting services is how you map a target's attack surface and pick the one host worth exploiting.
+- **Service analysis:** distinguishing protocols by behavior (echo vs TLS app) is a transferable diagnostic skill for finding the real service among decoys.
 - **Credential handling:** repeatedly recovering and using private keys cements secure key hygiene as muscle memory.
 
 ## Additional Reading

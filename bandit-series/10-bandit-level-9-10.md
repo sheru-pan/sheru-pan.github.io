@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Up to now the passwords have lived in plain text files you could simply `cat`. This level changes the game: the password is buried inside a **binary file** stuffed with non-printable garbage, and a flat `cat` will spray your terminal with control characters (and may even scramble it). The skill you build here — pulling **human-readable strings out of binary data** — is one of the most-used reflexes in malware triage, memory forensics, and reverse engineering. It is the difference between staring at a wall of `^@^H?` bytes and instantly spotting `password is...` hiding among them.
+Up to now the passwords have lived in plain text files you could simply `cat`. This level changes the game: the password is buried inside a **binary file** stuffed with non-printable garbage, and a flat `cat` will spray your terminal with control characters (and may even scramble it). The skill you build here — pulling **human-readable strings out of binary data** — is one of the most-used reflexes in binary recon, malware analysis, and reverse engineering. It is the difference between staring at a wall of `^@^H?` bytes and instantly spotting `password is...` hiding among them.
 
 The lesson underneath the puzzle: **binary does not mean unreadable**. Compiled programs, memory dumps, and packet captures are full of embedded text — file paths, error messages, URLs, and yes, secrets — and a single tool surfaces all of it.
 
@@ -125,18 +125,11 @@ flowchart LR
 
 - **Hard-coded credentials** and API keys left in by lazy developers.
 - **Command-and-control (C2) infrastructure** — embedded domains, IPs, and URL paths.
-- **Mutex and registry-key names** malware uses, which become detection signatures.
+- **Mutex and registry-key names** malware uses, which reveal its behaviour and how it persists.
 - **Compiler artifacts and PDB paths** that leak the developer's machine and project layout.
 - **Crypto constants and ransom notes** that fingerprint a malware family.
 
 On the red-team side, operators grep extracted strings to triage captured binaries, loot files, and memory dumps fast. In CTFs, `strings <binary> | grep -i flag` is a reflexive first attempt that solves a surprising number of easy challenges.
-
-## Defensive Perspective
-
-- **Don't embed secrets in binaries.** Anything compiled into your application is one `strings` away from disclosure. Pull secrets from a secrets manager or environment at runtime, never bake them into the artifact.
-- **Triage workflow:** when an alert fires on an unknown executable, `file` then `strings` (with `-n` tuning) is the fastest first look before you commit to a sandbox detonation.
-- **Detection engineering:** the *strings* a malware family carries — unique C2 domains, mutex names, ransom-note text — become YARA rules and Sigma signatures. Defenders weaponize the same extracted text attackers tried to hide.
-- **Memory forensics:** running `strings` over a RAM capture (e.g., from Volatility's raw dump) surfaces plaintext passwords, commands, and chat fragments that never touched disk.
 
 ## Common Beginner Mistakes
 
@@ -152,13 +145,13 @@ On the red-team side, operators grep extracted strings to triage captured binari
 - `strings` extracts human-readable text from any binary blob.
 - Pipe `strings | grep` to filter for the exact marker you expect.
 - Tune `strings -n` to suppress short junk matches.
-- This `file → strings → grep` pipeline is the foundation of malware triage and forensics.
+- This `file → strings → grep` pipeline is the foundation of binary recon and malware analysis.
 
 ## How This Helps Build Cyber Security Expertise
 
 - **Malware analysis / reverse engineering:** `strings` is lesson one of static analysis; everything from IDA to Ghidra builds on the leads it provides.
-- **Digital forensics & IR:** carving readable text out of disk images, memory dumps, and unallocated space is daily work for an examiner.
-- **Threat intelligence:** the distinctive strings in a sample feed YARA rules and family attribution.
+- **Privesc & post-exploitation:** grepping extracted strings from looted binaries, config blobs, and memory dumps surfaces hard-coded credentials, tokens, and paths that open the next step.
+- **Exploit development:** pulling format strings, function names, and embedded constants out of a target binary is how you map attack surface before writing a payload.
 - **CTF / bug bounty:** `strings | grep` is a fast, high-yield first probe against any binary you're handed.
 
 ## Additional Reading

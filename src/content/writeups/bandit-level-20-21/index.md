@@ -169,14 +169,6 @@ The second concept is **concurrency**: server and client must be alive at once, 
 - **Recon:** `nc <host> <port>` for port testing and banner grabbing.
 - **Pivoting:** netcat/`socat` build relays and tunnels.
 
-## Defensive Perspective
-
-- **Don't trust "localhost-only."** Any local user can reach loopback services — this level relies on that.
-- **Egress filtering & monitoring** catches reverse shells (outbound connections).
-- **Flag suspicious tooling:** `nc`/`ncat`/`socat` listeners on odd ports, especially from service accounts.
-- **Least privilege on local daemons:** a secret-dispensing service like `suconnect` should have only the rights it needs.
-- **Detection idea:** alert when a process opens a listening socket, another local process connects within seconds, and the listener emits a credential-shaped string.
-
 ## Common Beginner Mistakes
 
 - Starting `suconnect` before the listener (connects to a closed port).
@@ -199,7 +191,7 @@ The second concept is **concurrency**: server and client must be alive at once, 
 - **Networking fundamentals:** the handshake here underlies every protocol, scan, and exploit.
 - **Offensive tooling:** netcat listeners are the basis of reverse/bind shells and exfil channels.
 - **Operational fluency:** tmux and job control let you run captures and exploits concurrently on remote hosts.
-- **Detection engineering:** knowing how listeners and reverse shells behave tells you what to hunt for.
+- **Red team C2 and pivoting:** the same listener/client primitive scales up to reverse shells, port relays, and tunneling through a network.
 
 ## Additional Reading
 

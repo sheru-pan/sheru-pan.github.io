@@ -105,14 +105,6 @@ find / -perm -4000 -type f 2>/dev/null
 
 Each hit is a candidate: *is it on [GTFOBins](https://gtfobins.github.io/)?* *can I make it run my command?* A SUID-root `find`, `vim`, `bash`, `cp`, or custom `*-do` wrapper is a fast path to root. `linpeas`/`linenum` automate the hunt. `bandit27-do` is the scoped, friendly version of a root-ending vulnerability.
 
-## Defensive Perspective
-
-- **Minimise SUID binaries.** Audit `find / -perm -4000 -type f` and remove the bit (`chmod u-s`) from anything that doesn't need it.
-- **Never make a general-purpose wrapper SUID.** A SUID helper must do one fixed, validated action.
-- **Prefer tight `sudo` rules** (logged, granular) over custom SUID binaries — and avoid `sudo` for shell-capable binaries.
-- **Use capabilities** (`setcap`) instead of full SUID-root where possible.
-- **Monitoring:** alert on SUID `execve` events followed by a child shell.
-
 ## Common Beginner Mistakes
 
 - Logging out after the Level 25 → 26 escape, then landing in `showtext` again.
@@ -131,8 +123,8 @@ Each hit is a candidate: *is it on [GTFOBins](https://gtfobins.github.io/)?* *ca
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** SUID abuse is a core Linux privesc technique.
-- **Secure administration:** understanding SUID risk shapes how you grant privileges (capabilities, scoped `sudo`).
-- **Detection engineering:** SUID `execve` events and unexpected child shells are concrete alerting targets.
+- **Red-team craft:** chaining a SUID GTFOBins binary into a shell as its owner (often root) is a fast, reliable escalation on real engagements.
+- **Exploit development:** how the effective UID transitions on `execve` underpins crafting and abusing setuid-based privilege handoffs.
 
 ## Additional Reading
 

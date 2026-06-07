@@ -93,14 +93,6 @@ This is a baby version of **argument / option injection**. An app builds a comma
 
 The mindset you practiced — "this string is parsed as a flag, not data, and I can use that" — is exactly the attacker's.
 
-## Defensive Perspective
-
-- **Insert `--` before user-controlled operands:** `git clone -- "$url"`, `grep -- "$pattern" file`, `rm -- "$file"`.
-- **Prefix untrusted filenames with a directory** (`./` or absolute) so they cannot masquerade as options.
-- **Avoid string-concatenated command lines.** Use array-`argv` APIs (`subprocess.run([...], shell=False)`) so the shell never re-parses your data.
-- **Detection:** Sysmon Event ID 1 and Linux `execve` audit records capture full command lines — a `tar --checkpoint-action=` or `git --upload-pack=` sourced from network input is a strong IOC.
-- **Hardening:** allow-list permitted filename characters rather than blocklisting dangerous ones.
-
 ## Common Beginner Mistakes
 
 - Running `cat -` and thinking the file is empty or the terminal froze — it waits on stdin (`Ctrl+C`/`Ctrl+D` to escape).

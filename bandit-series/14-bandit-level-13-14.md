@@ -173,15 +173,7 @@ Private keys are one of the highest-value loot items in any compromise:
 - **Lateral movement.** A key found on host A often unlocks hosts B, C, and D — especially in environments that reuse a single deployment key across a fleet. MITRE ATT&CK tracks this as **T1552.004 (Unsecured Credentials: Private Keys)**.
 - **Where operators look:** `~/.ssh/id_rsa`, `id_ed25519`, `*.pem`, backup archives, CI/CD runners, Terraform state, and developer laptops. A quick `find / -name "id_rsa" 2>/dev/null` or grepping for `BEGIN.*PRIVATE KEY` is standard practice.
 - **Exfiltrate, then connect from your box.** Just like this level, attackers copy a key to infrastructure they control and authenticate remotely — partly for tooling, partly because the target host may itself be restricted as a source.
-- **Persistence:** dropping their *own* public key into a victim's `authorized_keys` gives an attacker durable, password-less re-entry. Hunting for unexpected `authorized_keys` entries is a key detection.
-
-## Defensive Perspective
-
-- **Protect private keys with a passphrase.** An encrypted key (`ssh-keygen -p`) is useless to a thief who only has the file, buying you time to rotate.
-- **Enforce permissions.** Configuration management should assert `~/.ssh` = `700` and key files = `600`; SSH's own refusal of loose keys is a backstop, not a strategy.
-- **Restrict by source.** Use `from="10.0.0.0/8"` in `authorized_keys`, `Match Address`/`AllowUsers` in `sshd_config`, and disable direct login for sensitive accounts from untrusted networks — precisely the control that blocked the localhost login here.
-- **Prefer short-lived certificates.** SSH certificate authorities (or solutions like Teleport / HashiCorp Vault SSH) issue keys that expire in minutes/hours, drastically shrinking the value of a stolen key.
-- **Centralize and audit.** Inventory which public keys are authorized where. Alert on new `authorized_keys` entries and on `Accepted publickey` events for sensitive accounts in `/var/log/auth.log`.
+- **Persistence:** dropping their *own* public key into a victim's `authorized_keys` gives an attacker durable, password-less re-entry that survives password rotation.
 
 ## Common Beginner Mistakes
 
@@ -204,8 +196,8 @@ Private keys are one of the highest-value loot items in any compromise:
 
 - **Pentest / red team:** harvesting and reusing SSH keys is a primary lateral-movement technique; this is the hands-on version of T1552.004.
 - **Cloud & DevOps security:** every cloud VM you ever touch uses `ssh -i key.pem` — and key sprawl across CI/CD is a top real-world risk you now understand from the inside.
-- **Blue team / detection:** knowing how key auth and source restrictions work lets you write meaningful alerts on `Accepted publickey`, new `authorized_keys` entries, and logins from unexpected sources.
-- **Systems hardening:** you now know *why* `sshd_config` and `authorized_keys` options exist and how to use them to constrain access.
+- **Active Directory & lateral movement:** the same credential-reuse and source-restriction logic carries straight over to pivoting across hosts and abusing trust relationships in a domain.
+- **Exploit dev & persistence:** understanding how key auth and `authorized_keys` work shows you exactly where to plant a backdoor key for durable re-entry.
 
 ## Additional Reading
 

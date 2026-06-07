@@ -48,7 +48,7 @@ Create and enter a temporary directory **on your local machine** for the clone. 
 
 ### Why It Matters
 
-Cloning untrusted repos into a disposable directory isolates the files and simplifies cleanup — the same hygiene matters when triaging suspicious code in DFIR.
+Cloning repos into a disposable directory isolates the files and simplifies cleanup — the same hygiene keeps loot from different targets organized during an engagement.
 
 ---
 
@@ -130,14 +130,6 @@ Hunting secrets in repos is high-yield:
 
 The instinct: *if there's a repo, clone it and read it.*
 
-## Defensive Perspective
-
-- **Never commit secrets.** Use env vars, a secrets manager, or encrypted git-ignored files.
-- **Add `.gitignore`** for `.env`, key files, and credential paths *before* the first commit.
-- **Scan in CI and pre-commit** with `gitleaks`/`trufflehog`/`git-secrets`.
-- **Least privilege on repo access** — read access is access to everything inside.
-- **Monitoring:** alert on clone/fetch from unexpected accounts/IPs; mass-clone is a recon signal.
-
 ## Common Beginner Mistakes
 
 - Cloning from inside the Bandit server instead of locally.
@@ -157,8 +149,8 @@ The instinct: *if there's a repo, clone it and read it.*
 ## How This Helps Build Cyber Security Expertise
 
 - **Recon & bug bounty:** secret-scanning repos is core, high-impact recon.
-- **DevSecOps:** understanding leaks drives the controls you build.
-- **Incident response:** when a key leaks, "where did it touch?" is a Git question.
+- **Red team & internal pivoting:** cloning internal Git servers and CI configs after a foothold yields DB passwords, service tokens, and deploy keys.
+- **Cloud pentest:** a leaked AWS/GCP key in a repo is an instant pivot into the target's cloud.
 
 ## Additional Reading
 

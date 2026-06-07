@@ -119,13 +119,6 @@ Base64 turns up everywhere an attacker looks:
 
 A reflexive `base64 -d` on any suspicious blob is a high-yield, zero-cost probe.
 
-## Defensive Perspective
-
-- **Never use Base64 as a security control.** If a value must be secret, encrypt it with a real key. Base64 is for transport encoding only.
-- **Assume Basic Auth credentials are plaintext on the wire** unless wrapped in TLS — and even then they sit decodable in proxy logs and browser history.
-- **Detection engineering:** Base64-encoded PowerShell (`-enc`/`-EncodedCommand`) and long Base64 strings in process command lines, URLs, or DNS queries are strong hunting signals. Decode and inspect them; Sigma rules for encoded PowerShell are a staple.
-- **Don't put secrets in JWT payloads** — they are readable by anyone who holds the token. Sign for integrity; encrypt (JWE) if confidentiality is required.
-
 ## Common Beginner Mistakes
 
 - **Thinking Base64 is encryption** and hunting for a non-existent key.

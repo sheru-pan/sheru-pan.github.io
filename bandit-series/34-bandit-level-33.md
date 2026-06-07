@@ -99,18 +99,6 @@ The Bandit loop *is* the early kill chain in miniature:
 
 You now have the vocabulary and reflexes that make tools like `nmap`, `linpeas`, `gitleaks`, and Metasploit *make sense*, rather than being magic boxes.
 
-## Defensive Perspective
-
-Everything you exploited maps to a control a blue-teamer owns:
-
-- **Plaintext secrets** → secrets managers, least-privilege file modes, `auditd` watches.
-- **World-readable / SUID files** → permission hardening, SUID inventory and minimization.
-- **Cron abuse** → no world-writable scripts in privileged jobs, integrity monitoring.
-- **Restricted-shell escapes** → real isolation (containers, seccomp, `ForceCommand`) and process-ancestry alerting.
-- **Git leaks** → pre-receive secret scanning, rotation on any exposure, `.git` exposure detection.
-
-Having attacked these patterns, you can now *anticipate* them as a defender — which is precisely what threat modeling and detection engineering require.
-
 ## Common Beginner Mistakes
 
 The habits that hurt people across Bandit — and that you should consciously leave behind:
@@ -125,7 +113,7 @@ The habits that hurt people across Bandit — and that you should consciously le
 
 - Bandit's true subject was **methodical enumeration + reading the manual**, not any single command.
 - The same simple loop scales from a CTF prompt to an unfamiliar production system.
-- Offensive technique and defensive control are two views of the same vulnerability — you now hold both.
+- Every level was an attacker's loop: enumerate, find the credential, use it to advance — the core of real offensive work.
 - Understanding *why* beats memorizing *how* every single time.
 - You are no longer a beginner at the Linux command line, and that foundation underlies almost all of security.
 
@@ -135,11 +123,11 @@ Bandit is the foundation, not the finish line. Recommended next steps, roughly i
 
 1. **Keep climbing OverTheWire.** [**Natas**](https://overthewire.org/wargames/natas/) for web security, [**Leviathan**](https://overthewire.org/wargames/leviathan/) and [**Narnia**](https://overthewire.org/wargames/narnia/) for binary/privesc fundamentals, then **Krypton** (crypto) and **Behemoth/Utumno** for exploitation.
 2. **Broaden with guided platforms.** [**picoCTF**](https://picoctf.org/) for a huge beginner-friendly CTF library, and [**TryHackMe**](https://tryhackme.com/) for structured learning paths with guard rails.
-3. **Go hands-on adversarial.** [**Hack The Box**](https://www.hackthebox.com/) for realistic machines once you're comfortable.
+3. **Go hands-on adversarial.** [**Hack The Box**](https://www.hackthebox.com/) for realistic machines once you're comfortable, and work toward a certification like [**OffSec's OSCP**](https://www.offsec.com/courses/pen-200/) to formalize your pentest skills.
 4. **Specialize in Linux privilege escalation.** Study [**GTFOBins**](https://gtfobins.github.io/) and the [**HackTricks**](https://book.hacktricks.xyz/) privesc methodology, and practice with `linpeas`.
-5. **Build, then break.** Stand up your own vulnerable VM, exploit it, then defend it — the fastest way to fuse the offensive and defensive views.
+5. **Pick an offensive specialty and go deep.** Web app pentesting (Burp Suite, the OWASP Top 10), Active Directory attacks (Kerberoasting, BloodHound, lateral movement), cloud pentesting (AWS/Azure/GCP), or exploit development and binary exploitation — each builds on the same enumerate-and-pivot reflex Bandit drilled into you.
 
-Pick a direction (web, networks, binaries, cloud, detection) and go deep — your Bandit-honed method will carry over to all of them.
+Pick a direction (web, networks, binaries, cloud, Active Directory) and go deep — your Bandit-honed method will carry over to all of them.
 
 ## Additional Reading
 
@@ -156,9 +144,9 @@ I'm genuinely proud of finishing this series — and if you're reading this havi
 
 What I want you to carry forward is this: you didn't memorize your way here, you *reasoned* your way here. Every level you cleared, you cleared by looking carefully, reading what was in front of you, forming a guess, and testing it. That is exactly how real security work is done, on systems far messier than a wargame. The tools will keep changing; the method you built will not.
 
-So don't stop at the congratulations screen. The most interesting "next level" is the one nobody has written yet — the real system, the real bug, the real defense you'll figure out because you learned *how* to figure things out. Go find it.
+So don't stop at the congratulations screen. The most interesting "next level" is the one nobody has written yet — the real system, the real bug, the real foothold you'll figure out because you learned *how* to figure things out. Go find it.
 
-Congratulations. You finished Bandit. Now go break (and build) something bigger.
+Congratulations. You finished Bandit. Now go break something bigger.
 
 *Back to the start: [The Complete Bandit Learning Series](./README.md).*
 

@@ -4,7 +4,7 @@
 
 Up to now most Bandit levels have been "find the file, read the file." This one introduces a slightly different muscle: **comparing two things to find what changed.** You are handed two password files — an old one and a new one — and told the password you want is the single line that differs between them. Reading either file straight through is useless; both are full of plausible-looking 32-character strings. The skill is to ask the machine, "show me only the difference," and let `diff` do the work.
 
-That instinct — *don't eyeball it, diff it* — is one of the most transferable habits in all of technical security work. Configuration drift, tampered binaries, malicious code slipped into a pull request, a backup that no longer matches production: all of them are "what changed between A and B?" problems, and `diff` (and its relatives) is how you answer them precisely.
+That instinct — *don't eyeball it, diff it* — is one of the most transferable habits in offensive security. Patch-diffing a vendor update to find the bug, comparing a leaked config against its default to spot weak settings, pulling a credential out of git history that was "deleted" but never really gone: all of them are "what changed between A and B?" problems, and `diff` (and its relatives) is how you answer them precisely.
 
 ## Official Challenge Objective
 
@@ -19,8 +19,8 @@ That instinct — *don't eyeball it, diff it* — is one of the most transferabl
 
 - Comparing files with `diff`
 - Reading and interpreting `diff` output (the `<` and `>` markers)
-- Understanding "change detection" as a security primitive
-- File integrity and configuration-drift thinking
+- Using "what changed?" as a recon and exploitation primitive
+- Patch-diffing and spotting changed credentials
 
 ## My Approach
 
@@ -108,22 +108,22 @@ Chaining `diff | grep | cut` is a tiny example of the Unix philosophy — small 
 
 ## Deep Dive: Cyber Security Concept
 
-**Change detection and file integrity.**
+**Diffing as a recon and exploitation primitive.**
 
-At its core this level is about answering a deceptively important question: *"Is this thing different from what it should be — and how?"* That question underpins a whole family of security controls:
+At its core this level is about answering a deceptively important question: *"What changed between A and B?"* That question is the engine behind several powerful offensive techniques:
 
-- **File Integrity Monitoring (FIM).** Tools like AIDE, Tripwire, Samhain, and OSSEC take a cryptographic baseline of important files and continuously re-check them. When an attacker drops a web shell, swaps out `/bin/ls` for a trojaned copy, or edits `/etc/passwd`, the integrity monitor reports the *diff* between the trusted baseline and the current state — exactly the operation you just ran by hand.
-- **Configuration drift.** In ops and cloud security, "drift" is when running infrastructure no longer matches its declared, version-controlled state (Terraform, Ansible, Kubernetes manifests). Drift detection is `diff` applied to infrastructure, and unexpected drift is frequently the first sign of a misconfiguration or an intrusion.
-- **Patch / vulnerability analysis.** When a vendor releases a security patch, researchers "diff the patch" — comparing the vulnerable and fixed binaries or source — to learn precisely which lines changed, which often reveals the exact bug being fixed. This is the basis of *patch-diffing* and 1-day exploit development.
+- **Patch-diffing for 1-days.** When a vendor releases a security patch, researchers "diff the patch" — comparing the vulnerable and fixed binaries or source — to learn precisely which lines changed, which often reveals the exact bug being fixed. This is the basis of *patch-diffing* and 1-day exploit development.
+- **Spotting changed credentials.** Exactly what you just did: when an old and a new copy of a secret store exist, the diff hands you the value that was rotated in. The same trick surfaces rotated keys, tokens, and configs left side-by-side on a target.
+- **Secret hunting in version history.** `git diff` and `git log -p` compare commits and frequently reveal a credential that was committed and later "removed" but still lives in history — a secret a developer thought they had deleted.
 
 > [!IMPORTANT]
-> A single changed line can be the entire story. Whether it is the one password you need, a backdoored config directive, or the one source line that introduces a vulnerability, the value is in the *difference*, not the bulk. Tooling that surfaces differences cheaply is worth its weight in gold.
+> A single changed line can be the entire story. Whether it is the one password you need, a misconfigured directive you can abuse, or the one source line that introduces a vulnerability, the value is in the *difference*, not the bulk. Tooling that surfaces differences cheaply is worth its weight in gold.
 
 ```mermaid
 flowchart LR
-    A[Known-good baseline<br/>passwords.old] --> C{diff}
-    B[Current state<br/>passwords.new] --> C
-    C -->|< side| D[Old / removed line]
+    A[Old copy<br/>passwords.old] --> C{diff}
+    B[New copy<br/>passwords.new] --> C
+    C -->|< side| D[Old / replaced line]
     C -->|> side| E[New / changed line<br/>= the password]
 ```
 
@@ -131,16 +131,9 @@ flowchart LR
 
 Attackers and researchers use diffing offensively all the time:
 
-- **Patch-diffing for 1-days.** Microsoft Patch Tuesday and similar release cycles are followed by researchers diffing the patched binaries against the previous version. The changed functions point straight at the vulnerability, enabling an exploit before defenders have patched — the classic "1-day" race.
+- **Patch-diffing for 1-days.** Microsoft Patch Tuesday and similar release cycles are followed by researchers diffing the patched binaries against the previous version. The changed functions point straight at the vulnerability, enabling an exploit against unpatched targets — the classic "1-day" race.
 - **Finding what an attacker (or you) changed.** During a red-team engagement you might diff a captured config against a default template to spot weak settings, or diff two snapshots to confirm your persistence change took effect without touching anything else.
 - **Source/secret hunting in repos.** `git diff` and `git log -p` let you compare commits — and frequently reveal a secret that was committed and later "removed" but still lives in history. The changed-line mindset finds credentials developers thought they had deleted.
-
-## Defensive Perspective
-
-- **Deploy File Integrity Monitoring** on critical paths (`/etc`, `/bin`, `/usr/bin`, `/sbin`, web roots, scheduled-task directories). AIDE/Tripwire baselines plus regular re-checks turn "did anything change?" into an automated, alertable signal.
-- **Treat infrastructure as code and detect drift.** Run `terraform plan` / drift-detection on a schedule; an unexpected diff between declared and actual state is an investigative lead.
-- **Version-control your configs** so every change is a reviewable, attributable diff. Unexplained diffs in Git history are easy to spot and hard for an attacker to hide.
-- **Detection idea:** alert when FIM reports changes to sensitive files *outside* a known change/maintenance window — legitimate diffs cluster around deployments; a lone 3 a.m. change to `/etc/sudoers` does not.
 
 ## Common Beginner Mistakes
 
@@ -155,22 +148,22 @@ Attackers and researchers use diffing offensively all the time:
 - `diff A B` shows only the lines that differ — the fastest way to compare two text files.
 - In `diff` output, `<` is the first file, `>` is the second; the change marker `42c42` tells you which lines and that it was a **c**hange.
 - The password lives in `passwords.new`, so it is the line on the `>` side.
-- "What changed?" is a foundational security question behind FIM, drift detection, and patch-diffing.
+- "What changed?" is a foundational question behind patch-diffing, secret hunting, and credential rotation discovery.
 - Let tools surface differences; never trust your eyes against random strings.
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Incident response & forensics:** comparing a suspect system against a known-good baseline is how you find what an intruder altered.
 - **Vulnerability research:** patch-diffing is a core skill for finding bugs and writing 1-day exploits.
-- **DevSecOps:** drift detection and reviewable config diffs are how secure infrastructure stays secure over time.
-- **Code review:** every pull request is a `diff`; reading them critically is where you catch a malicious or insecure change before it ships.
+- **Bug bounty & secret hunting:** diffing commit history and config snapshots surfaces credentials and tokens that were "removed" but never really gone.
+- **Red teaming:** diffing a captured config against a default template, or two snapshots before and after a change, confirms exactly what you altered on a target.
+- **Exploit dev tradecraft:** reading a `diff` fluently — `<` old, `>` new — is the same fluency you need across patch files, Git history, and reverse-engineering output.
 
 ## Additional Reading
 
 - [`man diff`](https://man7.org/linux/man-pages/man1/diff.1.html), [`man cmp`](https://man7.org/linux/man-pages/man1/cmp.1.html)
 - [GNU `diffutils` manual](https://www.gnu.org/software/diffutils/manual/)
-- [AIDE — Advanced Intrusion Detection Environment](https://aide.github.io/)
-- [MITRE ATT&CK — T1565: Data Manipulation](https://attack.mitre.org/techniques/T1565/) and [T1078: Valid Accounts](https://attack.mitre.org/techniques/T1078/)
+- [`git diff`](https://git-scm.com/docs/git-diff) and [`git log -p`](https://git-scm.com/docs/git-log) for hunting secrets in history
+- [MITRE ATT&CK — T1078: Valid Accounts](https://attack.mitre.org/techniques/T1078/) and [T1552.001: Credentials In Files](https://attack.mitre.org/techniques/T1552/001/)
 
 ---
 

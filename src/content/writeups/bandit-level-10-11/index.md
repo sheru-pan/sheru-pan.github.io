@@ -106,13 +106,6 @@ Base64 turns up everywhere:
 - **Malware & C2** Base64-encode PowerShell (`-enc`), exfil data, and config blobs to slip past naïve filters.
 - **Bug bounty:** "encrypted" tokens and cookies frequently turn out to be Base64 — always decode first.
 
-## Defensive Perspective
-
-- **Never use Base64 as a security control.** If a value must be secret, encrypt it with a real key.
-- **Assume Basic Auth creds are plaintext on the wire** unless wrapped in TLS — and decodable in proxy logs even then.
-- **Detection engineering:** encoded PowerShell (`-enc`/`-EncodedCommand`) and long Base64 in command lines, URLs, or DNS queries are strong hunting signals.
-- **Don't put secrets in JWT payloads** — readable by anyone holding the token. Sign for integrity; use JWE if confidentiality is needed.
-
 ## Common Beginner Mistakes
 
 - Thinking Base64 is encryption and hunting for a non-existent key.

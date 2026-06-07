@@ -215,13 +215,6 @@ For an attacker, this level models two everyday realities:
 
 The `git add -f` move itself is a routine operator skill: getting an arbitrary file into a repo regardless of ignore rules, e.g. to plant a tracked payload or test file.
 
-## Defensive Perspective
-
-- **Never rely on `.gitignore` for secrets.** Keep secrets out of the repo entirely; use a secrets manager and inject at runtime. Pair with server-side `pre-receive` secret scanning so a force-added secret is *rejected at push time*.
-- **Enforce policy server-side.** Branch protection, required reviews, signed-commit enforcement, and secret scanning belong on the server/forge, not in client hooks a developer can `--no-verify` past.
-- **Lock down hook integrity.** Treat server-side hooks and CI pipeline definitions as privileged code: restrict who can modify them, review changes, and monitor for unexpected `post-receive`/CI edits — they're an execution and persistence vector.
-- **Audit pushes.** Log push events, including rejected ones; a flurry of rejected pushes can indicate someone probing your hook logic.
-
 ## Common Beginner Mistakes
 
 - **Assuming `git add key.txt` worked** because it printed no error — it silently did nothing.

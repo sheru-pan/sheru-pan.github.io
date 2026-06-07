@@ -109,7 +109,7 @@ git branch -a
 
 ### Why It Matters
 
-This is the heart of the level. The default checkout hid `dev` entirely. In real Git forensics, `git branch -a` (with `git tag` and `git log --all`) makes the *entire* repository visible.
+This is the heart of the level. The default checkout hid `dev` entirely. When mining a repo for secrets, `git branch -a` (with `git tag` and `git log --all`) makes the *entire* repository visible.
 
 ---
 
@@ -169,19 +169,11 @@ gitGraph
 ```
 
 > [!IMPORTANT]
-> "It's only on a feature branch" is **not** remediation. As long as a commit exists on *any* branch (or in the reflog, or behind a tag), the secret is in the repository — rotate it.
+> "It's only on a feature branch" means nothing to an attacker. As long as a commit exists on *any* branch (or in the reflog, or behind a tag), the secret is in the repository — and unless it was rotated, it's still valid loot. Always enumerate every ref.
 
 ## Offensive Security Perspective
 
 When an attacker grabs a `.git` directory — via an exposed web root (`https://target/.git/`), a backup, or a public mirror — they enumerate *all* refs: `git branch -a`, `git log --all --oneline`, `git tag`. Tools like **truffleHog**, **gitleaks**, and **git-dumper** automate downloading an exposed `.git` and scanning every commit on every branch for keys and high-entropy strings. Real breaches trace to exactly this: a feature branch with hardcoded keys, "deleted" from the UI but still in history.
-
-## Defensive Perspective
-
-- **Secret scanning on commit and push** (`gitleaks`, `git-secrets`) so credentials never enter history on *any* branch.
-- **Branch protection is visibility, not safety** — it does nothing for unprotected feature branches.
-- **Rotate, don't just delete.** Assume exposure and rotate; then purge with `git filter-repo`/BFG across all refs.
-- **Monitor for `.git` exposure** — requests to `/.git/HEAD`, `/.git/config` are repo-dumping attempts.
-- **Audit clone activity** on internal Git hosts from unexpected accounts.
 
 ## Common Beginner Mistakes
 
@@ -197,14 +189,14 @@ When an attacker grabs a `.git` directory — via an exposed web root (`https://
 - `git branch -a` reveals every branch, including hidden remote-tracking ones.
 - The same file can hold different content on different branches.
 - Secrets routinely live on dev/feature branches never meant to ship.
-- Deleting a secret from one branch does not remove it — rotate it.
+- Deleting a secret from one branch does not remove it — and unless it was rotated, it still works.
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Source-code review & SAST:** branch and history enumeration is core to finding leaked secrets.
+- **Source-code review & bug bounty:** branch and history enumeration is core to finding leaked secrets.
 - **OSINT & recon:** exposed `.git` directories turn into footholds once you can walk every ref.
-- **DFIR:** the commit graph across all branches is your evidence trail.
-- **Secure SDLC:** understanding how secrets leak into branches is the prerequisite to stopping it.
+- **Red team & lateral movement:** credentials on forgotten branches of an internal repo pivot you to the next host.
+- **Cloud pentest:** keys and deploy tokens on non-default branches open the target's cloud and CI.
 
 ## Additional Reading
 

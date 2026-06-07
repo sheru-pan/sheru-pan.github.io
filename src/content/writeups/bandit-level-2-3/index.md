@@ -104,14 +104,6 @@ Unquoted variables are a goldmine:
 
 Whenever you see a shell script handling user-controlled paths *without quotes*, you have likely found a vulnerability.
 
-## Defensive Perspective
-
-- **Quote every expansion:** `"$var"`, `"$@"`, `"$(cmd)"`. Run ShellCheck in CI to flag unquoted expansions.
-- **Use arrays** instead of relying on word-splitting: `cp "${files[@]}" /dest`.
-- **Prefer `find ... -print0 | xargs -0`** so spaces/newlines never break the pipeline.
-- **Detection:** in `execve`/Sysmon command lines, a "single filename" field that exploded into many tokens can indicate filename-based injection.
-- **Hardening:** validate and normalize user-supplied filenames at the boundary.
-
 ## Common Beginner Mistakes
 
 - Typing it raw, getting four "No such file" errors, and doubting the file exists.
@@ -130,8 +122,8 @@ Whenever you see a shell script handling user-controlled paths *without quotes*,
 ## How This Helps Build Cyber Security Expertise
 
 - **Secure scripting:** quoting discipline separates robust automation from a command-injection liability.
-- **AppSec & code review:** unquoted expansions are a recurring audit finding in CI/CD and install scripts.
-- **Detection engineering:** knowing how command lines tokenize improves SIEM/EDR parsing rules.
+- **AppSec & code review:** unquoted expansions are a recurring command-injection finding when auditing CI/CD and install scripts.
+- **Privilege escalation:** unquoted variables in setuid scripts and cron jobs are a classic local privesc vector.
 
 ## Additional Reading
 

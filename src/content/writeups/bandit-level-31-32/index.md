@@ -204,13 +204,6 @@ sequenceDiagram
 - **Hook abuse:** write access to server-side hooks (or a push-triggered CI pipeline) gives code execution and persistence via `post-receive` — a recurring supply-chain pattern.
 - The `git add -f` move itself is a routine way to plant an arbitrary tracked file regardless of ignore rules.
 
-## Defensive Perspective
-
-- **Never rely on `.gitignore` for secrets** — keep them out of the repo and add server-side `pre-receive` secret scanning that *rejects* a force-added secret.
-- **Enforce policy server-side** — branch protection, required reviews, signed commits, secret scanning on the forge, not in skippable client hooks.
-- **Lock down hook integrity** — treat server-side hooks and CI definitions as privileged code; review and monitor changes.
-- **Audit pushes**, including rejected ones — a flurry can mean someone probing hook logic.
-
 ## Common Beginner Mistakes
 
 - Assuming `git add key.txt` worked because it printed no error.

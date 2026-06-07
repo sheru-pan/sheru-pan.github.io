@@ -20,7 +20,7 @@ Underneath the puzzle is a genuinely important topic: **how shells decide which 
 - Understanding shell startup files (`.bashrc`, `.bash_profile`, `.profile`)
 - The difference between **login/non-login** and **interactive/non-interactive** shells
 - Reasoning about *how* you connect, not just *that* you connect
-- Defensive thinking about user-controlled startup scripts as a persistence/sabotage vector
+- Abusing user-controlled startup scripts as a persistence/sabotage vector
 
 ## My Approach
 
@@ -111,15 +111,7 @@ User-writable shell startup files are a classic and quiet place for attackers to
 
 - **Persistence via dotfiles.** Appending a payload to a victim's `~/.bashrc`, `~/.bash_profile`, or `~/.profile` means it re-executes every time they open a shell — a low-privilege, no-special-tooling persistence technique (MITRE ATT&CK T1546.004, *Unix Shell Configuration Modification*).
 - **Trojaned aliases / functions.** An attacker can alias `sudo`, `ssh`, or `ls` to a wrapper that harvests credentials or hides files, all from a startup file.
-- **Sabotage / anti-analysis.** As this level shows, startup files can also *deny* access or disrupt an investigator's interactive session. The counter-move — non-interactive execution — is itself an offensive technique for working on a host whose interactive shell is hostile or instrumented.
-
-## Defensive Perspective
-
-- **Monitor changes to startup files.** Put FIM watches on `~/.bashrc`, `~/.bash_profile`, `~/.profile`, `/etc/profile`, and `/etc/profile.d/*`. Unexpected edits, especially to multiple users at once, are a strong persistence signal.
-- **Review dotfiles during IR.** When triaging a possibly compromised account, read its shell startup files early — they are a favorite, low-effort persistence spot.
-- **Constrain shells where appropriate.** Service accounts that should never log in interactively should have their shell set to `/usr/sbin/nologin` or `/bin/false`, removing the dotfile attack surface entirely.
-- **Logging:** `ssh host "command"` still produces an `Accepted password`/`Accepted publickey` line in `/var/log/auth.log`. Pair auth logs with process/`auditd` execve logs to see *what command* a non-interactive SSH session actually ran.
-- **Detection idea:** alert on SSH sessions that execute a single command and disconnect immediately, especially `cat`/`grep`/`base64` against sensitive paths — that pattern is exactly this level, and exactly how an attacker exfiltrates one file fast.
+- **Sabotage and access denial.** As this level shows, startup files can also *deny* or disrupt an interactive session for whoever logs in next. And the counter-move — non-interactive execution — is itself an offensive technique for working on a host whose interactive shell is hostile, broken, or rigged against you.
 
 ## Common Beginner Mistakes
 
@@ -139,8 +131,8 @@ User-writable shell startup files are a classic and quiet place for attackers to
 
 ## How This Helps Build Cyber Security Expertise
 
-- **Automation & ops:** non-interactive SSH execution is the backbone of deployment, configuration management, and remote administration.
-- **Persistence hunting:** dotfile modification is a top technique to check during incident response.
+- **Automation & ops:** non-interactive SSH execution is the backbone of deployment, configuration management, and remote administration — and of scripting actions across compromised hosts.
+- **Persistence:** dotfile modification is a quiet, low-privilege way to keep code re-executing every time a victim opens a shell.
 - **Linux internals:** understanding the shell-startup matrix demystifies a class of "works here but not there" bugs and environment problems.
 - **Red teaming:** both sides of this level (planting startup sabotage, and bypassing it) are techniques you will use.
 

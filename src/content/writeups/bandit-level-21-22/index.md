@@ -116,14 +116,6 @@ The flaw is the **insecure temporary file**. `/tmp` is world-readable by design;
 
 Enumerating scheduled tasks is a standard early step in Linux post-exploitation — cron jobs frequently run as `root` or other privileged users. Operators read `/etc/crontab`, every file in `/etc/cron.d/`, the `cron.*` directories, and note **which user each job runs as and what files it touches**. Tools like `linpeas` and especially `pspy` (which watches the process table without root) surface short-lived cron-spawned processes you'd otherwise miss. "A privileged job leaves a secret in `/tmp`" is a real finding, not just a CTF contrivance.
 
-## Defensive Perspective
-
-- **Never write secrets to `/tmp`** or any world-readable path. Use a directory owned by and readable only by the consumer, `chmod 600`, restrictive `umask`.
-- **Use `mktemp`** — it creates files with `600` perms and unpredictable names — instead of a hardcoded path you `chmod 644`.
-- **Prefer not to materialize secrets at all**; pass via environment, a secrets manager, or an in-memory pipe.
-- **Audit cron jobs** in `/etc/cron.d/` and `/etc/crontab` for the user they run as and the files they touch.
-- **Monitoring:** watch credential paths and privileged temp-file creation, e.g. `auditctl -w /etc/bandit_pass/ -p r -k secret_read`, and alert on a cron process reading a secret then writing a world-readable file.
-
 ## Common Beginner Mistakes
 
 - Looking only in `/etc/crontab` and missing `/etc/cron.d/`.
@@ -142,9 +134,9 @@ Enumerating scheduled tasks is a standard early step in Linux post-exploitation 
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** "enumerate scheduled tasks" is a core Linux privesc checklist item; this is your first hands-on encounter.
-- **DFIR:** persistence and exfil mechanisms often hide in cron; knowing the config locations speeds triage.
-- **Detection engineering:** understanding how the leak looks on disk and in the process table tells you what to instrument.
-- **Secure development:** `mktemp` vs hardcoded `/tmp` is a real secure-coding habit.
+- **Red team operations:** harvesting secrets cron leaks, or hijacking writable scripts/paths it runs, is a reliable post-exploitation primitive for escalating and persisting.
+- **Exploit development:** abusing predictable, world-readable temp files is a classic local privesc technique you'll weaponize beyond this CTF.
+- **Cloud/host pentest:** misconfigured scheduled jobs touching world-writable paths are a fast route to a higher-privileged user or root.
 
 ## Additional Reading
 

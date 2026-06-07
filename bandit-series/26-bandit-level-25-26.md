@@ -195,14 +195,6 @@ Restricted-shell escapes are bread-and-butter for penetration testers and red te
 
 The reusable instinct from this level: when you are dropped into something that *isn't* a normal shell, enumerate exactly which program is running and which sub-programs it can reach — then look each up on GTFOBins.
 
-## Defensive Perspective
-
-- **Don't rely on a custom wrapper script as a security boundary.** If `showtext` must exist, it should not `exec` an interactive pager. Use `cat`, or `more` with paging disabled, or a tool that genuinely cannot spawn children.
-- **Disable interactive escapes in the pager.** `less` honours `LESSSECURE=1`, which disables `!`, `v`, pipe, and other shell-reaching features. There is no robust equivalent for `more` — which is itself a reason to prefer `less -e` with `LESSSECURE` or to avoid pagers entirely in restricted contexts.
-- **Use a real jail, not a fake one.** Containers, `seccomp`/AppArmor/SELinux profiles, `ForceCommand` with a vetted binary, or `chroot` with a minimal toolset are far stronger than a wrapper script. Remove `vi`, `vim`, `more`, `less`, `man`, `awk`, `find`, and other shell-capable binaries from any restricted environment.
-- **Audit SUID/sudo grants ruthlessly.** No editor, pager, or interpreter should ever be SUID-root or in a permissive `sudo` rule. `find / -perm -4000 -type f 2>/dev/null` enumerates SUID binaries; cross-check every hit against GTFOBins.
-- **Monitoring:** alert when a constrained account spawns an unexpected child process — e.g., `auditd`/`execve` logs showing `bash` parented by `vi` parented by `more`. That process tree is a screaming indicator of a shell escape.
-
 ## Common Beginner Mistakes
 
 - **Giving up after the instant logout**, assuming the level is broken instead of reading `/etc/passwd`.
@@ -224,8 +216,8 @@ The reusable instinct from this level: when you are dropped into something that 
 
 - **Privilege escalation:** the editor/pager escape is one of the highest-yield Linux privesc primitives; recognising it on sight is a core pentest skill.
 - **Embedded & appliance testing:** custom CLIs and constrained shells are everywhere in network and IoT gear; breaking out of them is a specialised, valuable discipline.
-- **Detection engineering:** understanding the `more → vi → bash` process tree teaches you exactly what malicious shell escapes look like in `execve` telemetry, so you can write detections for them.
-- **Secure design:** building a *real* sandbox (seccomp/AppArmor/containers) instead of a wrapper script is a lesson you carry into every hardening project.
+- **Red-team craft:** "living off the land" by abusing a trusted binary (GTFOBins) to spawn a shell is a stealthy, signature-light technique you'll lean on constantly.
+- **Cloud & CI pentesting:** locked-down web shells, kiosk menus, and constrained build runners are just restricted shells in new clothes — the same enumerate-the-helper-then-escape instinct applies.
 
 ## Additional Reading
 

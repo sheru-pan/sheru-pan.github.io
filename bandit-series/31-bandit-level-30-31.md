@@ -173,13 +173,6 @@ git log --all -p | grep -i  # brute-force grep across all history
 
 A commit "removed" by a force-push or rebase frequently lingers as an unreachable object that `git fsck` can resurrect. Bug bounty write-ups regularly feature credentials recovered from exactly these forgotten corners.
 
-## Defensive Perspective
-
-- **Scan all refs, not just `main`.** Configure secret scanners to cover tags and history, and run them server-side in CI (a pre-receive hook or pipeline step) so a tagged secret is caught before it lands.
-- **Rotate on any exposure.** If a credential ever existed in *any* ref — branch, tag, stash, or dangling commit — treat it as compromised and rotate it. Removing the file later does not un-leak it.
-- **Purge thoroughly.** True removal means `git filter-repo` (or BFG) across all refs, deleting the tag, expiring the reflog (`git reflog expire --all --expire=now`), and `git gc --prune=now` — then force-pushing and having every clone re-clone.
-- **Limit who can create tags/branches** on protected repos, and log ref creation events.
-
 ## Common Beginner Mistakes
 
 - **Concluding the level is broken** when commits and branches look empty.

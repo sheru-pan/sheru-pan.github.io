@@ -194,14 +194,6 @@ Restricted-shell escapes are bread-and-butter for pentesters:
 
 The reusable instinct: when dropped into something that isn't a normal shell, enumerate exactly which program runs and which sub-programs it reaches — then check GTFOBins.
 
-## Defensive Perspective
-
-- **Don't treat a wrapper script as a security boundary.** Avoid `exec`-ing an interactive pager; prefer `cat` or non-interactive output.
-- **Disable pager escapes.** `less` honours `LESSSECURE=1` (disables `!`, `v`, pipes). `more` has no robust equivalent — another reason to avoid it in restricted contexts.
-- **Use a real jail:** containers, `seccomp`/AppArmor/SELinux, `ForceCommand` with a vetted binary, or minimal `chroot`. Strip `vi`/`vim`/`more`/`less`/`man`/`awk`/`find` from restricted environments.
-- **Audit SUID/sudo grants:** `find / -perm -4000 -type f 2>/dev/null`; cross-check every hit against GTFOBins. No editor/pager/interpreter should be SUID-root.
-- **Monitoring:** alert on a `bash` parented by `vi` parented by `more` in `execve`/`auditd` logs — a screaming shell-escape indicator.
-
 ## Common Beginner Mistakes
 
 - Giving up after the instant logout instead of checking `/etc/passwd`.
@@ -223,8 +215,8 @@ The reusable instinct: when dropped into something that isn't a normal shell, en
 
 - **Privilege escalation:** the editor/pager escape is a high-yield Linux privesc primitive to recognise on sight.
 - **Appliance/IoT testing:** breaking out of custom constrained CLIs is a specialised, valuable skill.
-- **Detection engineering:** the `more → vi → bash` process tree teaches you what shell escapes look like in telemetry.
-- **Secure design:** building a real sandbox instead of a wrapper script is a lesson for every hardening project.
+- **Red-team craft:** "living off the land" via a trusted binary (GTFOBins) to spawn a shell is a stealthy, signature-light move you'll reuse constantly.
+- **Cloud & CI pentesting:** locked-down web shells, kiosk menus, and constrained build runners are restricted shells in disguise — same enumerate-then-escape instinct.
 
 ## Additional Reading
 

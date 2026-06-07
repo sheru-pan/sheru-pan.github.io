@@ -146,14 +146,6 @@ Kerckhoffs's principle — a system should be secure even if everything except t
 
 Re-deriving "hidden" values is everyday offensive work: predictable backup/S3 names, reset tokens that are really `md5(email)` or a timestamp, JWT fields. During post-exploitation, attackers read every script a privileged cron/systemd unit invokes, because those scripts reveal where credentials and outputs live. The move is always the same: *find the derivation, then run it yourself.* Predictable-token and IDOR bugs are common bug-bounty findings of exactly this shape.
 
-## Defensive Perspective
-
-- **Don't rely on obscurity for access control** — use permissions and cryptography.
-- **Use real randomness** for anything meant to be unguessable: `mktemp` (CSPRNG, `600`) instead of a derived path; CSPRNG-backed tokens and session IDs, never `hash(known input)`.
-- **Assume your code is readable** — derivation logic is exposed the moment someone sees the source.
-- **Keep secrets out of `/tmp`** entirely (the obscured name didn't change that).
-- **Monitoring:** file-integrity monitoring on the secret store catches the underlying read, e.g. `auditctl -w /etc/bandit_pass/ -p r -k secret_read`.
-
 ## Common Beginner Mistakes
 
 - Running the script as yourself (hashes for `bandit22`, dumps your own password).

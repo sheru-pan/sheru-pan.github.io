@@ -174,14 +174,6 @@ netcat and the listener/client mindset are bread-and-butter offense:
 - **Port testing and banner grabbing.** `nc <host> <port>` connects to and interrogates services during recon.
 - **Pivoting and relays.** netcat (and `socat`) build ad-hoc relays and tunnels to move through a network.
 
-## Defensive Perspective
-
-- **Restrict who can bind/listen and what can reach loopback services.** Even `localhost`-only services are reachable by any local user — never assume "it's only on localhost" means "it's safe." This level *relies* on that fact.
-- **Egress filtering & connection monitoring.** Reverse shells depend on outbound connections; restricting and logging egress, and alerting on unexpected long-lived outbound TCP from servers, catches them.
-- **Flag suspicious tooling.** `nc`/`ncat`/`socat` listeners on non-standard ports, especially spawned by web/service accounts, are high-value detections. EDR rules on `nc -l`/`-e` and on processes binding listening sockets are common.
-- **Least-privilege on local daemons.** A service that validates a secret and dispenses another (like `suconnect`) should run with the *minimum* rights to do exactly that — here, just enough to read `/etc/bandit_pass/bandit21`.
-- **Detection idea:** alert when a process opens a listening socket and another local process connects to it within seconds, followed by the listener emitting a credential-shaped string — an exfil/relay signature.
-
 ## Common Beginner Mistakes
 
 - **Starting `suconnect` before the listener** — the client connects to a closed port and fails. Server first, always.
@@ -204,7 +196,7 @@ netcat and the listener/client mindset are bread-and-butter offense:
 - **Networking fundamentals:** the client–server handshake here is the basis for understanding every protocol, scan, and exploit you'll touch.
 - **Offensive tooling:** netcat listeners are the foundation of reverse/bind shells, exfil channels, and relays.
 - **Operational fluency:** tmux/screen and job control let you run captures, listeners, and exploits concurrently on remote hosts without losing work.
-- **Detection engineering:** understanding how listeners and reverse shells behave tells you exactly what to hunt for defensively.
+- **Red team C2 and pivoting:** the same listener/client primitive scales up to reverse shells, port relays, and tunneling through a compromised network.
 
 ## Additional Reading
 

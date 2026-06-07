@@ -99,14 +99,6 @@ The failure is always the same shape: **a sensitive value is readable by a princ
 
 The moment a pentester or red teamer gets a foothold, the first move is **local enumeration** — and "read the obvious files" is step one: home directories, `.bash_history`, `~/.ssh/`, config files, and `grep`-ing the filesystem for `password`/`secret`/`token`/`api_key`. Bug bounty hunters find the web equivalent constantly — an exposed `.env`, a `backup.sql` in a web root, a connection string in a verbose error page.
 
-## Defensive Perspective
-
-- **Don't store secrets in plaintext.** Use a secrets manager or runtime-injected environment variables kept out of version control.
-- **Least privilege on files:** a credential file should be `chmod 600`, owned by the one service account that needs it — never world-readable.
-- **Monitoring:** place an `auditd` watch on sensitive files: `auditctl -w /etc/app/credentials -p r -k cred_access`, then alert on the `cred_access` key in your SIEM.
-- **Logging:** the preceding SSH login lands in `/var/log/auth.log` / `/var/log/secure` as an `Accepted password` line — your first investigation pivot.
-- **Detection idea:** alert on `cat`/`grep`/`find` reading known secret paths shortly after a new SSH session from an unusual source IP.
-
 ## Common Beginner Mistakes
 
 - Forgetting `-p 2220` → "Connection refused."
@@ -126,8 +118,8 @@ The moment a pentester or red teamer gets a foothold, the first move is **local 
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** post-exploitation begins with reading files; `linpeas` automates exactly this instinct.
-- **DFIR:** investigators reconstruct attacks by reading files, histories, and logs — the same `ls`/`cat` muscle on evidence.
-- **Cloud security:** the cloud `readme` is an over-permissive S3 bucket or a key in instance metadata — identical failure mode.
+- **Red team operations:** harvesting plaintext credentials from a foothold drives lateral movement and deeper access.
+- **Cloud pentesting:** the cloud `readme` is an over-permissive S3 bucket or a key in instance metadata — identical failure mode.
 
 ## Additional Reading
 

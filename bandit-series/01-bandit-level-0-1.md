@@ -75,7 +75,7 @@ The password you are looking for is: [REDACTED]
 
 ### Why It Matters
 
-`cat` is the fastest way to read a small text file, and reading files is what you will spend most of a SOC shift or a pentest doing. The deeper point: this password lives in **plaintext** in a **readable** file. There is no encryption, no access control beyond "be logged in as this user." That is exactly how real credential leaks happen.
+`cat` is the fastest way to read a small text file, and reading files is what you will spend most of a pentest doing. The deeper point: this password lives in **plaintext** in a **readable** file. There is no encryption, no access control beyond "be logged in as this user." That is exactly how real credential leaks happen.
 
 ---
 
@@ -119,18 +119,6 @@ In a real engagement, the moment a penetration tester or red teamer lands an ini
 
 Bug bounty hunters find this constantly too — an exposed `.env` file, a `backup.sql` left in a web root, a verbose error page leaking a connection string. The `readme` in this level is the training-wheels version of all of them.
 
-## Defensive Perspective
-
-- **Don't store secrets in plaintext files.** Use a secrets manager (HashiCorp Vault, AWS Secrets Manager, sealed-secrets) or at minimum environment variables injected at runtime — and keep those out of version control.
-- **Least privilege on files.** A credential file should be readable only by the single service account that needs it (`chmod 600`, owned by that account), never world-readable.
-- **Monitoring opportunity:** access to sensitive files is detectable. Linux `auditd` can place a watch on a credentials file:
-  ```bash
-  auditctl -w /etc/app/credentials -p r -k cred_access
-  ```
-  Any read then generates a log event keyed `cred_access`, which you can alert on in your SIEM.
-- **Logging opportunity:** every SSH login that precedes this kind of access lands in `/var/log/auth.log` (Debian) or `/var/log/secure` (RHEL) as an `Accepted password` line — your first pivot point in an investigation.
-- **Detection engineering idea:** alert on *unexpected* processes (`cat`, `grep`, `find`) reading known secret paths, especially shortly after a new SSH session from an unusual source IP.
-
 ## Common Beginner Mistakes
 
 - **Forgetting `-p 2220`** and getting "Connection refused" because SSH tried port 22.
@@ -149,12 +137,12 @@ Bug bounty hunters find this constantly too — an exposed `.env` file, a `backu
 
 ## How This Helps Build Cyber Security Expertise
 
-This trivially small level is the seed of several advanced disciplines:
+This trivially small level is the seed of several advanced offensive disciplines:
 
 - **Linux internals & privilege escalation:** post-exploitation always begins with reading files and understanding who can read what. Tools like `linpeas` automate exactly the "look at the obvious files" instinct you just practiced.
-- **Digital forensics & incident response:** an investigator reconstructs an attacker's actions by reading files, histories, and logs — the same `ls`/`cat` muscle, applied to evidence.
-- **Cloud security:** the cloud equivalent of `readme` is an over-permissive S3 bucket or a key in instance metadata; the failure mode (readable secret) is identical.
-- **Threat hunting:** knowing how attackers harvest plaintext creds tells you what to hunt for.
+- **Red team operations:** harvesting plaintext credentials from a foothold is a core step toward lateral movement and deeper access across an environment.
+- **Cloud pentesting:** the cloud equivalent of `readme` is an over-permissive S3 bucket or a key in instance metadata; the failure mode (readable secret) is identical.
+- **Active Directory attacks:** the same "read the obvious files" reflex surfaces credentials in scripts, shares, and config files that fuel domain compromise.
 
 ## Additional Reading
 

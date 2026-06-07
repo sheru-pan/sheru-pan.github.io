@@ -4,7 +4,7 @@
 
 The previous level confined the search to a single directory. This one removes the fence entirely: the password could be **anywhere on the server**. To find it you will search the whole filesystem from the root (`/`) and narrow the results using a new axis of metadata — **ownership**. You will also meet one of the most practical tricks in the entire toolkit: redirecting error output to `/dev/null` so the signal isn't buried under a flood of "Permission denied" noise.
 
-A server-wide `find` is a rite of passage. It is the exact move an attacker makes after gaining a foothold and the exact move a defender makes when hunting for an artifact whose location is unknown. Doing it cleanly — getting only the lines that matter — is a skill in itself.
+A server-wide `find` is a rite of passage. It is the exact move an attacker makes after gaining a foothold, when the file you want is somewhere on the box but you do not yet know where. Doing it cleanly — getting only the lines that matter — is a skill in itself.
 
 ## Official Challenge Objective
 
@@ -114,18 +114,7 @@ find / -writable -type f 2>/dev/null
 find / -user postgres -type f 2>/dev/null
 ```
 
-The `2>/dev/null` habit is essential operationally: noisy output is slow to read and can hint to a watchful defender that you are enumerating. Combining ownership, permissions, and size lets an operator pinpoint exactly the misconfigured file that bridges a trust boundary — the same logic this level demonstrates with a single planted file.
-
-## Defensive Perspective
-
-- **Audit cross-ownership and over-permissive files** as part of routine hardening. A scheduled job can sweep for risky combinations:
-  ```bash
-  # group-readable files owned by sensitive accounts
-  find / -xdev -type f -user root -perm -040 2>/dev/null
-  ```
-- **File integrity monitoring (AIDE, Tripwire, Wazuh)** baselines ownership and permissions, alerting when a file's owner or group changes — a strong indicator of tampering or a misconfigured deploy.
-- **Detection engineering:** a low-privileged account running a recursive `find /` is a hallmark of enumeration. auditd `execve` rules or EDR can flag `find /` invocations, especially from service accounts that should never run interactive commands.
-- **Least privilege:** the root cause of this level is a sensitive file being group-accessible to a less-trusted account. Set the narrowest possible owner/group and `chmod 600`/`640` on credential files so only the intended principal can read them.
+The `2>/dev/null` habit is essential operationally: noisy output is slow to read and clutters the terminal you are working in. Combining ownership, permissions, and size lets an operator pinpoint exactly the misconfigured file that bridges a trust boundary — the same logic this level demonstrates with a single planted file.
 
 ## Common Beginner Mistakes
 
@@ -147,9 +136,9 @@ The `2>/dev/null` habit is essential operationally: noisy output is slow to read
 ## How This Helps Build Cyber Security Expertise
 
 - **Privilege escalation:** finding files you can read or write that belong to higher-privileged accounts is a primary escalation technique; this is the foundational query.
-- **DFIR:** investigators trace which account owns a suspicious artifact to attribute activity and scope an incident.
-- **System administration / hardening:** ownership audits are a standard part of securing multi-user systems and meeting compliance baselines.
-- **Operational discipline:** mastering stream redirection (`2>/dev/null`, `2>&1`, `>>`) is fundamental to building clean, scriptable tooling.
+- **Red team & post-exploitation:** mapping ownership across a foothold reveals which service accounts own what, exposing trust boundaries you can pivot through.
+- **Active Directory & multi-user attacks:** on shared hosts, group membership is the key to reading another principal's files — this query finds those cross-ownership leaks directly.
+- **Operational discipline:** mastering stream redirection (`2>/dev/null`, `2>&1`, `>>`) is fundamental to building clean, scriptable offensive tooling.
 
 ## Additional Reading
 
