@@ -16,9 +16,9 @@
   --color-muted: #6b7785;
   --color-text: #c5cdd9;
   --color-text-strong: #e6edf3;
-  --color-accent: #73d0ff;
-  --color-accent-strong: #4dbfff;
-  --color-teal: #7fd1b9;
+  --color-accent: #ff6b6b;
+  --color-accent-strong: #e05555;
+  --color-teal: #ffa94d;
   --color-warn: #f0c674;
   --color-ioc: #f07178;
 
@@ -37,34 +37,34 @@ html {
 body {
   min-height: 100dvh;
   background-image:
-    radial-gradient(at 15% 0%, rgba(115, 208, 255, 0.06) 0px, transparent 50%),
-    radial-gradient(at 85% 100%, rgba(127, 209, 185, 0.04) 0px, transparent 50%);
+    radial-gradient(at 15% 0%, rgba(255, 107, 107, 0.06) 0px, transparent 50%),
+    radial-gradient(at 85% 100%, rgba(255, 169, 77, 0.04) 0px, transparent 50%);
   background-attachment: fixed;
 }
 
-/* Subtle SIEM-grid backdrop on hero sections */
+/* Subtle grid backdrop on hero sections */
 .bg-grid {
   background-image:
-    linear-gradient(to right, rgba(115, 208, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(115, 208, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 107, 107, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 107, 107, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* Pulsing "monitoring" status dot */
+/* Pulsing status dot */
 .status-dot {
   position: relative;
   display: inline-block;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background-color: var(--color-teal);
+  background-color: var(--color-accent);
 }
 .status-dot::after {
   content: "";
   position: absolute;
   inset: -3px;
   border-radius: 9999px;
-  background-color: var(--color-teal);
+  background-color: var(--color-accent);
   opacity: 0.4;
   animation: pulse 2s ease-out infinite;
 }
@@ -100,7 +100,7 @@ body {
 .prose-blue a {
   color: var(--color-accent);
   text-decoration: underline;
-  text-decoration-color: rgba(115, 208, 255, 0.4);
+  text-decoration-color: rgba(255, 107, 107, 0.4);
   text-underline-offset: 3px;
   transition: text-decoration-color 0.15s ease;
 }
@@ -116,7 +116,7 @@ body {
   padding: 0.1em 1em;
   margin: 1.2em 0;
   color: var(--color-muted);
-  background: rgba(115, 208, 255, 0.04);
+  background: rgba(255, 107, 107, 0.04);
   border-radius: 0 4px 4px 0;
 }
 .prose-blue code {
@@ -347,7 +347,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(115, 208, 255, 0.25);
+  background: rgba(255, 107, 107, 0.25);
   color: var(--color-text-strong);
 }
 

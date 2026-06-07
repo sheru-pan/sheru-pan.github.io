@@ -1,42 +1,41 @@
 ---
 name: Himangshu Pan
-title: SOC Analyst · Blue Team
+title: Offensive Security Researcher
 location: India
 email: researchersheru@gmail.com
 phone: "+91 9332943989"
-linkedin: https://www.linkedin.com/in/sheru-pan/
-github: https://github.com/sheru-pan
-updated: 2026-05-25
+linkedin: https://www.linkedin.com/in/0xsh3ru/
+github: https://github.com/0xSh3ru
+updated: 2026-05-30
 ---
 
 ## Summary
 
-Python developer turned **defensive security researcher**. Strong programming and systems background (Python, Linux, backend, blockchain) re-applied to blue-team work: detection engineering, log analysis, incident response, and SOC operations. CEH (2018). Active on TryHackMe ([@researchersheru](https://tryhackme.com/p/researchersheru)) — SOC and defensive paths. Comfortable in the terminal, in Wireshark, and in a SIEM query bar.
+Python developer turned **offensive security researcher**. Strong programming and systems background (Python, Linux, backend, blockchain) re-applied to breaking things: web application testing, network penetration, vulnerability research, and exploit development. CEH (2018). Active on HackTheBox and TryHackMe ([@researchersheru](https://tryhackme.com/p/researchersheru)). Comfortable in the terminal, in Burp Suite, and in a debugger. OSCP in progress.
 
 ## Core Skills
 
-**SIEM / Log Analysis** — Splunk, ELK / OpenSearch, Wazuh, KQL, Sigma rules
-**Network Forensics** — Wireshark, tcpdump, Zeek, Suricata, PCAP triage
-**Endpoint** — Sysmon, Microsoft Defender, OSQuery, Velociraptor
-**Scripting** — Python, Bash, PowerShell, Regex
-**Frameworks** — MITRE ATT&CK, D3FEND, NIST CSF, Cyber Kill Chain
-**Lab** — Linux, Docker, VMware, Git, Ghidra (basics)
+**Web App Testing** — Burp Suite, OWASP ZAP, SQLmap, ffuf, Nikto
+**Network & Recon** — Nmap, Masscan, Netcat, Shodan, Wireshark
+**Exploitation** — Metasploit, buffer overflows, CVE research, shellcode, privilege escalation
+**OSINT & Enumeration** — theHarvester, recon-ng, BloodHound, Amass
+**Scripting** — Python, Bash, PowerShell, exploit scripting, PoC development
+**Frameworks & Lab** — MITRE ATT&CK, PTES, Kali Linux, Docker, VMware
 
 ## Certifications
 
 - **Certified Ethical Hacker (CEH)** — EC-Council, 2018
-- Blue Team Level 1 (BTL1) — *in progress*
-- CompTIA Security+ — *in progress*
+- Offensive Security Certified Professional (OSCP) — *in progress*
 
 ## Experience
 
-### Independent Defensive Security Research · 2025 – Present
+### Independent Offensive Security Research · 2025 – Present
 
-Returned to security with a deliberate blue-team focus.
-- Building a personal lab (ELK + Wazuh + Sysmon) to reproduce attacker behavior and write Sigma detections against it.
-- Writing public CTF and detection-engineering walkthroughs at [sheru-pan.github.io](https://sheru-pan.github.io).
-- Working through TryHackMe SOC paths and CTF rooms as [@researchersheru](https://tryhackme.com/p/researchersheru) — focusing on detection-side learning, not just flag capture.
-- Studying Microsoft Defender, KQL, and MITRE ATT&CK mappings via BTL1-style scenarios.
+Full-time focus on offensive security research and exploit development.
+- Researching vulnerabilities across web applications, network services, and binary targets; publishing detailed writeups at [0xsh3ru.github.io](https://0xsh3ru.github.io).
+- Active CTF competitor on HackTheBox and TryHackMe as [@researchersheru](https://tryhackme.com/p/researchersheru) — working through offensive and red-team tracks.
+- Building custom exploit scripts and proof-of-concept tools in Python; studying CVE advisories and reproducing public vulnerabilities in isolated lab environments.
+- Preparing for OSCP: structured study across buffer overflows, Active Directory attacks, and web exploitation.
 
 ### Freelance Backend / Blockchain Developer · 2021 – 2024
 
@@ -52,7 +51,7 @@ Returned to security with a deliberate blue-team focus.
 ### AQB Solutions Pvt. Ltd. · Python Developer · 2016 – 2018
 
 - Built data crawlers, PDF parsing pipelines, and structured-data ingestion services.
-- Earned **CEH** in 2018 — laying the foundation for the eventual blue-team pivot.
+- Earned **CEH** in 2018 — laying the foundation for the eventual pivot into offensive security.
 
 ### Government of India · CCTNS Project — Contract Trainer · 2015 – 2016
 
@@ -65,4 +64,4 @@ Returned to security with a deliberate blue-team focus.
 
 ## What I'm Looking For
 
-A SOC Tier-1 / detection-engineering / DFIR-leaning role where I can contribute code-comfortable analysis, write detections, and grow alongside a defensive team.
+A penetration testing, red-team, or vulnerability research role where I can apply my development background to offensive security — breaking real systems, writing clear reports, and contributing to a team that takes exploitation seriously.

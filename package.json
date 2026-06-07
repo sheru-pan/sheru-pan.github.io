@@ -2,7 +2,7 @@
   "name": "sheru-pan-portfolio",
   "type": "module",
   "version": "1.0.0",
-  "description": "Himangshu Pan portfolio — blue-team / defensive security research",
+  "description": "Himangshu Pan portfolio — offensive security researcher",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

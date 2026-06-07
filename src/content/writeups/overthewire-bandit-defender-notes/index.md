@@ -5,6 +5,7 @@ date: 2026-04-15
 platform: OverTheWire
 difficulty: easy
 tags: [ctf, linux, ssh, bandit, log-analysis]
+draft: true
 ---
 
 Theory without hands-on practice is empty calories. CTFs are how I keep my Linux and command-line muscle in shape — but I try to play them from a defender's seat: *if this ran in my environment, what would the logs say?*
