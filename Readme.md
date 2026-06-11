@@ -1,8 +1,8 @@
-# sheru-pan.github.io
+# 0xsh3ru.github.io
 
 Personal portfolio + writeup site for **Himangshu Pan** — SOC analyst, blue-team / defensive security research.
 
-Live: [https://sheru-pan.github.io](https://sheru-pan.github.io)
+Live: [https://0xsh3ru.github.io](https://0xsh3ru.github.io)
 
 ## Stack
 

@@ -7,7 +7,7 @@ export const profile = {
 
   bio: [
     "Python developer turned **offensive security researcher**. After several years building Python backends and blockchain systems, I redirected that engineering mindset into security — understanding how systems break, chaining vulnerabilities into working exploits, and documenting every step so others can learn from it.",
-    "My developer background gives me an edge in code review and understanding why applications fail from the inside. I spend time on CTF platforms (HTB, TryHackMe), study CVEs, build proof-of-concept exploits, and approach every target with the same eye that once built it. CEH (2018) was the entry point; OSCP is the current goal.",
+    "My developer background gives me an edge in code review and understanding why applications fail from the inside. I spend time on TryHackMe and the OverTheWire wargames, study CVEs, build proof-of-concept exploits, and approach every target with the same eye that once built it. CEH (2018) was the entry point; next up is hands-on web security via the PortSwigger Web Security Academy labs.",
   ],
 
   contact: {
@@ -25,7 +25,7 @@ export const profile = {
   skills: [
     {
       group: "Web Application Testing",
-      items: ["Burp Suite", "OWASP ZAP", "SQLmap", "ffuf", "Nikto"],
+      items: ["Burp Suite", "OWASP ZAP", "SQLmap", "ffuf", "Nikto", "CyberChef"],
     },
     {
       group: "Network & Recon",
@@ -33,11 +33,11 @@ export const profile = {
     },
     {
       group: "Exploitation",
-      items: ["Metasploit", "Buffer overflows", "CVE research", "Shellcode", "Privilege escalation"],
+      items: ["Metasploit", "CVE research", "PoC development", "Privilege escalation"],
     },
     {
-      group: "OSINT & Enumeration",
-      items: ["theHarvester", "recon-ng", "BloodHound", "Amass", "WHOIS"],
+      group: "Learning / Exploring",
+      items: ["theHarvester", "recon-ng", "Amass", "WHOIS"],
     },
     {
       group: "Scripting & Development",
@@ -55,6 +55,12 @@ export const profile = {
       issuer: "EC-Council",
       year: 2018,
       url: "",
+    },
+    {
+      name: "GhostWire CTF — Participation",
+      issuer: "VIGYAANRANG 2026 · Atria Institute of Technology",
+      year: 2026,
+      url: "https://0xsh3ru.github.io/ghostwire-ctf-certificate.jpg",
     },
     // { name: "Offensive Security Certified Professional (OSCP)", issuer: "OffSec", year: 2026, url: "" },
   ],

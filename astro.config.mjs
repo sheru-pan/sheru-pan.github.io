@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://sheru-pan.github.io',
+  site: 'https://0xsh3ru.github.io',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
