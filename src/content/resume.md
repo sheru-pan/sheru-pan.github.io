@@ -21,7 +21,7 @@ Python developer turned **offensive security researcher**. Strong programming an
 **Exploitation** — Metasploit, CVE research, privilege escalation, PoC development
 **Learning / Exploring** — theHarvester, recon-ng, Amass
 **Scripting** — Python, Bash, PowerShell, exploit scripting, PoC development
-**Frameworks & Lab** — MITRE ATT&CK, PTES, Kali Linux, Docker, VMware
+**Frameworks & Lab** — MITRE ATT&CK, Kali Linux, Docker, VMware
 
 ## Certifications
 

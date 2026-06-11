@@ -45,7 +45,7 @@ export const profile = {
     },
     {
       group: "Frameworks & Lab",
-      items: ["MITRE ATT&CK", "PTES", "Kali Linux", "Docker", "VMware"],
+      items: ["MITRE ATT&CK", "Kali Linux", "Docker", "VMware"],
     },
   ],
 
