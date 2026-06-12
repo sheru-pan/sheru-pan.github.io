@@ -1,6 +1,6 @@
 ---
 name: Himangshu Pan
-title: Offensive Security Researcher
+title: Offensive Security Researcher | Python Engineer
 location: India
 email: researchersheru@gmail.com
 phone: "+91 9332943989"
