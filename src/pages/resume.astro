@@ -31,10 +31,10 @@ import { profile } from "../data/profile";
   </div>
 
   <!-- PDF viewer — fills remaining viewport height -->
-  <div id="resume-viewer" class="mx-auto max-w-4xl px-4 py-6 sm:px-6">
+  <div id="resume-viewer" class="mx-auto max-w-6xl px-4 py-6 sm:px-6">
     <iframe
       id="resume-iframe"
-      src="/ResumeHimangshuPan.pdf#view=FitH&toolbar=0"
+      src="/ResumeHimangshuPan.pdf#view=Fit&toolbar=0"
       title="Himangshu Pan — Resume"
       class="w-full rounded-lg border border-[var(--color-border-strong)]"
       style="height: calc(100dvh - 160px); min-height: 500px;"
@@ -56,18 +56,18 @@ import { profile } from "../data/profile";
 </BaseLayout>
 
 <script>
-  // Measure actual nav + toolbar height so the iframe fills exactly the remaining space.
+  // With the app-shell layout, <main> owns the scrollable area.
+  // iframe should fill main height minus toolbar and padding.
   function fitViewer() {
-    const nav = document.querySelector("header");
+    const main = document.querySelector("main");
     const toolbar = document.getElementById("resume-toolbar");
     const iframe = document.getElementById("resume-iframe") as HTMLIFrameElement | null;
-    if (!iframe) return;
-    const navH = nav?.getBoundingClientRect().height ?? 48;
-    const toolbarH = toolbar?.getBoundingClientRect().height ?? 44;
-    const remaining = window.innerHeight - navH - toolbarH;
-    iframe.style.height = `${Math.max(remaining, 500)}px`;
+    if (!iframe || !main || !toolbar) return;
+    const available = main.clientHeight - toolbar.getBoundingClientRect().height - 48;
+    iframe.style.height = `${Math.max(available, 400)}px`;
   }
 
   fitViewer();
   window.addEventListener("resize", fitViewer);
+  new ResizeObserver(fitViewer).observe(document.querySelector("main")!);
 </script>

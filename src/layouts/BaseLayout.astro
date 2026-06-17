@@ -41,9 +41,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
   </head>
-  <body class="min-h-screen text-[var(--color-text)]">
+  <body class="flex h-dvh flex-col overflow-hidden text-[var(--color-text)]">
     {!hideChrome && <Nav />}
-    <main>
+    <main class="flex-1 overflow-y-auto">
       <slot />
     </main>
     {!hideChrome && <Footer />}

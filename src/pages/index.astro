@@ -67,57 +67,64 @@ const projects = (await getCollection("projects", (e) => !e.data.draft))
     </div>
   </section>
 
-  <!-- Terminal "whoami" strip -->
-  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-    <TerminalPrompt
-      command="whoami --verbose"
-      output={`himangshu.pan\nrole: python developer | cybersecurity learner\nfocus: web app security · ctf · hands-on practice\nstatus: seeking internship / junior roles`}
-    />
-  </section>
+  <!-- ABOUT + SKILLS + CERTS -->
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="grid gap-x-12 gap-y-12 lg:grid-cols-[3fr_2fr]">
 
-  <!-- ABOUT -->
-  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-    <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
-      <span class="text-[var(--color-teal)]">#</span> about
-    </h2>
-    <div class="mt-5 max-w-3xl space-y-4 text-[var(--color-text)] text-justify">
-      {profile.bio.map((p) => (
-        <p set:html={p.replace(/\*\*(.+?)\*\*/g, '<strong class="text-[var(--color-text-strong)]">$1</strong>')} />
-      ))}
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-    <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
-      <span class="text-[var(--color-teal)]">#</span> skills
-    </h2>
-    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {profile.skills.map((group) => (
-        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
-          <h3 class="font-mono text-sm text-[var(--color-accent)]">{group.group}</h3>
-          <div class="mt-3 flex flex-wrap gap-1.5">
-            {group.items.map((item) => <SkillBadge label={item} />)}
-          </div>
+      <!-- LEFT: Terminal + About -->
+      <section>
+        <TerminalPrompt
+          command="whoami --verbose"
+          output={`himangshu.pan\nrole: python developer | cybersecurity researcher\nfocus: web app security · ctf · hands-on practice\nstatus: seeking internship / junior roles`}
+        />
+        <h2 class="mt-10 font-mono text-xl font-semibold text-[var(--color-text-strong)]">
+          <span class="text-[var(--color-teal)]">#</span> about
+        </h2>
+        <div class="mt-5 space-y-4 text-[var(--color-text)] text-justify">
+          {profile.bio.map((p) => (
+            <p set:html={p.replace(/\*\*(.+?)\*\*/g, '<strong class="text-[var(--color-text-strong)]">$1</strong>')} />
+          ))}
         </div>
-      ))}
-    </div>
-  </section>
+      </section>
 
-  <!-- CERTIFICATIONS -->
-  <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-    <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
-      <span class="text-[var(--color-teal)]">#</span> certifications
-    </h2>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {profile.certifications.map((c) => (
-        <CertCard name={c.name} issuer={c.issuer} year={c.year} url={c.url || undefined} />
-      ))}
+      <!-- RIGHT: Skills + Certifications -->
+      <div class="space-y-10">
+
+        <!-- Skills -->
+        <section>
+          <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
+            <span class="text-[var(--color-teal)]">#</span> skills
+          </h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {profile.skills.map((group) => (
+              <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] p-4">
+                <h3 class="font-mono text-sm text-[var(--color-accent)]">{group.group}</h3>
+                <div class="mt-3 flex flex-wrap gap-1.5">
+                  {group.items.map((item) => <SkillBadge label={item} />)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Certifications -->
+        <section>
+          <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
+            <span class="text-[var(--color-teal)]">#</span> certifications
+          </h2>
+          <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {profile.certifications.map((c) => (
+              <CertCard name={c.name} issuer={c.issuer} year={c.year} url={c.url || undefined} />
+            ))}
+          </div>
+          <p class="mt-4 font-mono text-xs text-[var(--color-muted)]">
+            <span class="text-[var(--color-accent)]">$</span> Top 1% on TryHackMe · 225+ rooms · 45+ badges.
+          </p>
+        </section>
+
+      </div>
     </div>
-    <p class="mt-4 font-mono text-xs text-[var(--color-muted)]">
-      <span class="text-[var(--color-accent)]">$</span> Top 1% on TryHackMe · 225+ rooms completed · 45+ badges earned.
-    </p>
-  </section>
+  </div>
 
   <!-- LATEST WRITEUPS -->
   {writeups.length > 0 && (

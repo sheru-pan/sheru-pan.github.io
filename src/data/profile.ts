@@ -1,7 +1,7 @@
 export const profile = {
   name: "Himangshu Pan",
   handle: "0xSh3ru",
-  role: "Python Developer | Cybersecurity Learner",
+  role: "Python Developer | Cybersecurity Researcher",
   tagline: "Committed to continuous learning and professional growth in cybersecurity",
   location: "India",
 
@@ -59,19 +59,19 @@ export const profile = {
       name: "Shields Up: Cybersecurity Job Simulation",
       issuer: "AIG (Forage)",
       year: 2026,
-      url: "",
+      url: "https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/4nAmAbTbHbnGMNSyo/2ZFnEGEDKTQMtEv9C_4nAmAbTbHbnGMNSyo_6a0de1afffd50d8819eb3298_1779627006412_completion_certificate.pdf",
     },
     {
       name: "Cybersecurity Job Simulation",
       issuer: "MasterCard (Forage)",
       year: 2026,
-      url: "",
+      url: "https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/mfxGwGDp6WkQmtmTf/vcKAB5yYAgvemepGQ_mfxGwGDp6WkQmtmTf_6a0de1afffd50d8819eb3298_1779620833579_completion_certificate.pdf",
     },
     {
       name: "Cyber Job Simulation",
       issuer: "Deloitte (Forage)",
       year: 2026,
-      url: "",
+      url: "https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/9PBTqmSxAf6zZTseP/E9pA6qsdbeyEkp3ti_9PBTqmSxAf6zZTseP_6a0de1afffd50d8819eb3298_1779298958092_completion_certificate.pdf",
     },
   ],
 

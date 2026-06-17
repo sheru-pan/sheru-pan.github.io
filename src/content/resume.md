@@ -1,6 +1,6 @@
 ---
 name: Himangshu Pan
-title: Python Developer | Cybersecurity Learner
+title: Python Developer | Cybersecurity Researcher
 location: India
 email: researchersheru@gmail.com
 phone: "+91 93329 43989"
