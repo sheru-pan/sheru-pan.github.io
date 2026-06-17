@@ -23,6 +23,8 @@ services:
     image: sheru-portfolio-builder:latest
     container_name: sheru-portfolio-builder
     working_dir: /app
+    environment:
+      SKIP_PDF: "1"
     volumes:
       - .:/app
       - builder_node_modules:/app/node_modules

@@ -71,7 +71,7 @@ const projects = (await getCollection("projects", (e) => !e.data.draft))
   <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <TerminalPrompt
       command="whoami --verbose"
-      output={`himangshu.pan\nrole: offensive security researcher\nfocus: exploitation · vuln research · CTF\nstatus: open to engagements`}
+      output={`himangshu.pan\nrole: python developer | cybersecurity learner\nfocus: web app security · ctf · hands-on practice\nstatus: seeking internship / junior roles`}
     />
   </section>
 
@@ -80,7 +80,7 @@ const projects = (await getCollection("projects", (e) => !e.data.draft))
     <h2 class="font-mono text-xl font-semibold text-[var(--color-text-strong)]">
       <span class="text-[var(--color-teal)]">#</span> about
     </h2>
-    <div class="mt-5 max-w-3xl space-y-4 text-[var(--color-text)]">
+    <div class="mt-5 max-w-3xl space-y-4 text-[var(--color-text)] text-justify">
       {profile.bio.map((p) => (
         <p set:html={p.replace(/\*\*(.+?)\*\*/g, '<strong class="text-[var(--color-text-strong)]">$1</strong>')} />
       ))}
@@ -115,7 +115,7 @@ const projects = (await getCollection("projects", (e) => !e.data.draft))
       ))}
     </div>
     <p class="mt-4 font-mono text-xs text-[var(--color-muted)]">
-      <span class="text-[var(--color-accent)]">$</span> Top 1% on TryHackMe · 225+ rooms · 45+ badges · grinding the OverTheWire wargames.
+      <span class="text-[var(--color-accent)]">$</span> Top 1% on TryHackMe · 225+ rooms completed · 45+ badges earned.
     </p>
   </section>
 

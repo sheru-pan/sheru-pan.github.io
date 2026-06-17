@@ -1,70 +1,57 @@
 ---
 name: Himangshu Pan
-title: Offensive Security Researcher | Python Engineer
+title: Python Developer | Cybersecurity Learner
 location: India
 email: researchersheru@gmail.com
-phone: "+91 9332943989"
+phone: "+91 93329 43989"
 linkedin: https://www.linkedin.com/in/0xsh3ru/
 github: https://github.com/0xSh3ru
 website: https://0xsh3ru.github.io/
-updated: 2026-06-11
+updated: 2026-06-17
 ---
 
-## Summary
+## About Me
 
-Python developer turned **offensive security researcher**. Strong programming and systems background (Python, Linux, backend, blockchain) re-applied to breaking things: web application testing, network penetration, vulnerability research, and exploit development. CEH (2018). Active on TryHackMe — **ranked top 1%, 225+ rooms completed, 45+ badges** ([@researchersheru](https://tryhackme.com/p/researchersheru)) — and the **OverTheWire wargames**. Comfortable in the terminal and in Burp Suite.
+I started my technology journey in 2015 as a developer, gaining experience in software development, automation, cloud platforms, server administration, and CI/CD pipelines.
 
-## Core Skills
+Today, I am focused on **transitioning into cybersecurity** through hands-on learning, security research, and technical writing. I am actively seeking **internship and junior level opportunities** to build practical experience and grow as a security professional.
 
-**Web App Testing** — Burp Suite, OWASP ZAP, SQLmap, ffuf, Nikto, CyberChef
-**Network & Recon** — Nmap, Masscan, Netcat, Shodan, Wireshark
-**Exploitation** — Metasploit, CVE research, privilege escalation, PoC development
-**Learning / Exploring** — theHarvester, recon-ng, Amass
-**Scripting** — Python, Bash, PowerShell, exploit scripting, PoC development
-**Frameworks & Lab** — MITRE ATT&CK, Kali Linux, Docker, VMware
+## Technical Skills
 
-## Certifications
+**Security** — Nmap, Wireshark, SQLmap, Burp Suite, Splunk, CyberChef, Metasploit
+**Programming** — Python, Rust, JavaScript, Bash, Git
+**Platforms** — Kali Linux, Ubuntu, Windows, Docker, VirtualBox, AWS
 
-- **Certified Ethical Hacker (CEH)** — EC-Council, 2018
-- **GhostWire CTF — Certificate of Participation** — VIGYAANRANG 2026, Atria Institute of Technology, Bengaluru ([certificate](https://0xsh3ru.github.io/ghostwire-ctf-certificate.jpg))
+## Learning & Practice
 
-## Experience
+- OverTheWire: **Natas** *(In Progress)*
+- TryHackMe: **Jr Penetration Tester** *(In Progress)*
+- TryHackMe: Cyber Security 101
+- TryHackMe: Pre Security
+- TryHackMe: SOC Level 1
+- TryHackMe: DevSecOps
+- OverTheWire: Bandit *(Completed)*
+- Practice: OWASP Juice Shop
+- Practice: DVWA
 
-### Independent Offensive Security Research · 2026 – Present
+## Achievements
 
-Full-time focus on offensive security research and exploit development.
-- Researching vulnerabilities across web applications, network services, and binary targets; publishing detailed writeups at [0xsh3ru.github.io/writeups](https://0xsh3ru.github.io/writeups/).
-- Active CTF competitor on TryHackMe as [@researchersheru](https://tryhackme.com/p/researchersheru) — **ranked in the top 1% with 225+ rooms completed and 45+ badges earned** — working through offensive and red-team tracks.
-- Building custom exploit scripts and proof-of-concept tools in Python; studying CVE advisories and reproducing public vulnerabilities in isolated lab environments.
-- Actively working through the OverTheWire wargames to sharpen Linux and CLI exploitation fundamentals; next focus is hands-on web application security via the PortSwigger Web Security Academy labs.
+- **TryHackMe Top 1%** — 225+ rooms & challenges completed, 45+ badges earned ([@researchersheru](https://tryhackme.com/p/researchersheru))
 
-### Freelance Backend / Blockchain Developer · 2021 – 2025
+## Projects
 
-- Built and deployed **Secret Invoice** on the Secret Network (privacy-preserving smart contracts).
-- Contributed to **Emprops** (NFT + AI platform) — backend logic, test coverage, secure system design.
-- Deepened practical experience with secure system design while working outside formal cybersecurity roles.
+**Security Lab Setup** — Built a VirtualBox lab with Kali Linux and Windows, deploying DVWA and OWASP Juice Shop for hands-on web application security testing using Nmap, Burp Suite, SQLmap, and Wireshark.
 
-### Klizo Solutions Pvt. Ltd. · Backend / Blockchain Engineer · 2019 – 2021
+## Certifications, Virtual Experience & CTF
 
-- Built decentralized-identity solutions on **Hyperledger Indy** and **Aries**.
-- Production Python backend work; took ownership of security-sensitive integrations.
-
-### AQB Solutions Pvt. Ltd. · Python Developer · 2016 – 2018
-
-- Built data crawlers, PDF parsing pipelines, and structured-data ingestion services.
-- Earned **CEH** in 2018 — laying the foundation for the eventual pivot into offensive security.
-
-### Government of India · CCTNS Project — Contract Trainer · 2015 – 2016
-
-- Delivered training for the Crime and Criminal Tracking Network & Systems project (police-department digitization).
-- Taught fundamentals and basic programming at Unique Computer Academy in parallel.
+- **Shields Up: Cybersecurity Job Simulation** — AIG (Forage), 2026
+- **Cybersecurity Job Simulation** — MasterCard (Forage), 2026
+- **GhostWire CTF** — Astria Institute of Technology, 2026 ([certificate](https://0xsh3ru.github.io/ghostwire-ctf-certificate.jpg))
+- **Cyber Job Simulation** — Deloitte (Forage), 2026
+- **Certified Ethical Hacker (CEHv9)** — EC-Council, 2018
 
 ## Education
 
 - **BCA (Hons.)** — The University of Burdwan · 62.55%
-- **High School Diploma** — Jharkhand Academic Council · 73.00%
-- **High School Diploma** — Jharkhand Academic Council · 52.40%
-
-## What I'm Looking For
-
-A penetration testing, red-team, or vulnerability research role where I can apply my development background to offensive security — breaking real systems, writing clear reports, and contributing to a team that takes exploitation seriously.
+- **12th Standard** — J.A.C Ranchi · 52.40%
+- **10th Standard** — J.A.C Ranchi · 73.00%

@@ -1,13 +1,14 @@
 export const profile = {
   name: "Himangshu Pan",
   handle: "0xSh3ru",
-  role: "Offensive Security Researcher",
-  tagline: "Offensive security · Exploitation · Vulnerability research",
+  role: "Python Developer | Cybersecurity Learner",
+  tagline: "Committed to continuous learning and professional growth in cybersecurity",
   location: "India",
 
   bio: [
-    "Python developer turned **offensive security researcher**. After several years building Python backends and blockchain systems, I redirected that engineering mindset into security — understanding how systems break, chaining vulnerabilities into working exploits, and documenting every step so others can learn from it.",
-    "My developer background gives me an edge in code review and understanding why applications fail from the inside. I spend time on TryHackMe and the OverTheWire wargames, study CVEs, build proof-of-concept exploits, and approach every target with the same eye that once built it. CEH (2018) was the entry point; next up is hands-on web security via the PortSwigger Web Security Academy labs.",
+    "I started my journey in technology in 2015 as a developer, gradually stepping into the world of software systems, automation, server administration, cloud platforms, and CI/CD pipelines. At the time, I was mostly focused on building and maintaining things—understanding how systems worked, how they failed, and how they could be made more reliable. Over the years, that exposure gave me a broader perspective on the software lifecycle, from development to deployment and operations, and I naturally became more interested in how everything connected behind the scenes.",
+    "As I worked deeper into these systems, I found myself increasingly drawn toward the security side of technology—not just how systems are built, but how they can be tested, challenged, and understood from an adversarial point of view. That curiosity slowly shifted into intent, and I began dedicating time to **cybersecurity** through hands-on labs, security research, and continuous self-learning. Along the way, I started documenting what I was learning, turning notes and experiments into structured write-ups as a way to reinforce my understanding and track my growth.",
+    "Today, I am intentionally steering my path toward cybersecurity, building on my existing engineering foundation while developing practical security skills. I am looking for opportunities at the **internship or junior level** where I can apply what I know, learn from real-world environments, and continue evolving into a security professional.",
   ],
 
   contact: {
@@ -24,34 +25,26 @@ export const profile = {
   // Grouped so the home page can render section headers
   skills: [
     {
-      group: "Web Application Testing",
-      items: ["Burp Suite", "OWASP ZAP", "SQLmap", "ffuf", "Nikto", "CyberChef"],
+      group: "Security",
+      items: ["Nmap", "Wireshark", "SQLmap", "Burp Suite", "Splunk", "CyberChef", "Metasploit"],
     },
     {
-      group: "Network & Recon",
-      items: ["Nmap", "Masscan", "Netcat", "Shodan", "Wireshark"],
+      group: "Programming",
+      items: ["Python", "Rust", "JavaScript", "Bash", "Git"],
     },
     {
-      group: "Exploitation",
-      items: ["Metasploit", "CVE research", "PoC development", "Privilege escalation"],
+      group: "Platforms",
+      items: ["Kali Linux", "Ubuntu", "Windows", "Docker", "VirtualBox", "AWS"],
     },
     {
-      group: "Learning / Exploring",
-      items: ["theHarvester", "recon-ng", "Amass", "WHOIS"],
-    },
-    {
-      group: "Scripting & Development",
-      items: ["Python", "Bash", "PowerShell", "Exploit scripting", "PoC dev"],
-    },
-    {
-      group: "Frameworks & Lab",
-      items: ["MITRE ATT&CK", "Kali Linux", "Docker", "VMware"],
+      group: "Learning & Practice",
+      items: ["TryHackMe", "OTW: Bandit (Linux)", "OTW: Natas (Web)", "OWASP Juice Shop", "DVWA"],
     },
   ],
 
   certifications: [
     {
-      name: "Certified Ethical Hacker (CEH)",
+      name: "Certified Ethical Hacker (CEHv9)",
       issuer: "EC-Council",
       year: 2018,
       url: "",
@@ -62,7 +55,24 @@ export const profile = {
       year: 2026,
       url: "https://0xsh3ru.github.io/ghostwire-ctf-certificate.jpg",
     },
-    // { name: "Offensive Security Certified Professional (OSCP)", issuer: "OffSec", year: 2026, url: "" },
+    {
+      name: "Shields Up: Cybersecurity Job Simulation",
+      issuer: "AIG (Forage)",
+      year: 2026,
+      url: "",
+    },
+    {
+      name: "Cybersecurity Job Simulation",
+      issuer: "MasterCard (Forage)",
+      year: 2026,
+      url: "",
+    },
+    {
+      name: "Cyber Job Simulation",
+      issuer: "Deloitte (Forage)",
+      year: 2026,
+      url: "",
+    },
   ],
 
   // Footer navigation links

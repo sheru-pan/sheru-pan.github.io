@@ -1,115 +1,73 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { profile } from "../data/profile";
-import fs from "node:fs/promises";
-import path from "node:path";
-import matter from "gray-matter";
-import { createMarkdownProcessor } from "@astrojs/markdown-remark";
-
-const resumePath = path.resolve("./src/content/resume.md");
-const raw = await fs.readFile(resumePath, "utf-8");
-const { data, content } = matter(raw);
-
-const processor = await createMarkdownProcessor({ syntaxHighlight: false });
-const result = await processor.render(content);
-const html = result.code;
 ---
 
-<BaseLayout title="Resume" description={`Resume of ${data.name} — ${data.title}`}>
-  <link rel="stylesheet" href="/resume-paged.css" />
-
-  <!-- Toolbar (hidden in @media print) -->
-  <section class="border-b border-[var(--color-border)] bg-grid print-hide">
-    <div class="mx-auto flex max-w-4xl flex-col items-start justify-between gap-3 px-4 py-5 sm:flex-row sm:items-center sm:px-6">
+<BaseLayout title="Resume" description={`Resume of ${profile.name} — ${profile.role}`}>
+  <!-- Toolbar -->
+  <div id="resume-toolbar" class="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
       <p class="font-mono text-xs text-[var(--color-muted)]">
-        <span class="text-[var(--color-teal)]">$</span> cat resume.md | render --paged
+        <span class="text-[var(--color-teal)]">$</span> cat resume.pdf
       </p>
       <div class="flex flex-wrap gap-2">
         <a
           href="/ResumeHimangshuPan.pdf"
           download
-          class="rounded-md bg-[var(--color-accent)] px-4 py-2 font-mono text-sm font-semibold text-[var(--color-bg)] hover:bg-[var(--color-accent-strong)]"
+          class="rounded-md bg-[var(--color-accent)] px-3 py-1.5 font-mono text-xs font-semibold text-[var(--color-bg)] hover:bg-[var(--color-accent-strong)]"
         >
-          ↓ save resume as PDF
+          ↓ download PDF
         </a>
         <a
           href={profile.contact.linkedin}
           target="_blank"
           rel="noopener"
-          class="rounded-md border border-[var(--color-border-strong)] px-4 py-2 font-mono text-sm text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+          class="rounded-md border border-[var(--color-border-strong)] px-3 py-1.5 font-mono text-xs text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
         >
           view on linkedin →
         </a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Initial single-paper fallback. Paged.js replaces this with multi-page output. -->
-  <div id="resume-output" class="resume-page-wrap px-4 py-8 sm:px-6 sm:py-10">
-    <article class="resume-paper">
-      <header class="resume-header">
-        <h1>{data.name}</h1>
-        <p class="resume-role">{data.title}</p>
-        <div class="resume-meta">
-          <span>{data.location}</span>
-          <a href={`mailto:${data.email}`}>{data.email}</a>
-          <span>{data.phone}</span>
-          <a href={data.linkedin} target="_blank" rel="noopener">linkedin.com/in/0xsh3ru</a>
-          <a href={data.github} target="_blank" rel="noopener">github.com/0xSh3ru</a>
-          <a href={data.website} target="_blank" rel="noopener">0xsh3ru.github.io</a>
-        </div>
-      </header>
-      <div set:html={html} />
-    </article>
+  <!-- PDF viewer — fills remaining viewport height -->
+  <div id="resume-viewer" class="mx-auto max-w-4xl px-4 py-6 sm:px-6">
+    <iframe
+      id="resume-iframe"
+      src="/ResumeHimangshuPan.pdf#view=FitH&toolbar=0"
+      title="Himangshu Pan — Resume"
+      class="w-full rounded-lg border border-[var(--color-border-strong)]"
+      style="height: calc(100dvh - 160px); min-height: 500px;"
+      loading="eager"
+    >
+      <!-- Fallback for browsers that block iframes -->
+      <div class="flex flex-col items-center justify-center gap-4 p-12 text-center">
+        <p class="text-[var(--color-text)]">Your browser cannot display the PDF inline.</p>
+        <a
+          href="/ResumeHimangshuPan.pdf"
+          download
+          class="rounded-md bg-[var(--color-accent)] px-4 py-2 font-mono text-sm font-semibold text-[var(--color-bg)] hover:bg-[var(--color-accent-strong)]"
+        >
+          ↓ download PDF
+        </a>
+      </div>
+    </iframe>
   </div>
 </BaseLayout>
 
 <script>
-  import { Previewer } from "pagedjs";
-
-  async function renderPaged() {
-    const target = document.getElementById("resume-output");
-    if (!target) return;
-    const source = target.innerHTML;
-    target.innerHTML = "";
-    target.classList.add("resume-paged-active");
-    const previewer = new Previewer();
-    try {
-      await previewer.preview(source, ["/resume-paged.css"], target);
-      const pages = target.querySelectorAll(".pagedjs_page");
-      const total = pages.length;
-      pages.forEach((page, i) => {
-        // Re-apply .resume-paper so existing typography rules (h1/h2/p)
-        // still match descendants inside .pagedjs_page.
-        page.classList.add("resume-paper");
-
-        // Inject the page footer. Single source of truth — no @page
-        // @bottom-* rules anywhere, so Chromium can't add a second one.
-        const footer = document.createElement("div");
-        footer.className = "resume-page-footer";
-        const left = document.createElement("span");
-        left.className = "left";
-        left.textContent = "Himangshu Pan · Resume";
-        const right = document.createElement("span");
-        right.className = "right";
-        right.textContent = `Page ${i + 1} of ${total}`;
-        footer.appendChild(left);
-        footer.appendChild(right);
-        page.appendChild(footer);
-      });
-      target.classList.add("paged-done");
-      document.body.classList.add("paged-done");
-    } catch (err) {
-      console.error("paged.js failed, falling back to single-paper view:", err);
-      target.classList.remove("resume-paged-active");
-      target.innerHTML = source;
-      document.body.classList.add("paged-failed");
-    }
+  // Measure actual nav + toolbar height so the iframe fills exactly the remaining space.
+  function fitViewer() {
+    const nav = document.querySelector("header");
+    const toolbar = document.getElementById("resume-toolbar");
+    const iframe = document.getElementById("resume-iframe") as HTMLIFrameElement | null;
+    if (!iframe) return;
+    const navH = nav?.getBoundingClientRect().height ?? 48;
+    const toolbarH = toolbar?.getBoundingClientRect().height ?? 44;
+    const remaining = window.innerHeight - navH - toolbarH;
+    iframe.style.height = `${Math.max(remaining, 500)}px`;
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderPaged);
-  } else {
-    renderPaged();
-  }
+  fitViewer();
+  window.addEventListener("resize", fitViewer);
 </script>
