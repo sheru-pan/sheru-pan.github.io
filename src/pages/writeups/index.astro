@@ -20,7 +20,7 @@ for (const w of all) {
   }
 }
 
-// Order within a series by `order` (0 → N); series themselves by most-recent entry.
+// Order within a series by `order` (intro → N); series themselves by most-recent entry.
 const seriesList = [...seriesMap.entries()]
   .map(([name, items]) => {
     items.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
@@ -70,66 +70,76 @@ const diffColor: Record<string, string> = {
       <p class="font-mono text-sm text-[var(--color-muted)]">no writeups yet — check back soon.</p>
     )}
 
-    {/* ---- Series groups ---- */}
+    {/* ---- Series groups (collapsible) ---- */}
     {seriesList.map((s) => (
-      <section class="mb-12">
-        <div class="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 border-[var(--color-accent)] pl-3">
-          <h2 class="font-mono text-xl font-bold text-[var(--color-text-strong)]">{s.name}</h2>
-          <span class="font-mono text-xs text-[var(--color-muted)]">
-            {s.platform && <span class="text-[var(--color-teal)]">{s.platform}</span>}
-            <span class="mx-1.5">·</span>{s.items.length} parts
-          </span>
-        </div>
+      <details class="group mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] open:mb-8" open>
+        <summary class="flex cursor-pointer select-none list-none items-center justify-between gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h2 class="font-mono text-lg font-bold text-[var(--color-text-strong)] group-open:text-[var(--color-accent)]">
+              {s.name}
+            </h2>
+            <span class="font-mono text-xs text-[var(--color-muted)]">
+              {s.platform && <span class="text-[var(--color-teal)]">{s.platform}</span>}
+              <span class="mx-1.5">·</span>{s.items.length} parts
+            </span>
+          </div>
+          <span class="shrink-0 font-mono text-xs text-[var(--color-muted)] transition-transform duration-200 group-open:rotate-180">▼</span>
+        </summary>
 
-        <ol class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {s.items.map((e) => (
-            <li>
-              <a
-                href={`/writeups/${e.id}/`}
-                class="group flex h-full items-start gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] px-3 py-2.5 transition-all hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:shadow-lg"
-              >
-                <span class="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[var(--color-accent)]">
-                  {e.data.seriesLabel ?? `#${e.data.order ?? ""}`}
-                </span>
-                <span class="min-w-0">
-                  <span class="block truncate font-mono text-sm text-[var(--color-text)] group-hover:text-[var(--color-accent)]">
-                    {concept(e.data.title)}
+        <div class="border-t border-[var(--color-border)] px-4 pb-4 pt-3">
+          <ol class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {s.items.map((e) => (
+              <li>
+                <a
+                  href={`/writeups/${e.id}/`}
+                  class="group/card flex h-full items-start gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elev)] px-3 py-2.5 transition-all hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:shadow-lg"
+                >
+                  <span class="mt-0.5 shrink-0 font-mono text-xs font-semibold text-[var(--color-accent)]">
+                    {e.data.seriesLabel ?? `#${e.data.order ?? ""}`}
                   </span>
-                  {e.data.difficulty && (
-                    <span class={`mt-0.5 block font-mono text-[10px] ${diffColor[e.data.difficulty] ?? "text-[var(--color-muted)]"}`}>
-                      {e.data.difficulty}
+                  <span class="min-w-0">
+                    <span class="block truncate font-mono text-sm text-[var(--color-text)] group-hover/card:text-[var(--color-accent)]">
+                      {concept(e.data.title)}
                     </span>
-                  )}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </section>
+                    {e.data.difficulty && (
+                      <span class={`mt-0.5 block font-mono text-[10px] ${diffColor[e.data.difficulty] ?? "text-[var(--color-muted)]"}`}>
+                        {e.data.difficulty}
+                      </span>
+                    )}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </details>
     ))}
 
     {/* ---- Standalone writeups ---- */}
     {standalone.length > 0 && (
-      <section class="mb-12">
-        {seriesList.length > 0 && (
-          <div class="mb-4 border-l-2 border-[var(--color-muted)] pl-3">
-            <h2 class="font-mono text-xl font-bold text-[var(--color-text-strong)]">Standalone</h2>
+      <details class="group mb-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)]" open>
+        <summary class="flex cursor-pointer select-none list-none items-center justify-between gap-3 px-4 py-4 [&::-webkit-details-marker]:hidden">
+          <h2 class="font-mono text-lg font-bold text-[var(--color-text-strong)] group-open:text-[var(--color-accent)]">
+            Standalone
+          </h2>
+          <span class="shrink-0 font-mono text-xs text-[var(--color-muted)] transition-transform duration-200 group-open:rotate-180">▼</span>
+        </summary>
+        <div class="border-t border-[var(--color-border)] px-4 pb-4 pt-3">
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {standalone.map((w) => (
+              <WriteupCard
+                href={`/writeups/${w.id}/`}
+                title={w.data.title}
+                description={w.data.description}
+                date={w.data.date}
+                platform={w.data.platform}
+                difficulty={w.data.difficulty}
+                tags={w.data.tags}
+              />
+            ))}
           </div>
-        )}
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {standalone.map((w) => (
-            <WriteupCard
-              href={`/writeups/${w.id}/`}
-              title={w.data.title}
-              description={w.data.description}
-              date={w.data.date}
-              platform={w.data.platform}
-              difficulty={w.data.difficulty}
-              tags={w.data.tags}
-            />
-          ))}
         </div>
-      </section>
+      </details>
     )}
   </section>
 </BaseLayout>

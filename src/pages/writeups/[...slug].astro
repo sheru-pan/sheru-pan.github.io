@@ -57,7 +57,7 @@ const formatted = entry.data.date.toISOString().slice(0, 10);
           </div>
         </details>
         <div class="hidden lg:block">
-          <AllPostsSidebar collection="writeups" currentId={entry.id} />
+          <AllPostsSidebar collection="writeups" currentId={entry.id} series={entry.data.series} />
         </div>
       </div>
     </div>
